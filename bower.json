@@ -1,0 +1,20 @@
+{
+    "name": "fraction.js",
+    "main": "fraction.js",
+    "version": "1.0.0",
+    "homepage": "http://www.xarg.org/2014/03/precise-calculations-in-javascript/",
+    "description": "A rational number library",
+    "keywords": [
+       "math", "fraction", "rational", "number"
+    ],
+    "authors": [
+        "Robert Eisele <robert@xarg.org>"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/infusion/Fraction.js.git"
+    },
+    "ignore": [
+        "tests"
+    ]
+}
