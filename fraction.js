@@ -535,6 +535,6 @@ function Fraction(param) {
     cancel.call(this, param['s'] * param['n'], param['d']);
 }
 
-if (module && module['exports']) {
+if (typeof module !== 'undefined' && module['exports']) {
     module['exports']['Fraction'] = Fraction;
 }
