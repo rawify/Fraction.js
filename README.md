@@ -67,9 +67,9 @@ n	a[n]		b[n]		c[n]			x[n]
 8	15/64		61/256		121/512			0
 9	15/64		121/512		241/1024		0
 10	241/1024	121/512		483/2048		1
-
-=> 0,00111100011
 ```
+Thus the approximation after 11 iterations is *483/2048* and the binary representation is 0,00111100011 (see [WolframAlpha](http://www.wolframalpha.com/input/?i=sqrt%285%29-2+binary))
+
 
 I published another example on how to approximate PI with fraction.js on my [blog](http://www.xarg.org/2014/03/precise-calculations-in-javascript/).
 
@@ -116,6 +116,12 @@ Repeating decimal places
 ---
 *Fraction.js* can easily handle repeating decimal places. For example *1/3* is *0.3333...*. There is only one repeating digit. As you can see in the examples above, you can pass a number like *1/3* as "0.'3'" or "0.(3)", which are synonym.
 
+Assume you want to divide 123.32 / 33.6(567). [WolframAlpha](http://www.wolframalpha.com/input/?i=123.32+%2F+%2812453%2F370%29) states that you'll get a period of 1776 digits. *Fraction.js* comes to the same result. Give it a try:
+
+```
+var f = new Fraction("123.32");
+console.log("Bam: " + f.div("33.6(567)"));
+```
 
 
 Functions
