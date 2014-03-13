@@ -147,7 +147,7 @@ Set a number n to the actual object
 
 Fraction mod(n)
 ---
-Returns the modulus (rest of the division) of the actual object and n (this % n)
+Returns the modulus (rest of the division) of the actual object and n (this % n). It's a much more precise [fmod()](http://phpjs.org/functions/fmod/) if you will. 
 
 Fraction reciprocal()
 ---
