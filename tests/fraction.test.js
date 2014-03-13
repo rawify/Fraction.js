@@ -196,6 +196,12 @@ var tests = [{
     fn: "divisible",
     param: [1,6],
     expect: "false"
+}, {
+    label: "fmod(4.55, 0.05)",
+    set: "4.55",
+    fn: "mod",
+    param: "0.05",
+    expect: "0.0"
 }];
 
 describe('Fraction', function(){
