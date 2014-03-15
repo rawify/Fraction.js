@@ -76,9 +76,9 @@ I published another example on how to approximate PI with fraction.js on my [blo
 
 fmod() impreciseness circumvented
 ---
-It turns out that Fraction.js outperforms almost any fmod() implementation, including JavaScript, C++, Python, Java and even Wolframalpha.
+It turns out that Fraction.js outperforms almost any fmod() implementation, including JavaScript itself, C++, Python, Java and even Wolframalpha due to the fact that numbers like 0.05, 0.1, ... are infinite decimal in base 2.
 
-The equation *fmod(4.55, 0.05)* gives *0.04999999999999957*, wolframalpha says 1/20. The correct answer should be zero, as 0.05 divides 4.55 without any remainder.
+The equation *fmod(4.55, 0.05) or 4.55 % 0.05* gives *0.04999999999999957*, wolframalpha says 1/20. The correct answer should be **zero**, as 0.05 divides 4.55 without any remainder.
 
 Parser
 ===
