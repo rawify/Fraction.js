@@ -1,6 +1,6 @@
-# Fraction.js
+# Fraction.js - ℚ in JavaSript
 
-Tired of inprecise numbers represented by doubles? Have a look at Fraction.js, which represents rational numbers as two integers in the form of *n / d*.
+Tired of inprecise numbers represented by doubles? Have a look at Fraction.js, which represents rational numbers or ratios as two integers in the form of *n / d*.
 
 
 Examples
@@ -83,7 +83,7 @@ The equation *fmod(4.55, 0.05) or 4.55 % 0.05* gives *0.04999999999999957*, wolf
 Parser
 ===
 
-Any function (see below) as well as the constructor of the *Fraction* class parses it's input and cancel it to the smallest term.
+Any function (see below) as well as the constructor of the *Fraction* class parses it's input and reduce it to the smallest term.
 
 You can pass either Arrays, Objects, Integers, Doubles or Strings.
 
@@ -120,7 +120,7 @@ new Fraction("123.45(6)"); // Note the brackets, see below!
 
 Repeating decimal places
 ---
-*Fraction.js* can easily handle repeating decimal places. For example *1/3* is *0.3333...*. There is only one repeating digit. As you can see in the examples above, you can pass a number like *1/3* as "0.'3'" or "0.(3)", which are synonym.
+*Fraction.js* can easily handle repeating decimal places. For example *1/3* is *0.3333...*. There is only one repeating digit. As you can see in the examples above, you can pass a number like *1/3* as "0.'3'" or "0.(3)", which are synonym. There are no tests to parse something like 0.166666666 to 1/6! If you really want to handle this number, wrap around brackets on your own: 0.1(66666666)
 
 Assume you want to divide 123.32 / 33.6(567). [WolframAlpha](http://www.wolframalpha.com/input/?i=123.32+%2F+%2812453%2F370%29) states that you'll get a period of 1776 digits. *Fraction.js* comes to the same result. Give it a try:
 
