@@ -145,13 +145,13 @@ function Fraction(param) {
 
         /*
          * First silly attempt, kinda slow
-         * 
+         *
          return this['sub']({
-         'n': num['n'] * Math.floor((num['d'] * this['n']) / (num['n'] * this['d'])),
+         'n': num['n'] * Math.floor((this.n / this.d) / (num.n / num.d)),
          'd': num['d'],
          's': this['s']
          });*/
-        
+
         /*
          * New attempt: a1 / b1 = a2 / b2 * q + r
          * => b2 * a1 = a2 * b1 * q + b1 * b2 * r

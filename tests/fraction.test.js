@@ -197,10 +197,22 @@ var tests = [{
     param: [1,6],
     expect: "false"
 }, {
-    label: "fmod(4.55, 0.05)",
+    label: "fmod(4.55, 0.05)", // http://phpjs.org/functions/fmod/ (comment section)
     set: "4.55",
     fn: "mod",
     param: "0.05",
+    expect: "0.0"
+}, {
+    label: "fmod(99.12, 0.4)",
+    set: "99.12",
+    fn: "mod",
+    param: "0.4",
+    expect: "0.32"
+}, {
+    label: "fmod(fmod(1.0,0.1))", // http://stackoverflow.com/questions/4218961/why-fmod1-0-0-1-1
+    set: "1.0",
+    fn: "mod",
+    param: "0.1",
     expect: "0.0"
 }];
 

@@ -74,6 +74,12 @@ Thus the approximation after 11 iterations is *483/2048* and the binary represen
 I published another example on how to approximate PI with fraction.js on my [blog](http://www.xarg.org/2014/03/precise-calculations-in-javascript/).
 
 
+fmod() impreciseness circumvented
+---
+It turns out that Fraction.js outperforms almost any fmod() implementation, including JavScript, C++, Python and even Wolframalpha.
+
+The equation *fmod(4.55, 0.05)* gives *0.04999999999999957*, wolframalpha says 1/20. The correct answer should be zero, as 0.05 divides 4.55 without any rest.
+
 Parser
 ===
 
