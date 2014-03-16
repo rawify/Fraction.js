@@ -107,24 +107,6 @@ var tests = [{
         param: null,
         expect: "74.0"
     }, {
-        label: "sqrt(84.64)",
-        set: "84.64",
-        fn: "sqrt",
-        param: null,
-        expect: "9.2"
-    }, {
-        label: "sqrt(9)",
-        set: "9",
-        fn: "sqrt",
-        param: null,
-        expect: "3.0"
-    }, {
-        label: "sqrt(82)",
-        set: "82",
-        fn: "sqrt",
-        param: null,
-        expect: "9.05(538513974096796182685753237900477164280845262440354464894342194955691888207225630)" // It's a good approximation
-    }, {
         label: "9 % -2",
         set: '9',
         fn: "mod",
