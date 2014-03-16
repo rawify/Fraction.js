@@ -61,7 +61,7 @@ function Fraction(param) {
      **/
     this['add'] = function(num) {
 
-        num = parse(num);
+        num = parse(arguments);
 
         return cancel.call(this,
             this['s'] * this['n'] * num['d'] + num['s'] * this['d'] * num['n'],
@@ -76,7 +76,7 @@ function Fraction(param) {
      **/
     this['sub'] = function(num) {
 
-        num = parse(num);
+        num = parse(arguments);
 
         return cancel.call(this,
             this['s'] * this['n'] * num['d'] - num['s'] * this['d'] * num['n'],
@@ -91,7 +91,7 @@ function Fraction(param) {
      **/
     this['mul'] = function(num) {
 
-        num = parse(num);
+        num = parse(arguments);
 
         return cancel.call(this,
             this['s'] * num['s'] * this['n'] * num['n'],
@@ -106,7 +106,7 @@ function Fraction(param) {
      **/
     this['div'] = function(num) {
 
-        num = parse(num);
+        num = parse(arguments);
 
         return cancel.call(this,
             this['s'] * num['s'] * this['n'] * num['d'],
@@ -121,7 +121,7 @@ function Fraction(param) {
      **/
     this['set'] = function(num) {
 
-        num = parse(num);
+        num = parse(arguments);
 
         return cancel.call(this,
             num['s'] * num['n'],
@@ -137,7 +137,7 @@ function Fraction(param) {
      **/
     this['mod'] = function(num) {
 
-        num = parse(num);
+        num = parse(arguments);
 
         if (0 === (num['n'] * this['d'])) {
             return cancel.call(this, 0, 0);
@@ -181,7 +181,7 @@ function Fraction(param) {
 
     this['equals'] = function(num) {
 
-        num = parse(num);
+        num = parse(arguments);
 
         return num['s'] * num['n'] * this['d'] === this['s'] * this['n'] * num['d'];
     };
@@ -193,7 +193,7 @@ function Fraction(param) {
      */
     this['divisible'] = function(num) {
 
-        num = parse(num);
+        num = parse(arguments);
 
         return 0 === (this['n'] * num['d']) % (num['n'] * this['d']);
     };
@@ -310,30 +310,38 @@ function Fraction(param) {
         return (~this['s'] ? "" : "-") + trim0(ret);
     };
 
-    var parse = function(val) {
+    var parse = function(param) {
 
         var n, d, s = 1;
+        
+        if (param.length === 1) {
+            param = param[0];
+        } else if (param.length === 2) {
+            /* void */
+        } else {
+            throw "Parameter mismatch";
+        }
 
-        switch (typeof val) {
+        switch (typeof param) {
 
             case "object":
 
-                if (val[0] !== undefined && val[1] !== undefined) {
-                    n = val[0];
-                    d = val[1];
+                if (param[0] !== undefined && param[1] !== undefined) {
+                    n = param[0];
+                    d = param[1];
                     s = n * d;
                     break;
-                } else if ('d' in val && 'n' in val) {
-                    n = val['n'];
-                    d = val['d'];
+                } else if ('d' in param && 'n' in param) {
+                    n = param['n'];
+                    d = param['d'];
                     s = n * d;
-                    if (val['s'] !== undefined) {
-                        s *= val['s'];
+                    if (param['s'] !== undefined) {
+                        s *= param['s'];
                     }
                     break;
-                } else if ('z' in val && 'n' in val) {
-                    n = val['z'];
-                    d = val['n'];
+                } else if ('z' in param && 'n' in param) {
+                    n = param['z'];
+                    d = param['n'];
                     s = n * d;
                     break;
                 } else {
@@ -343,13 +351,13 @@ function Fraction(param) {
             case "string":
 
                 // Trim WS
-                val = val.replace(/^[\s]+/g, '').replace(/[\s]+$/, '').replace(',', '');
+                param = param.replace(/^[\s]+/g, '').replace(/[\s]+$/, '').replace(',', '');
 
             case "number":
 
-                val = ("" + val);
+                param = ("" + param);
 
-                var p = val.split("");
+                var p = param.split("");
 
                 /* mode:
                  0: before comma
@@ -427,7 +435,7 @@ function Fraction(param) {
             cancel(0, 0);
         }
 
-        P['n'] = Math.abs(n);
+        P['n'] = Math.abs(n); // Math.abs() allows us to save parseInt() calls (not that clean but just in case of API missuse)
         P['d'] = Math.abs(d);
         P['s'] = sgn(s);
 
@@ -530,7 +538,7 @@ function Fraction(param) {
         's': 0
     };
 
-    param = parse(param);
+    param = parse(arguments);
 
     cancel.call(this, param['s'] * param['n'], param['d']);
 }

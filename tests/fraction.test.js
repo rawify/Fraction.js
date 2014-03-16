@@ -285,3 +285,25 @@ describe('JSON', function() {
 
     });
 });
+
+describe('Arguments', function() {
+
+    it("Should be possible to use different kind of params", function() {
+
+        // String
+        fraction.set("0.1");
+        assert.equal("1/10", fraction.n + "/" + fraction.d);
+
+        // Two params
+        fraction.set(1, 2);
+        assert.equal("1/2", fraction.n + "/" + fraction.d);
+
+        // Object
+        fraction.set({n: 1, d: 3});
+        assert.equal("1/3", fraction.n + "/" + fraction.d);
+
+        // Array
+        fraction.set([1, 4]);
+        assert.equal("1/4", fraction.n + "/" + fraction.d);
+    });
+});

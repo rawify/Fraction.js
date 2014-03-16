@@ -90,6 +90,7 @@ You can pass either Arrays, Objects, Integers, Doubles or Strings.
 Arrays / Objects
 ---
 ```javascript
+new Fraction(numerator, denumerator);
 new Fraction([numerator, denumerator]);
 new Fraction({n: numerator, d: denumerator});
 new Fraction({z: numerator, n: denumerator}); // German syntax (z: Zähler, n: Nenner)
