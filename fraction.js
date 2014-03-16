@@ -199,63 +199,6 @@ function Fraction(param) {
     };
 
     /**
-     * Tries to find a rational sqrt approximation
-     *
-     * Ex: new Fraction(81).sqrt() => 9
-     **/
-    this['sqrt'] = function() {
-
-        if (this['s'] < 0) {
-            throw "No complex root";
-        }
-
-        /*
-         * Old idea:
-         *
-         * 1. cancel n and d by gcd(x, y)
-         * 2. get a=gpp(n) and b=gpp(d) (I called it Greatest Proper Power)
-         * 3. cancel n by a*a and d by b*b
-         * 4. now you can express the original sqrt(n / d) as a / b * sqrt(n / d)
-         *    with remaining irrational part in sqrt. But what's doing with it?
-         *    Work with irrational numbers in a rational number class?
-         *
-         * New idea:
-         *
-         * Use Newtons method and approximate sqrt(n / d)
-         */
-
-        var sqrt = Math.sqrt(this['n'] / this['d']);
-
-        var prev = {
-            'n': sqrt | 0,
-            'd': 1
-        };
-        var orig = {
-            'n': this['n'],
-            'd': this['d']
-        };
-
-        // Add more 0's for higher precision
-        var acc = 10000;
-        var epsilon = 1 / acc + sqrt;
-
-        if (sqrt * acc === Math.floor(sqrt * acc)) {
-            return cancel.call(this, acc * sqrt, acc);
-        }
-
-        do {
-
-            // x[n+1] = (x[n] + a / x[n]) / 2;
-            this['set'](orig)['div'](prev)['add'](prev)['div'](2);
-
-            prev['n'] = this['n'];
-            prev['d'] = this['d'];
-
-        } while (prev['n'] / prev['d'] > epsilon);
-
-        return cancel.call(this, prev['n'], prev['d']);
-    },
-    /**
      * Creates a string representation of a fraction with all digits
      *
      * Ex: new Fraction("100.'91823'").toString() => "100.(91823)"

@@ -68,7 +68,7 @@ n	a[n]		b[n]		c[n]			x[n]
 9	15/64		121/512		241/1024		0
 10	241/1024	121/512		483/2048		1
 ```
-Thus the approximation after 11 iterations is *483/2048* and the binary representation is 0,00111100011 (see [WolframAlpha](http://www.wolframalpha.com/input/?i=sqrt%285%29-2+binary))
+Thus the approximation after 11 iterations of the bisection method is *483 / 2048* and the binary representation is 0.00111100011 (see [WolframAlpha](http://www.wolframalpha.com/input/?i=sqrt%285%29-2+binary))
 
 
 I published another example on how to approximate PI with fraction.js on my [blog](http://www.xarg.org/2014/03/precise-calculations-in-javascript/).
@@ -174,9 +174,6 @@ boolean divisible(n)
 ---
 Check if two numbers are divisible (n divides this)
 
-Fraction sqrt()
----
-Calculates a rational approximation of the square root of the actual number
 
 String toString()
 ---
