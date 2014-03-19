@@ -243,7 +243,7 @@ function Fraction(param) {
             if (t >= q) {
                 // u = Math.floor(t / q);
                 // t-= u * q;
-                ret+= (t / q) | 0;
+                ret+= (t / q) | 0;
                 t = t % q;
                 // ret+= u;
             } else {
@@ -255,8 +255,8 @@ function Fraction(param) {
 
     var parse = function(param) {
 
-        var n, d, s = 1;
-        
+        var n = 0, d = 1, s = 1;
+
         if (param.length === 1) {
             param = param[0];
         } else if (param.length === 2) {
@@ -268,8 +268,10 @@ function Fraction(param) {
         switch (typeof param) {
 
             case "object":
-
-                if (param[0] !== undefined && param[1] !== undefined) {
+                
+                if (param === null) {
+                    break;
+                } else if (param[0] !== undefined && param[1] !== undefined) {
                     n = param[0];
                     d = param[1];
                     s = n * d;
