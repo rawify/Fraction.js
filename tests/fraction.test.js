@@ -7,6 +7,9 @@ var tests = [{
         set: "foo",
         expect: "Corrupted number"
     }, {
+        set: null,
+        expect: "0.0" // I would say it's just fine
+    }, {
         set: [22, 7],
         expect: '3.(142857)' // We got Pi! - almost ;o
     }, {
@@ -287,5 +290,20 @@ describe('Arguments', function() {
         // Array
         fraction.set([1, 4]);
         assert.equal("1/4", fraction.n + "/" + fraction.d);
+    });
+});
+
+describe('fractions', function() {
+
+    it("Should pass 0.08 = 2/25", function() {
+
+        fraction.set("0.08");
+        assert.equal("2/25", fraction.n + "/" + fraction.d);
+
+        fraction.set("0.200");
+        assert.equal("1/5", fraction.n + "/" + fraction.d);
+
+        fraction.set("0.125");
+        assert.equal("1/8", fraction.n + "/" + fraction.d);
     });
 });
