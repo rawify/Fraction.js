@@ -121,15 +121,53 @@ new Fraction("123.45(6)"); // Note the brackets, see below!
 
 Repeating decimal places
 ---
-*Fraction.js* can easily handle repeating decimal places. For example *1/3* is *0.3333...*. There is only one repeating digit. As you can see in the examples above, you can pass a number like *1/3* as "0.'3'" or "0.(3)", which are synonym. There are no tests to parse something like 0.166666666 to 1/6! If you really want to handle this number, wrap around brackets on your own: 0.1(66666666)
+*Fraction.js* can easily handle repeating decimal places. For example *1/3* is *0.3333...*. There is only one repeating digit. As you can see in the examples above, you can pass a number like *1/3* as "0.'3'" or "0.(3)", which are synonym. There are no tests to parse something like 0.166666666 to 1/6! If you really want to handle this number, wrap around brackets on your own with the function below for example: 0.1(66666666)
 
 Assume you want to divide 123.32 / 33.6(567). [WolframAlpha](http://www.wolframalpha.com/input/?i=123.32+%2F+%2812453%2F370%29) states that you'll get a period of 1776 digits. *Fraction.js* comes to the same result. Give it a try:
 
-```
+```javascript
 var f = new Fraction("123.32");
 console.log("Bam: " + f.div("33.6(567)"));
 ```
 
+To automatically make a number like "0.123123123" to something more Fraction.js friendly like "0.(123)", I hacked this little brute force algorithm in a 10 minutes. Improvements are welcome...
+
+```javascript
+function formatDecimal(str) {
+
+    var comma, pre, offset, pad, times, repeat;
+
+    if (-1 === (comma = str.indexOf(".")))
+        return str;
+
+    pre = str.substr(0, comma + 1);
+    str = str.substr(comma + 1);
+
+    for (var i = 0; i < str.length; i++) {
+
+        offset = str.substr(0, i);
+
+        for (var j = 0; j < 5; j++) {
+
+            pad = str.substr(i, j + 1);
+
+            times = Math.ceil((str.length - offset.length) / pad.length);
+
+            repeat = new Array(times + 1).join(pad); // Silly String.repeat hack
+
+            if (0 === (offset + repeat).indexOf(str)) {
+                return pre + offset + "(" + pad + ")";
+            }
+        }
+    }
+    return null;
+}
+
+var f, x = formatDecimal("13.0123123123"); // = 13.0(123)
+if (x !== null) {
+   f = new Fraction(x);
+}
+```
 
 Functions
 ===
