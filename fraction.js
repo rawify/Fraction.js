@@ -40,17 +40,25 @@
  */
 function Fraction(param) {
 
+    // Parsed data to avoid calling "new" all the time
+    var P = {
+        'n': 0,
+        'd': 0,
+        's': 0
+    };
+    
+    var self = this;
 
     /**
      * Calculates the absolute value
      *
      * Ex: new Fraction(-4).abs() => 4
      **/
-    this['abs'] = function() {
+    self['abs'] = function() {
 
-        this['s'] = 1;
+        self['s'] = 1;
 
-        return this;
+        return self;
     };
 
     /**
@@ -58,13 +66,13 @@ function Fraction(param) {
      *
      * Ex: new Fraction({n: 2, d: 3}).add("14.9") => 467 / 30
      **/
-    this['add'] = function(num) {
+    self['add'] = function(num) {
 
         num = parse(arguments);
 
-        return cancel.call(this,
-            this['s'] * this['n'] * num['d'] + num['s'] * this['d'] * num['n'],
-            this['d'] * num['d']
+        return cancel.call(self,
+            self['s'] * self['n'] * num['d'] + num['s'] * self['d'] * num['n'],
+            self['d'] * num['d']
         );
     };
 
@@ -73,13 +81,13 @@ function Fraction(param) {
      *
      * Ex: new Fraction({n: 2, d: 3}).add("14.9") => -427 / 30
      **/
-    this['sub'] = function(num) {
+    self['sub'] = function(num) {
 
         num = parse(arguments);
 
-        return cancel.call(this,
-            this['s'] * this['n'] * num['d'] - num['s'] * this['d'] * num['n'],
-            this['d'] * num['d']
+        return cancel.call(self,
+            self['s'] * self['n'] * num['d'] - num['s'] * self['d'] * num['n'],
+            self['d'] * num['d']
         );
     };
 
@@ -88,13 +96,13 @@ function Fraction(param) {
      *
      * Ex: new Fraction("-17.(345)").mul(3) => 5776 / 111
      **/
-    this['mul'] = function(num) {
+    self['mul'] = function(num) {
 
         num = parse(arguments);
 
-        return cancel.call(this,
-            this['s'] * num['s'] * this['n'] * num['n'],
-            this['d'] * num['d']
+        return cancel.call(self,
+            self['s'] * num['s'] * self['n'] * num['n'],
+            self['d'] * num['d']
         );
     };
 
@@ -103,13 +111,13 @@ function Fraction(param) {
      *
      * Ex: new Fraction("-17.(345)").reciprocal().div(3)
      **/
-    this['div'] = function(num) {
+    self['div'] = function(num) {
 
         num = parse(arguments);
 
-        return cancel.call(this,
-            this['s'] * num['s'] * this['n'] * num['d'],
-            this['d'] * num['n']
+        return cancel.call(self,
+            self['s'] * num['s'] * self['n'] * num['d'],
+            self['d'] * num['n']
         );
     };
 
@@ -118,11 +126,11 @@ function Fraction(param) {
      *
      * Ex: new Fraction(0).set("100.'91823'") => 10091723 / 99999
      **/
-    this['set'] = function(num) {
+    self['set'] = function(num) {
 
         num = parse(arguments);
 
-        return cancel.call(this,
+        return cancel.call(self,
             num['s'] * num['n'],
             num['d']
         );
@@ -134,21 +142,21 @@ function Fraction(param) {
      *
      * Ex: new Fraction('4.(3)').mod([7, 8]) => (13/3) % (7/8) = (5/6)
      **/
-    this['mod'] = function(num) {
+    self['mod'] = function(num) {
 
         num = parse(arguments);
 
-        if (0 === (num['n'] * this['d'])) {
-            return cancel.call(this, 0, 0);
+        if (0 === (num['n'] * self['d'])) {
+            return cancel.call(self, 0, 0);
         }
 
         /*
          * First silly attempt, kinda slow
          *
-         return this['sub']({
-         'n': num['n'] * Math.floor((this.n / this.d) / (num.n / num.d)),
+         return that['sub']({
+         'n': num['n'] * Math.floor((self.n / self.d) / (num.n / num.d)),
          'd': num['d'],
-         's': this['s']
+         's': self['s']
          });*/
 
         /*
@@ -156,9 +164,9 @@ function Fraction(param) {
          * => b2 * a1 = a2 * b1 * q + b1 * b2 * r
          * => (b2 * a1 % a2 * b1) / (b1 * b2)
          */
-        return cancel.call(this,
-            (this['s'] * num['d'] * this['n']) % (num['n'] * this['d']),
-            num['d'] * this['d']
+        return cancel.call(self,
+            (self['s'] * num['d'] * self['n']) % (num['n'] * self['d']),
+            num['d'] * self['d']
         );
     };
 
@@ -167,9 +175,9 @@ function Fraction(param) {
      *
      * Ex: new Fraction([-3, 4]).reciprocal() => -4 / 3
      **/
-    this['reciprocal'] = function() {
+    self['reciprocal'] = function() {
 
-        return cancel.call(this, this['s'] * this['d'], this['n']);
+        return cancel.call(self, self['s'] * self['d'], self['n']);
     };
 
     /**
@@ -178,11 +186,11 @@ function Fraction(param) {
      * Ex: new Fraction(19.6).equals([98, 5]);
      **/
 
-    this['equals'] = function(num) {
+    self['equals'] = function(num) {
 
         num = parse(arguments);
 
-        return num['s'] * num['n'] * this['d'] === this['s'] * this['n'] * num['d'];
+        return num['s'] * num['n'] * self['d'] === self['s'] * self['n'] * num['d'];
     };
 
     /**
@@ -190,11 +198,11 @@ function Fraction(param) {
      * 
      * Ex: new Fraction(19.6).divisible(1.5);
      */
-    this['divisible'] = function(num) {
+    self['divisible'] = function(num) {
 
         num = parse(arguments);
 
-        return 0 === (this['n'] * num['d']) % (num['n'] * this['d']);
+        return 0 === (self['n'] * num['d']) % (num['n'] * self['d']);
     };
 
     /**
@@ -202,17 +210,17 @@ function Fraction(param) {
      *
      * Ex: new Fraction("100.'91823'").toString() => "100.(91823)"
      **/
-    this['toString'] = function() {
+    self['toString'] = function() {
 
-        var p = ("" + this['n']).split("");
-        var q = this['d'];
+        var p = ("" + self['n']).split("");
+        var q = self['d'];
         var t = 0;
         var u;
 
         var ret = "";
 
-        var A = cycleLen(this['n'], this['d']);
-        var B = cycleStart(this['n'], this['d'], A);
+        var A = cycleLen(self['n'], self['d']);
+        var B = cycleStart(self['n'], self['d'], A);
 
         var j = -1;
 
@@ -249,7 +257,7 @@ function Fraction(param) {
                 ret+= "0";
             }
         }
-        return (~this['s'] ? "" : "-") + trim0(ret);
+        return (~self['s'] ? "" : "-") + trim0(ret);
     };
 
     var parse = function(param) {
@@ -396,7 +404,7 @@ function Fraction(param) {
             throw "DIV/0";
         }
 
-        this['s'] = sgn(n);
+        self['s'] = sgn(n);
 
         n = Math.abs(n);
         d = Math.abs(d);
@@ -409,10 +417,10 @@ function Fraction(param) {
             a = t;
         }
 
-        this['n'] = n / a;
-        this['d'] = d / a;
+        self['n'] = n / a;
+        self['d'] = d / a;
 
-        return this;
+        return self;
     };
 
     var modpow = function(b, e, m) {
@@ -472,19 +480,12 @@ function Fraction(param) {
         return ret.replace(/^0+([1-9]|0\.)/g, '$1').replace(/(\d)0+$/, '$1')
     };
 
-    this['n'] = this['s'] = 0;
-    this['d'] = 1;
-
-    // Parsed data to avoid calling "new" all the time
-    var P = {
-        'n': 0,
-        'd': 0,
-        's': 0
-    };
+    self['n'] = 0;
+    self['d'] = self['s'] = 1;
 
     param = parse(arguments);
 
-    cancel.call(this, param['s'] * param['n'], param['d']);
+    cancel.call(self, param['s'] * param['n'], param['d']);
 }
 
 if (typeof module !== 'undefined' && module['exports']) {

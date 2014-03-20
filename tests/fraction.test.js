@@ -262,11 +262,11 @@ describe('JSON', function() {
 
         fraction.set("44.3(12)");
 
-        assert.equal('{"s":1,"n":14623,"d":330}', JSON.stringify(fraction));
+        assert.equal('{"n":14623,"s":1,"d":330}', JSON.stringify(fraction));
 
         fraction.set(-1 / 2).reciprocal();
 
-        assert.equal('{"s":-1,"n":2,"d":1}', JSON.stringify(fraction));
+        assert.equal('{"n":2,"s":-1,"d":1}', JSON.stringify(fraction));
 
     });
 });
