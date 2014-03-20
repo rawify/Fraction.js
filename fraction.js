@@ -70,7 +70,7 @@ function Fraction(param) {
 
         num = parse(arguments);
 
-        return cancel.call(self,
+        return cancel(
             self['s'] * self['n'] * num['d'] + num['s'] * self['d'] * num['n'],
             self['d'] * num['d']
         );
@@ -85,7 +85,7 @@ function Fraction(param) {
 
         num = parse(arguments);
 
-        return cancel.call(self,
+        return cancel(
             self['s'] * self['n'] * num['d'] - num['s'] * self['d'] * num['n'],
             self['d'] * num['d']
         );
@@ -100,7 +100,7 @@ function Fraction(param) {
 
         num = parse(arguments);
 
-        return cancel.call(self,
+        return cancel(
             self['s'] * num['s'] * self['n'] * num['n'],
             self['d'] * num['d']
         );
@@ -115,7 +115,7 @@ function Fraction(param) {
 
         num = parse(arguments);
 
-        return cancel.call(self,
+        return cancel(
             self['s'] * num['s'] * self['n'] * num['d'],
             self['d'] * num['n']
         );
@@ -130,7 +130,7 @@ function Fraction(param) {
 
         num = parse(arguments);
 
-        return cancel.call(self,
+        return cancel(
             num['s'] * num['n'],
             num['d']
         );
@@ -147,7 +147,7 @@ function Fraction(param) {
         num = parse(arguments);
 
         if (0 === (num['n'] * self['d'])) {
-            return cancel.call(self, 0, 0);
+            return cancel(0, 0);
         }
 
         /*
@@ -164,7 +164,7 @@ function Fraction(param) {
          * => b2 * a1 = a2 * b1 * q + b1 * b2 * r
          * => (b2 * a1 % a2 * b1) / (b1 * b2)
          */
-        return cancel.call(self,
+        return cancel(
             (self['s'] * num['d'] * self['n']) % (num['n'] * self['d']),
             num['d'] * self['d']
         );
@@ -177,7 +177,7 @@ function Fraction(param) {
      **/
     self['reciprocal'] = function() {
 
-        return cancel.call(self, self['s'] * self['d'], self['n']);
+        return cancel(self['s'] * self['d'], self['n']);
     };
 
     /**
@@ -489,7 +489,7 @@ function Fraction(param) {
 
     param = parse(arguments);
 
-    cancel.call(self, param['s'] * param['n'], param['d']);
+    cancel(param['s'] * param['n'], param['d']);
 }
 
 if (typeof module !== 'undefined' && module['exports']) {
