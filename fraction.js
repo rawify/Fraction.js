@@ -48,10 +48,9 @@ function Fraction(param) {
      **/
     this['abs'] = function() {
 
-        return cancel.call(this,
-            this['n'],
-            this['d']
-        );
+        this['s'] = 1;
+
+        return this;
     };
 
     /**
@@ -388,7 +387,7 @@ function Fraction(param) {
     };
 
     var sgn = function(n) {
-        return (0 < n) - (n < 0);
+        return (0 <= n) - (n < 0);
     };
 
     var cancel = function(n, d) {
