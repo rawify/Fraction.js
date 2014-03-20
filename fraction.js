@@ -201,6 +201,10 @@ function Fraction(param) {
     self['divisible'] = function(num) {
 
         num = parse(arguments);
+        
+        if (0 === (num['n'] * self['d'])) {
+            return false;
+        }
 
         return 0 === (self['n'] * num['d']) % (num['n'] * self['d']);
     };
