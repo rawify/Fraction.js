@@ -16,7 +16,7 @@
         }],
     "repository": {
         "type": "git",
-        "url": "http://github.com/infusion/bitset.js.git"
+        "url": "git://github.com/infusion/Fraction.js.git"
     },
     "engines": {
         "node": "*"
