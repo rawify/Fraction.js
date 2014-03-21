@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v1.0.0 12/03/2014
+ * @license Fraction.js v1.1.0 12/03/2014
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
