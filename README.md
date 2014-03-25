@@ -212,6 +212,9 @@ boolean divisible(n)
 ---
 Check if two numbers are divisible (n divides this)
 
+double toDouble()
+---
+Returns a decimal representation of the fraction
 
 String toString()
 ---
