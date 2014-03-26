@@ -210,6 +210,16 @@ function Fraction(param) {
     };
 
     /**
+     * Returns a decimal representation of the fraction
+     *
+     * Ex: new Fraction("100.'91823'").toDouble() => 100.91823918239183
+     **/
+    self['toDouble'] = function() {
+
+        return self['s'] * self['n'] / self['d'];
+    };
+
+    /**
      * Creates a string representation of a fraction with all digits
      *
      * Ex: new Fraction("100.'91823'").toString() => "100.(91823)"
