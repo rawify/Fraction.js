@@ -1,4 +1,3 @@
-
 var assert = require('assert');
 
 var fraction = new (require('../fraction.min').Fraction)(0);
@@ -84,6 +83,12 @@ var tests = [{
         fn: "mod",
         param: "11.119(356)",
         expect: "3.275(997225017295217)"
+    }, {
+        label: "381.(33411) % 1", // Extract fraction part of a number
+        set: '381.(33411)',
+        fn: "mod",
+        param: "1",
+        expect: "0.(33411)"
     }, {
         label: "-222/3",
         set: {
