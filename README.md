@@ -74,11 +74,19 @@ Thus the approximation after 11 iterations of the bisection method is *483 / 204
 I published another example on how to approximate PI with fraction.js on my [blog](http://www.xarg.org/2014/03/precise-calculations-in-javascript/).
 
 
+Get the exact fractional part of a number
+---
+```javascript
+var f = new Fraction("6.(3416)");
+console.log("" + f.mod(1))
+```
+
+
 fmod() impreciseness circumvented
 ---
 It turns out that Fraction.js outperforms almost any fmod() implementation, including JavaScript itself, C++, Python, Java and even Wolframalpha due to the fact that numbers like 0.05, 0.1, ... are infinite decimal in base 2.
 
-The equation *fmod(4.55, 0.05) or 4.55 % 0.05* gives *0.04999999999999957*, wolframalpha says 1/20. The correct answer should be **zero**, as 0.05 divides 4.55 without any remainder.
+The equation *fmod(4.55, 0.05)* gives *0.04999999999999957*, wolframalpha says *1/20*. The correct answer should be **zero**, as 0.05 divides 4.55 without any remainder.
 
 Parser
 ===
