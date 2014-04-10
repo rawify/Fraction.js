@@ -218,6 +218,24 @@ function Fraction(param) {
 
         return self['s'] * self['n'] / self['d'];
     };
+    
+    /**
+     * Returns a string-fraction representation of a Fraction object
+     *
+     * Ex: new Fraction("1.'3'").toFraction() => "4 1/3"
+     **/
+    self['toFraction'] = function() {
+
+        if (self['n'] > self['d']) {
+
+            if (self['n'] % self['d'] === 0) {
+                return "" + (self['s'] * self['n'] / self['d']);
+            } else {
+                return (self['s'] * self['n'] / self['d'] | 0) + " " + (self['n'] % self['d']) + "/" + self['d'];
+            }
+        }
+        return self['s'] * self['n'] + " / " + self['d'];
+    };
 
     /**
      * Creates a string representation of a fraction with all digits
