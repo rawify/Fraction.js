@@ -101,7 +101,6 @@ Arrays / Objects
 new Fraction(numerator, denumerator);
 new Fraction([numerator, denumerator]);
 new Fraction({n: numerator, d: denumerator});
-new Fraction({z: numerator, n: denumerator}); // German syntax (z: Zähler, n: Nenner)
 ```
 
 Integers
@@ -116,11 +115,15 @@ Doubles
 new Fraction(55.4);
 ```
 
+**Note:** If you pass a double as it is, Fraction.js will perform a number analysis based on Farey Sequences. If you concern performance, cache Fraction.js objects and pass arrays/objects.
+
+The method is really precise, but too large exact numbers, like 1234567.9991829 will result in a wrong approximation. If you want to keep the number as it is, convert it to a string, as the string parser will not perform any further approximation.
+
+
 Strings
 ---
 ```javascript
 new Fraction("123.45");
-new Fraction("123,456"); // German notation
 new Fraction("123.'456'"); // Note the quotes, see below!
 new Fraction("123.(456)"); // Note the brackets, see below!
 new Fraction("123.45'6'"); // Note the quotes, see below!

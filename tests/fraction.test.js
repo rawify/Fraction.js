@@ -18,6 +18,9 @@ var tests = [{
         set: 1 / 2,
         expect: "0.5"
     }, {
+        set: 1 / 3,
+        expect: "0.(3)"
+    }, {
         set: "0.'3'",
         expect: "0.(3)"
     }, {
@@ -33,7 +36,7 @@ var tests = [{
         set: -99,
         expect: "-99.0"
     }, {
-        set: -92332.1192,
+        set: "-92332.1192",
         expect: "-92332.1192"
     }, {
         set: '88.92933(12111)',
@@ -116,7 +119,7 @@ var tests = [{
         expect: "74.0"
     }, {
         label: "9 % -2",
-        set: '9',
+        set: 9,
         fn: "mod",
         param: "-2",
         expect: "1.0"
@@ -176,7 +179,7 @@ var tests = [{
         expect: "DIV/0"
     }, {
         label: "abs(-100.25)",
-        set: '-100.25',
+        set: -100.25,
         fn: "abs",
         param: null,
         expect: "100.25"
@@ -187,16 +190,16 @@ var tests = [{
         param: null,
         expect: "0.0(2)"
     }, {
-        label: "1.5 | 100.6",
-        set: '100.5',
+        label: "1.5 | 100.5",
+        set: 100.5,
         fn: "divisible",
         param: '1.5',
         expect: "true"
     }, {
         label: "1.5 | 100.6",
-        set: '100.6',
+        set: 100.6,
         fn: "divisible",
-        param: '1.6',
+        param: 1.6,
         expect: "false"
     }, {
         label: "(1/6) | (2/3)", // == 4
@@ -212,21 +215,21 @@ var tests = [{
         expect: "false"
     }, {
         label: "fmod(4.55, 0.05)", // http://phpjs.org/functions/fmod/ (comment section)
-        set: "4.55",
+        set: 4.55,
         fn: "mod",
-        param: "0.05",
+        param: 0.05,
         expect: "0.0"
     }, {
         label: "fmod(99.12, 0.4)",
-        set: "99.12",
+        set: 99.12,
         fn: "mod",
         param: "0.4",
         expect: "0.32"
     }, {
         label: "fmod(fmod(1.0,0.1))", // http://stackoverflow.com/questions/4218961/why-fmod1-0-0-1-1
-        set: "1.0",
+        set: 1.0,
         fn: "mod",
-        param: "0.1",
+        param: 0.1,
         expect: "0.0"
     }];
 

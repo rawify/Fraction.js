@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v1.1.0 12/03/2014
+ * @license Fraction.js v1.2.0 12/03/2014
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
@@ -14,7 +14,6 @@
  *
  * Array/Object form
  * [ 0 => <nominator>, 1 => <denominator> ]
- * [ z => <nominator>, n => <denominator> ]
  * [ n => <nominator>, d => <denominator> ]
  *
  * Integer form
@@ -25,7 +24,6 @@
  *
  * String form
  * 123.456 - a simple double
- * 123,456 - a simple double in german notation
  * 123.'456' - a double with repeating decimal places
  * 123.(456) - synonym
  * 123.45'6' - a double with repeating last place
@@ -323,23 +321,67 @@ function Fraction(param) {
                         s *= param['s'];
                     }
                     break;
-                } else if ('z' in param && 'n' in param) {
-                    n = param['z'];
-                    d = param['n'];
-                    s = n * d;
-                    break;
                 } else {
                     throw "Unknown format";
                 }
 
-            case "string":
-
-                // Trim WS
-                param = param.replace(/^[\s]+/g, '').replace(/[\s]+$/, '').replace(',', '');
-
             case "number":
 
-                param = ("" + param);
+                if (param < 0) {
+                    param = -param;
+                    s = -1;
+                }
+
+                var A = 0, B = 1;
+                var C = 1, D = 1;
+
+                var N = 10000000;
+
+                var scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
+
+                param/= scale;
+
+                // Using Farey Sequences
+                // http://www.johndcook.com/blog/2010/10/20/best-rational-approximation/
+
+                while (B <= N && D <= N) {
+                    var M = (A + C) / (B + D);
+                    if (param === M) {
+                        if (B + D <= N) {
+                            n = A + C;
+                            d = B + D;
+                        } else if (D > B) {
+                            n = C;
+                            d = D;
+                        } else {
+                            n = A;
+                            d = B;
+                        }
+                        break;
+                    } else if (param > M) {
+                        A+= C;
+                        B+= D;
+                    } else {
+                        C+= A;
+                        D+= B;
+                    }
+                }
+
+                if (!(B <= N && D <= N)) {
+                    if (B > N) {
+                        n = C;
+                        d = D;
+                    } else {
+                        n = A;
+                        d = B;
+                    }
+                }
+
+                n*= scale;
+
+                break;
+
+            case "string":
 
                 var p = param.split("");
 
