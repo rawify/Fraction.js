@@ -10,6 +10,10 @@
     "authors": [
         "Robert Eisele <robert@xarg.org>"
     ],
+    "license": [
+        "MIT",
+        "GPL"
+    ],
     "repository": {
         "type": "git",
         "url": "git://github.com/infusion/Fraction.js.git"
