@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v1.2.0 12/03/2014
+ * @license Fraction.js v1.2.1 20/04/2014
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
@@ -44,7 +44,7 @@ function Fraction(param) {
         'd': 0,
         's': 0
     };
-    
+
     var self = this;
 
     /**
@@ -133,7 +133,7 @@ function Fraction(param) {
             num['d']
         );
     };
-    
+
 
     /**
      * Calculates the modulo of two rational numbers - a more precise fmod
@@ -199,7 +199,7 @@ function Fraction(param) {
     self['divisible'] = function(num) {
 
         num = parse(arguments);
-        
+
         if (0 === (num['n'] * self['d'])) {
             return false;
         }
@@ -216,7 +216,7 @@ function Fraction(param) {
 
         return self['s'] * self['n'] / self['d'];
     };
-    
+
     /**
      * Returns a string-fraction representation of a Fraction object
      *
@@ -305,7 +305,7 @@ function Fraction(param) {
         switch (typeof param) {
 
             case "object":
-                
+
                 if (param === null) {
                     break;
                 } else if (param[0] !== undefined && param[1] !== undefined) {
@@ -332,53 +332,57 @@ function Fraction(param) {
                     s = -1;
                 }
 
-                var A = 0, B = 1;
-                var C = 1, D = 1;
+                if (param > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
 
-                var N = 10000000;
+                    var A = 0, B = 1;
+                    var C = 1, D = 1;
 
-                var scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
+                    var N = 10000000;
 
-                param/= scale;
+                    var scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
 
-                // Using Farey Sequences
-                // http://www.johndcook.com/blog/2010/10/20/best-rational-approximation/
+                    param/= scale;
 
-                while (B <= N && D <= N) {
-                    var M = (A + C) / (B + D);
-                    if (param === M) {
-                        if (B + D <= N) {
-                            n = A + C;
-                            d = B + D;
-                        } else if (D > B) {
-                            n = C;
-                            d = D;
+                    // Using Farey Sequences
+                    // http://www.johndcook.com/blog/2010/10/20/best-rational-approximation/
+
+                    while (B <= N && D <= N) {
+                        var M = (A + C) / (B + D);
+
+                        if (param === M) {
+                            if (B + D <= N) {
+                                n = A + C;
+                                d = B + D;
+                            } else if (D > B) {
+                                n = C;
+                                d = D;
+                            } else {
+                                n = A;
+                                d = B;
+                            }
+                            break;
+
                         } else {
-                            n = A;
-                            d = B;
+
+                            if (param > M) {
+                                A+= C;
+                                B+= D;
+                            } else {
+                                C+= A;
+                                D+= B;
+                            }
+
+                            if (B > N) {
+                                n = C;
+                                d = D;
+                            } else {
+                                n = A;
+                                d = B;
+                            }
                         }
-                        break;
-                    } else if (param > M) {
-                        A+= C;
-                        B+= D;
-                    } else {
-                        C+= A;
-                        D+= B;
                     }
+                    n*= scale;
                 }
-
-                if (!(B <= N && D <= N)) {
-                    if (B > N) {
-                        n = C;
-                        d = D;
-                    } else {
-                        n = A;
-                        d = B;
-                    }
-                }
-
-                n*= scale;
-
                 break;
 
             case "string":
