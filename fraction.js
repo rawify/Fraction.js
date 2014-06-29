@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v1.2.1 20/04/2014
+ * @license Fraction.js v1.3.0 29/06/2014
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
@@ -210,9 +210,9 @@ function Fraction(param) {
     /**
      * Returns a decimal representation of the fraction
      *
-     * Ex: new Fraction("100.'91823'").toDouble() => 100.91823918239183
+     * Ex: new Fraction("100.'91823'").toNumber() => 100.91823918239183
      **/
-    self['toDouble'] = function() {
+    self['toNumber'] = function() {
 
         return self['s'] * self['n'] / self['d'];
     };
