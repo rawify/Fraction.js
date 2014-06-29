@@ -81,6 +81,20 @@ var f = new Fraction("6.(3416)");
 console.log("" + f.mod(1))
 ```
 
+Mathematical correct modulo
+---
+The behaviour on negative congruences is different to most modulo implementations in computer science. Even the *mod()* function of Fraction.js behaves in the typical way. Anyway, if you want to solve a rational congruences like
+
+```javascript
+var a = -1;
+var b = 10.99;
+console.log(new Fraction(a).mod(b).toDouble());
+```
+
+the correct way, you could come up with something like:
+```javascript
+console.log(new Fraction(a).mod(b).add(b).mod(b).toDouble());
+```
 
 fmod() impreciseness circumvented
 ---
