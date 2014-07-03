@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v1.3.0 29/06/2014
+ * @license Fraction.js v1.3.1 03/07/2014
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
@@ -307,12 +307,11 @@ function Fraction(param) {
             case "object":
 
                 if (param === null) {
-                    break;
+
                 } else if (param[0] !== undefined && param[1] !== undefined) {
                     n = param[0];
                     d = param[1];
                     s = n * d;
-                    break;
                 } else if ('d' in param && 'n' in param) {
                     n = param['n'];
                     d = param['d'];
@@ -320,10 +319,10 @@ function Fraction(param) {
                     if (param['s'] !== undefined) {
                         s *= param['s'];
                     }
-                    break;
                 } else {
                     throw "Unknown format";
                 }
+                break;
 
             case "number":
 
@@ -555,12 +554,9 @@ function Fraction(param) {
     };
 
     var trim0 = function(ret) {
-        return ret.replace(/^0+([1-9]|0\.)/g, '$1').replace(/(\d)0+$/, '$1')
+        return ret.replace(/^0+([1-9]|0\.)/g, '$1').replace(/(\d)0+$/, '$1');
     };
-
-    self['n'] = 0;
-    self['d'] = self['s'] = 1;
-
+    
     param = parse(arguments);
 
     cancel(param['s'] * param['n'], param['d']);
