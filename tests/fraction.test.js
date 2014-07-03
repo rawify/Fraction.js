@@ -1,6 +1,7 @@
 var assert = require('assert');
 
-var fraction = new (require('../fraction.min').Fraction)(0);
+var Fraction = require('../fraction').Fraction;
+var fraction = new Fraction(0);
 
 var tests = [{
         set: "foo",
@@ -270,11 +271,11 @@ describe('JSON', function() {
 
         fraction.set("44.3(12)");
 
-        assert.equal('{"n":14623,"s":1,"d":330}', JSON.stringify(fraction));
+        assert.equal('{"s":1,"n":14623,"d":330}', JSON.stringify(fraction));
 
         fraction.set(-1 / 2).reciprocal();
 
-        assert.equal('{"n":2,"s":-1,"d":1}', JSON.stringify(fraction));
+        assert.equal('{"s":-1,"n":2,"d":1}', JSON.stringify(fraction));
 
     });
 });
@@ -313,5 +314,25 @@ describe('fractions', function() {
 
         fraction.set("0.125");
         assert.equal("1/8", fraction.n + "/" + fraction.d);
+    });
+});
+
+
+describe('constructors', function() {
+
+    it("Should pass 0.08 = 2/25", function() {
+
+        var tmp = new Fraction({d: 4, n: 2, s: -1});
+        assert.equal("-1/2", tmp.s * tmp.n + "/" + tmp.d);
+
+        var tmp = new Fraction(-88.3);
+        assert.equal("-883/10", tmp.s * tmp.n + "/" + tmp.d);
+
+        var tmp = new Fraction("123.'3'");
+        assert.equal("370/3", tmp.s * tmp.n + "/" + tmp.d);
+
+        var tmp = new Fraction([-1023461776, 334639305]);
+        tmp = tmp.add([4, 25]);
+        assert.equal("-4849597436/1673196525", tmp.s * tmp.n + "/" + tmp.d);
     });
 });
