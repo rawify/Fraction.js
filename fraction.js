@@ -64,9 +64,9 @@ function Fraction(param) {
      *
      * Ex: new Fraction({n: 2, d: 3}).add("14.9") => 467 / 30
      **/
-    self['add'] = function(num) {
+    self['add'] = function() {
 
-        num = parse(arguments);
+        var num = parse(arguments);
 
         return cancel(
             self['s'] * self['n'] * num['d'] + num['s'] * self['d'] * num['n'],
@@ -79,9 +79,9 @@ function Fraction(param) {
      *
      * Ex: new Fraction({n: 2, d: 3}).add("14.9") => -427 / 30
      **/
-    self['sub'] = function(num) {
+    self['sub'] = function() {
 
-        num = parse(arguments);
+        var num = parse(arguments);
 
         return cancel(
             self['s'] * self['n'] * num['d'] - num['s'] * self['d'] * num['n'],
@@ -94,9 +94,9 @@ function Fraction(param) {
      *
      * Ex: new Fraction("-17.(345)").mul(3) => 5776 / 111
      **/
-    self['mul'] = function(num) {
+    self['mul'] = function() {
 
-        num = parse(arguments);
+        var num = parse(arguments);
 
         return cancel(
             self['s'] * num['s'] * self['n'] * num['n'],
@@ -109,9 +109,9 @@ function Fraction(param) {
      *
      * Ex: new Fraction("-17.(345)").reciprocal().div(3)
      **/
-    self['div'] = function(num) {
+    self['div'] = function() {
 
-        num = parse(arguments);
+        var num = parse(arguments);
 
         return cancel(
             self['s'] * num['s'] * self['n'] * num['d'],
@@ -124,9 +124,9 @@ function Fraction(param) {
      *
      * Ex: new Fraction(0).set("100.'91823'") => 10091723 / 99999
      **/
-    self['set'] = function(num) {
+    self['set'] = function() {
 
-        num = parse(arguments);
+        var num = parse(arguments);
 
         return cancel(
             num['s'] * num['n'],
@@ -140,9 +140,9 @@ function Fraction(param) {
      *
      * Ex: new Fraction('4.(3)').mod([7, 8]) => (13/3) % (7/8) = (5/6)
      **/
-    self['mod'] = function(num) {
+    self['mod'] = function() {
 
-        num = parse(arguments);
+        var num = parse(arguments);
 
         if (0 === (num['n'] * self['d'])) {
             return cancel(0, 0);
@@ -184,9 +184,9 @@ function Fraction(param) {
      * Ex: new Fraction(19.6).equals([98, 5]);
      **/
 
-    self['equals'] = function(num) {
+    self['equals'] = function() {
 
-        num = parse(arguments);
+        var num = parse(arguments);
 
         return num['s'] * num['n'] * self['d'] === self['s'] * self['n'] * num['d'];
     };
@@ -196,9 +196,9 @@ function Fraction(param) {
      * 
      * Ex: new Fraction(19.6).divisible(1.5);
      */
-    self['divisible'] = function(num) {
+    self['divisible'] = function() {
 
-        num = parse(arguments);
+        var num = parse(arguments);
 
         if (0 === (num['n'] * self['d'])) {
             return false;
@@ -293,6 +293,15 @@ function Fraction(param) {
     var parse = function(param) {
 
         var n = 0, d = 1, s = 1;
+        
+        var A = 0, B = 1;
+        var C = 1, D = 1;
+
+        var N = 10000000;
+        var M;
+
+        var scale = 1;
+        var mode = 0;
 
         if (param.length === 1) {
             param = param[0];
@@ -333,20 +342,16 @@ function Fraction(param) {
 
                 if (param > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
 
-                    var A = 0, B = 1;
-                    var C = 1, D = 1;
-
-                    var N = 10000000;
-
-                    var scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
-
-                    param/= scale;
-
+                    if (param >= 1) {
+                        scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
+                        param/= scale;
+                    }
+                    
                     // Using Farey Sequences
                     // http://www.johndcook.com/blog/2010/10/20/best-rational-approximation/
 
                     while (B <= N && D <= N) {
-                        var M = (A + C) / (B + D);
+                        M = (A + C) / (B + D);
 
                         if (param === M) {
                             if (B + D <= N) {
@@ -386,7 +391,7 @@ function Fraction(param) {
 
             case "string":
 
-                var p = param.split("");
+                M = param.split("");
 
                 /* mode:
                  0: before comma
@@ -395,34 +400,34 @@ function Fraction(param) {
                  3: after interval
                  */
 
-                var m = [0, 0, 0, 0, 0], u = [0, 0, 0, 0, 0], c, mode = 0;
-                for (var i = 0; i < p.length; i++) {
+                A = [0, 0, 0, 0, 0], B = [0, 0, 0, 0, 0];
+                for (D = 0; D < M.length; D++) {
 
-                    if (p[i] === '.') {
+                    if (M[D] === '.') {
 
                         if (mode === 0) {
                             mode++;
                         } else {
                             throw "Corrupted number";
                         }
-                    } else if (p[i] === '(' || p[i] === "'" || p[i] === ')') {
+                    } else if (M[D] === '(' || M[D] === "'" || M[D] === ')') {
 
                         if (0 < mode && mode < 3) { // mode !== 1 && mode !== 2
                             mode++;
                         } else {
                             throw "Corrupted number";
                         }
-                    } else if (i === 0 && p[0] === '-') {
+                    } else if (D === 0 && M[0] === '-') {
                         s = -1;
                     } else if (mode < 3) {
 
-                        c = parseInt(p[i], 10);
+                        C = parseInt(M[D], 10);
 
-                        if (isNaN(c)) {
+                        if (isNaN(C)) {
                             throw "Corrupted number";
                         }
-                        m[mode] = m[mode] * 10 + c;
-                        u[mode]++;
+                        A[mode] = A[mode] * 10 + C;
+                        B[mode]++;
                     } else {
                         throw "Corrupted number";
                     }
@@ -445,14 +450,14 @@ function Fraction(param) {
                  d:	999 * 100
                  */
 
-                m[3] = Math.pow(10, u[1]);
-                if (m[2] > 0)
-                    m[4] = Math.pow(10, u[2]) - 1;
+                A[3] = Math.pow(10, B[1]);
+                if (A[2] > 0)
+                    A[4] = Math.pow(10, B[2]) - 1;
                 else
-                    m[4] = 1;
+                    A[4] = 1;
 
-                n = m[2] + m[4] * (m[0] * m[3] + m[1]);
-                d = m[3] * m[4];
+                n = A[2] + A[4] * (A[0] * A[3] + A[1]);
+                d = A[3] * A[4];
                 break;
 
             default:
