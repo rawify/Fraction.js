@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v1.3.1 03/07/2014
+ * @license Fraction.js v1.3.2 03/07/2014
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
@@ -34,6 +34,7 @@
  * var f = new Fraction("9.4'31'");
  * f.mul([-4, 3]).div(4.9);
  *
+ * @param param {mixed} See param description
  * @constructor
  */
 function Fraction(param) {
@@ -69,9 +70,9 @@ function Fraction(param) {
         var num = parse(arguments);
 
         return cancel(
-            self['s'] * self['n'] * num['d'] + num['s'] * self['d'] * num['n'],
-            self['d'] * num['d']
-        );
+                self['s'] * self['n'] * num['d'] + num['s'] * self['d'] * num['n'],
+                self['d'] * num['d']
+                );
     };
 
     /**
@@ -84,9 +85,9 @@ function Fraction(param) {
         var num = parse(arguments);
 
         return cancel(
-            self['s'] * self['n'] * num['d'] - num['s'] * self['d'] * num['n'],
-            self['d'] * num['d']
-        );
+                self['s'] * self['n'] * num['d'] - num['s'] * self['d'] * num['n'],
+                self['d'] * num['d']
+                );
     };
 
     /**
@@ -99,9 +100,9 @@ function Fraction(param) {
         var num = parse(arguments);
 
         return cancel(
-            self['s'] * num['s'] * self['n'] * num['n'],
-            self['d'] * num['d']
-        );
+                self['s'] * num['s'] * self['n'] * num['n'],
+                self['d'] * num['d']
+                );
     };
 
     /**
@@ -114,9 +115,9 @@ function Fraction(param) {
         var num = parse(arguments);
 
         return cancel(
-            self['s'] * num['s'] * self['n'] * num['d'],
-            self['d'] * num['n']
-        );
+                self['s'] * num['s'] * self['n'] * num['d'],
+                self['d'] * num['n']
+                );
     };
 
     /**
@@ -129,9 +130,9 @@ function Fraction(param) {
         var num = parse(arguments);
 
         return cancel(
-            num['s'] * num['n'],
-            num['d']
-        );
+                num['s'] * num['n'],
+                num['d']
+                );
     };
 
 
@@ -163,9 +164,9 @@ function Fraction(param) {
          * => (b2 * a1 % a2 * b1) / (b1 * b2)
          */
         return cancel(
-            (self['s'] * num['d'] * self['n']) % (num['n'] * self['d']),
-            num['d'] * self['d']
-        );
+                (self['s'] * num['d'] * self['n']) % (num['n'] * self['d']),
+                num['d'] * self['d']
+                );
     };
 
     /**
@@ -293,7 +294,7 @@ function Fraction(param) {
     var parse = function(param) {
 
         var n = 0, d = 1, s = 1;
-        
+
         var A = 0, B = 1;
         var C = 1, D = 1;
 
@@ -326,7 +327,7 @@ function Fraction(param) {
                     d = param['d'];
                     s = n * d;
                     if (param['s'] !== undefined) {
-                        s *= param['s'];
+                        s*= param['s'];
                     }
                 } else {
                     throw "Unknown format";
@@ -346,7 +347,7 @@ function Fraction(param) {
                         scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
                         param/= scale;
                     }
-                    
+
                     // Using Farey Sequences
                     // http://www.johndcook.com/blog/2010/10/20/best-rational-approximation/
 
@@ -403,36 +404,32 @@ function Fraction(param) {
                 A = [0, 0, 0, 0, 0], B = [0, 0, 0, 0, 0];
                 for (D = 0; D < M.length; D++) {
 
-                    if (M[D] === '.') {
+                    C = M[D];
+
+                    if (C === '.') {
 
                         if (mode === 0) {
                             mode++;
                         } else {
-                            throw "Corrupted number";
+                            break;
                         }
-                    } else if (M[D] === '(' || M[D] === "'" || M[D] === ')') {
+                    } else if (C === '(' || C === "'" || C === ')') {
 
-                        if (0 < mode && mode < 3) { // mode !== 1 && mode !== 2
+                        if (0 < mode && mode < 3) { // mode === 1 || mode === 2
                             mode++;
                         } else {
-                            throw "Corrupted number";
+                            break;
                         }
-                    } else if (D === 0 && M[0] === '-') {
+                    } else if (D === 0 && C === '-') {
                         s = -1;
-                    } else if (mode < 3) {
-
-                        C = parseInt(M[D], 10);
-
-                        if (isNaN(C)) {
-                            throw "Corrupted number";
-                        }
+                    } else if (mode < 3 && !isNaN(C = parseInt(C, 10))) {
                         A[mode] = A[mode] * 10 + C;
                         B[mode]++;
                     } else {
-                        throw "Corrupted number";
+                        break;
                     }
                 }
-                if (mode === 2) {
+                if (mode === 2 || D < M.length) {
                     throw "Corrupted number";
                 }
 
@@ -561,7 +558,7 @@ function Fraction(param) {
     var trim0 = function(ret) {
         return ret.replace(/^0+([1-9]|0\.)/g, '$1').replace(/(\d)0+$/, '$1');
     };
-    
+
     param = parse(arguments);
 
     cancel(param['s'] * param['n'], param['d']);

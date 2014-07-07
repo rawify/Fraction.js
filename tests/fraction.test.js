@@ -7,6 +7,24 @@ var tests = [{
         set: "foo",
         expect: "Corrupted number"
     }, {
+        set: " 123",
+        expect: "Corrupted number"
+    }, {
+        set: " - ",
+        expect: "Corrupted number"
+    }, {
+        set: "123.(22)123",
+        expect: "Corrupted number"
+    }, {
+        set: "123.(((",
+        expect: "Corrupted number"
+    }, {
+        set: "123.((",
+        expect: "123.0"
+    },  {
+        set: "123.()",
+        expect: "123.0"
+    }, {
         set: null,
         expect: "0.0" // I would say it's just fine
     }, {
