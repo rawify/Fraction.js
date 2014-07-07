@@ -34,10 +34,9 @@
  * var f = new Fraction("9.4'31'");
  * f.mul([-4, 3]).div(4.9);
  *
- * @param param {mixed} See param description
  * @constructor
  */
-function Fraction(param) {
+function Fraction() {
 
     // Parsed data to avoid calling "new" all the time
     var P = {
@@ -559,7 +558,7 @@ function Fraction(param) {
         return ret.replace(/^0+([1-9]|0\.)/g, '$1').replace(/(\d)0+$/, '$1');
     };
 
-    param = parse(arguments);
+    var param = parse(arguments);
 
     cancel(param['s'] * param['n'], param['d']);
 }
