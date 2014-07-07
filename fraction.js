@@ -183,7 +183,6 @@ function Fraction() {
      *
      * Ex: new Fraction(19.6).equals([98, 5]);
      **/
-
     self['equals'] = function() {
 
         var num = parse(arguments);
@@ -199,12 +198,8 @@ function Fraction() {
     self['divisible'] = function() {
 
         var num = parse(arguments);
-
-        if (0 === (num['n'] * self['d'])) {
-            return false;
-        }
-
-        return 0 === (self['n'] * num['d']) % (num['n'] * self['d']);
+        
+        return !!(num['n'] * self['d']) && !((self['n'] * num['d']) % (num['n'] * self['d']));
     };
 
     /**
@@ -272,7 +267,7 @@ function Fraction() {
 
             if (A > 0 && j === B) {
                 ret+= "(";
-            } else if (A > 0 && j - B === A) {
+            } else if (A > 0 && j === A + B) {
                 ret+= ")";
                 break;
             }

@@ -236,6 +236,18 @@ var tests = [{
         param: [1, 6],
         expect: "false"
     }, {
+        label: "0 | (2/5)",
+        set: [2, 5],
+        fn: "divisible",
+        param: 0,
+        expect: "false"
+    }, {
+        label: "6 | 0",
+        set: 0,
+        fn: "divisible",
+        param: 6,
+        expect: "true"
+    }, {
         label: "fmod(4.55, 0.05)", // http://phpjs.org/functions/fmod/ (comment section)
         set: 4.55,
         fn: "mod",
