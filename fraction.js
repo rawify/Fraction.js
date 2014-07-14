@@ -541,7 +541,8 @@ function Fraction() {
 
     var cycleStart = function(n, d, len) {
 
-        for (var s = 0; s < d; s++) {
+        if (len > 0)
+        for (var s = 0; s < 300; s++) { // s < ~log10(Number.MAX_VALUE)
             // Solve 10^s == 10^(s+t) (mod d)
             if (modpow(10, s, d) === modpow(10, s + len, d))
                 return s;
