@@ -312,9 +312,9 @@ function Fraction() {
 
                 if (param === null) {
 
-                } else if (param[0] !== undefined && param[1] !== undefined) {
+                } else if (param[0] !== undefined) {
                     n = param[0];
-                    d = param[1];
+                    if (param[1] !== undefined) d = param[1];
                     s = n * d;
                 } else if ('d' in param && 'n' in param) {
                     n = param['n'];
