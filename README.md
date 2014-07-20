@@ -100,7 +100,7 @@ console.log(new Fraction(a)
 
 fmod() impreciseness circumvented
 ---
-It turns out that Fraction.js outperforms almost any fmod() implementation, including JavaScript itself, C++, Python, Java and even Wolframalpha due to the fact that numbers like 0.05, 0.1, ... are infinite decimal in base 2.
+It turns out that Fraction.js outperforms almost any fmod() implementation, including JavaScript itself, [php.js](http://phpjs.org/functions/fmod/), C++, Python, Java and even Wolframalpha due to the fact that numbers like 0.05, 0.1, ... are infinite decimal in base 2.
 
 The equation *fmod(4.55, 0.05)* gives *0.04999999999999957*, wolframalpha says *1/20*. The correct answer should be **zero**, as 0.05 divides 4.55 without any remainder.
 
@@ -225,7 +225,7 @@ Set a number n to the actual object
 
 Fraction mod(n)
 ---
-Returns the modulus (rest of the division) of the actual object and n (this % n). It's a much more precise [fmod()](http://phpjs.org/functions/fmod/) if you will. 
+Returns the modulus (rest of the division) of the actual object and n (this % n). It's a much more precise [fmod()](#fmod-impreciseness-circumvented) if you will. Please note that *mod()* is just like the modulo operator of most programming languages. If you want a mathematical correct modulo, see [here](#mathematical-correct-modulo).
 
 Fraction ceil()
 ---
