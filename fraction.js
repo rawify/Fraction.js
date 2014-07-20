@@ -66,12 +66,12 @@ function Fraction() {
      **/
     self['add'] = function() {
 
-        var num = parse(arguments);
+        parse(arguments);
 
         return cancel(
-                self['s'] * self['n'] * num['d'] + num['s'] * self['d'] * num['n'],
-                self['d'] * num['d']
-                );
+            self['s'] * self['n'] * P['d'] + P['s'] * self['d'] * P['n'],
+            self['d'] * P['d']
+        );
     };
 
     /**
@@ -81,12 +81,12 @@ function Fraction() {
      **/
     self['sub'] = function() {
 
-        var num = parse(arguments);
+        parse(arguments);
 
         return cancel(
-                self['s'] * self['n'] * num['d'] - num['s'] * self['d'] * num['n'],
-                self['d'] * num['d']
-                );
+            self['s'] * self['n'] * P['d'] - P['s'] * self['d'] * P['n'],
+            self['d'] * P['d']
+        );
     };
 
     /**
@@ -96,12 +96,12 @@ function Fraction() {
      **/
     self['mul'] = function() {
 
-        var num = parse(arguments);
+        parse(arguments);
 
         return cancel(
-                self['s'] * num['s'] * self['n'] * num['n'],
-                self['d'] * num['d']
-                );
+            self['s'] * P['s'] * self['n'] * P['n'],
+            self['d'] * P['d']
+        );
     };
 
     /**
@@ -111,12 +111,12 @@ function Fraction() {
      **/
     self['div'] = function() {
 
-        var num = parse(arguments);
+        parse(arguments);
 
         return cancel(
-                self['s'] * num['s'] * self['n'] * num['d'],
-                self['d'] * num['n']
-                );
+            self['s'] * P['s'] * self['n'] * P['d'],
+            self['d'] * P['n']
+        );
     };
 
     /**
@@ -126,12 +126,12 @@ function Fraction() {
      **/
     self['set'] = function() {
 
-        var num = parse(arguments);
+        parse(arguments);
 
         return cancel(
-                num['s'] * num['n'],
-                num['d']
-                );
+            P['s'] * P['n'],
+            P['d']
+        );
     };
 
 
@@ -142,9 +142,9 @@ function Fraction() {
      **/
     self['mod'] = function() {
 
-        var num = parse(arguments);
+        parse(arguments);
 
-        if (0 === (num['n'] * self['d'])) {
+        if (0 === (P['n'] * self['d'])) {
             return cancel(0, 0);
         }
 
@@ -163,9 +163,9 @@ function Fraction() {
          * => (b2 * a1 % a2 * b1) / (b1 * b2)
          */
         return cancel(
-                (self['s'] * num['d'] * self['n']) % (num['n'] * self['d']),
-                num['d'] * self['d']
-                );
+            (self['s'] * P['d'] * self['n']) % (P['n'] * self['d']),
+            P['d'] * self['d']
+        );
     };
     
     /**
@@ -215,9 +215,9 @@ function Fraction() {
      **/
     self['equals'] = function() {
 
-        var num = parse(arguments);
+        parse(arguments);
 
-        return num['s'] * num['n'] * self['d'] === self['s'] * self['n'] * num['d'];
+        return P['s'] * P['n'] * self['d'] === self['s'] * self['n'] * P['d'];
     };
 
     /**
@@ -227,9 +227,9 @@ function Fraction() {
      */
     self['divisible'] = function() {
 
-        var num = parse(arguments);
+        parse(arguments);
         
-        return !!(num['n'] * self['d']) && !((self['n'] * num['d']) % (num['n'] * self['d']));
+        return !!(P['n'] * self['d']) && !((self['n'] * P['d']) % (P['n'] * self['d']));
     };
 
     /**
@@ -249,15 +249,16 @@ function Fraction() {
      **/
     self['toFraction'] = function() {
 
+        var rest = self['n'] % self['d'];
+
         if (self['n'] > self['d']) {
 
             if (self['n'] % self['d'] === 0) {
                 return "" + (self['s'] * self['n'] / self['d']);
-            } else {
-                return (self['s'] * self['n'] / self['d'] | 0) + " " + (self['n'] % self['d']) + "/" + self['d'];
             }
+            return (self['s'] * (self['n'] - rest) / self['d']) + " " + rest + "/" + self['d'];
         }
-        return self['s'] * self['n'] + " / " + self['d'];
+        return self['s'] * self['n'] + "/" + self['d'];
     };
 
     /**
@@ -333,7 +334,7 @@ function Fraction() {
         } else if (param.length === 2) {
             /* void */
         } else {
-            throw "Parameter mismatch";
+            throw "Wrong Parameter";
         }
 
         switch (typeof param) {
@@ -485,29 +486,20 @@ function Fraction() {
                 throw "Unknown type";
         }
 
-        if (!d) {
-            // Throw the DIV/0 exception
-            cancel(0, 0);
-        }
-
-        P['n'] = Math.abs(n); // Math.abs() allows us to save parseInt() calls (not that clean but just in case of API missuse)
-        P['d'] = Math.abs(d);
-        P['s'] = sgn(s);
-
-        return P;
+        set(P, s, n, d);
     };
 
     var sgn = function(n) {
         return (0 <= n) - (n < 0);
     };
-
-    var cancel = function(n, d) {
-
+    
+    var set = function(dest, s, n, d) {
+        
         if (!d) {
             throw "DIV/0";
         }
 
-        self['s'] = sgn(n);
+        dest['s'] = sgn(s);
 
         n = Math.abs(n);
         d = Math.abs(d);
@@ -520,8 +512,13 @@ function Fraction() {
             a = t;
         }
 
-        self['n'] = n / a;
-        self['d'] = d / a;
+        dest['n'] = n / a;
+        dest['d'] = d / a;
+    };
+
+    var cancel = function(n, d) {
+
+        set(self, n, n, d);
 
         return self;
     };
@@ -583,9 +580,11 @@ function Fraction() {
         return ret.replace(/^0+([1-9]|0\.)/g, '$1').replace(/(\d)0+$/, '$1');
     };
 
-    var param = parse(arguments);
-
-    cancel(param['s'] * param['n'], param['d']);
+    parse(arguments);
+    
+    self['s'] = P['s'];
+    self['n'] = P['n'];
+    self['d'] = P['d'];
 }
 
 if (typeof module !== 'undefined' && module['exports']) {
