@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v1.3.2 03/07/2014
+ * @license Fraction.js v1.4.0 20/07/2014
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
@@ -166,6 +166,36 @@ function Fraction() {
                 (self['s'] * num['d'] * self['n']) % (num['n'] * self['d']),
                 num['d'] * self['d']
                 );
+    };
+    
+    /**
+     * Calculates the ceil of a rational number
+     *
+     * Ex: new Fraction('4.(3)').ceil() => (5 / 1)
+     **/
+    self['ceil'] = function() {
+
+        return cancel(Math.ceil(self['s'] * self['n'] / self['d']), 1);
+    };
+
+    /**
+     * Calculates the floor of a rational number
+     *
+     * Ex: new Fraction('4.(3)').floor() => (4 / 1)
+     **/
+    self['floor'] = function() {
+
+        return cancel(Math.floor(self['s'] * self['n'] / self['d']), 1);
+    };
+
+    /**
+     * Rounds a rational numbers
+     *
+     * Ex: new Fraction('4.(3)').round() => (4 / 1)
+     **/
+    self['round'] = function() {
+
+        return cancel(Math.round(self['s'] * self['n'] / self['d']), 1);
     };
 
     /**

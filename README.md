@@ -227,6 +227,18 @@ Fraction mod(n)
 ---
 Returns the modulus (rest of the division) of the actual object and n (this % n). It's a much more precise [fmod()](http://phpjs.org/functions/fmod/) if you will. 
 
+Fraction ceil()
+---
+Returns the ceiling of a rational number (rounded up)
+
+Fraction floor()
+---
+Returns the floor of a rational number (rounded down)
+
+Fraction round()
+---
+Returns the rational number rounded (normal round)
+
 Fraction reciprocal()
 ---
 Returns the reciprocal of the actual number (n / d becomes d / n)
