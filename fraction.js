@@ -544,7 +544,7 @@ function Fraction() {
             return cycleLen(n, d / 5);
         }
 
-        for (var t = 1; t <= d; t++) {
+        for (var t = 1; t <= 10000; t++) {
             // Solve 10^t == 1 (mod d) for d != 0 (mod 2, 5)
             // http://mathworld.wolfram.com/FullReptendPrime.html
             if (1 === modpow(10, t, d)) {
