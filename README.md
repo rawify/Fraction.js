@@ -1,18 +1,23 @@
 # Fraction.js - ℚ in JavaSript
 
-Tired of inprecise numbers represented by doubles? Have a look at Fraction.js, which represents rational numbers or ratios as two integers in the form of *n / d*.
+Tired of inprecise numbers represented by doubles, which have to store ratios and irrational numbers like PI or sqrt(2) the same way? If you need more precision or just want a fraction as a result, have a look at *Fraction.js*!
 
+Internally, numbers are represented as *numerator / denominator*, which adds just a little overhead. The library is written with performance in mind.
 
 Examples
 ===
 A simple example might be
 
 ```javascript
-var f = new Fraction("9.4'31'");
-f.mul([-4, 3]).mod("4.'8'");
+var f = new Fraction("9.4'31'"); // 9.4313131313131...
+f.mul([-4, 3]).mod("4.'8'"); // 4.88888888888888...
 ```
 The result is 
 
+```javascript
+console.log(f.getFraction()); // -4154 / 1485
+```
+You could of course also access the sign (s), numerator (n) and denominator (d) on your own:
 ```javascript
 f.s * f.n / f.d = -1 * 4154 / 1485 = -2.797306...
 ```
@@ -25,9 +30,9 @@ If you would try to calculate it yourself, you would come up with something like
 
 Quite okay, but yea - not as accurate as it could be.
 
-To approximate a number like *sqrt(5) - 2 as n / d*, you can reformat the equation as follows: *pow(n / d + 2, 2) is 5*
+Now it get's messy ;d To approximate a number like *sqrt(5) - 2 as n / d*, you can reformat the equation as follows: *pow(n / d + 2, 2) equals 5*. (It's not the best idea to approximate an irrational number as a rational one. That's not for what Fraction.js was invented for!)
 
-The formulated algorithm, which also generates the binary representation, could look like
+Then the following algorithm will generate the binary representation and the actual result. 
 
 ```javascript
 var x = "/", s = "";
@@ -71,19 +76,19 @@ n	a[n]		b[n]		c[n]			x[n]
 Thus the approximation after 11 iterations of the bisection method is *483 / 2048* and the binary representation is 0.00111100011 (see [WolframAlpha](http://www.wolframalpha.com/input/?i=sqrt%285%29-2+binary))
 
 
-I published another example on how to approximate PI with fraction.js on my [blog](http://www.xarg.org/2014/03/precise-calculations-in-javascript/).
+I published another example on how to approximate PI with fraction.js on my [blog](http://www.xarg.org/2014/03/precise-calculations-in-javascript/) (Still not the best idea to approximate irrational numbers, but it illustrates the capabilities of Fraction.js perfectly).
 
 
 Get the exact fractional part of a number
 ---
 ```javascript
 var f = new Fraction("6.(3416)");
-console.log("" + f.mod(1))
+console.log("" + f.mod(1)); // Same as: f - parseInt(f);
 ```
 
 Mathematical correct modulo
 ---
-The behaviour on negative congruences is different to most modulo implementations in computer science. Even the *mod()* function of Fraction.js behaves in the typical way. To solve the problem with Fraction.js you could come up with this:
+The behaviour on negative congruences is different to most modulo implementations in computer science. Even the *mod()* function of Fraction.js behaves in the typical way. To solve the problem of having the mathematical correct modulo with Fraction.js you could come up with this:
 
 ```javascript
 var a = -1;
@@ -91,11 +96,11 @@ var b = 10.99;
 
 console.log(new Fraction(a)
      .mod(b)
-     .toNumber()); // Not correct
+     .toNumber()); // Not correct, normal implementation
 
 console.log(new Fraction(a)
      .mod(b).add(b).mod(b)
-     .toNumber()); // Correct!
+     .toNumber()); // Correct! Mathematical Modulo
 ```
 
 fmod() impreciseness circumvented
