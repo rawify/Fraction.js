@@ -30,6 +30,18 @@ If you would try to calculate it yourself, you would come up with something like
 
 Quite okay, but yea - not as accurate as it could be.
 
+Another example might be to calculate degrees/minutes/seconds into precise decimal representations:
+
+57+45/60+17/3600
+```javascript
+var deg = 57; // 57°
+var min = 45; // 45 Minutes
+var sec = 17; // 17 Seconds
+
+new Fraction(57).add(45, 60).add(17, 3600).toString() // -> 57.7547(2)
+```
+
+
 Now it get's messy ;d To approximate a number like *sqrt(5) - 2 as n / d*, you can reformat the equation as follows: *pow(n / d + 2, 2) equals 5*. (It's not the best idea to approximate an irrational number as a rational one. That's not for what Fraction.js was invented for!)
 
 Then the following algorithm will generate the binary representation and the actual result. 
