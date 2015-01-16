@@ -1,12 +1,12 @@
 /**
- * @license Fraction.js v1.4.0 20/07/2014
+ * @license Fraction.js v1.4.1 20/07/2014
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  **/
 
-var Fraction = require('../fraction.min.js').Fraction;
+var Fraction = require('../fraction.min.js');
 
 /*
 We have the polynom f(x) = 1/3x_1^2 + x_2^2 + x_1 * x_2 + 3

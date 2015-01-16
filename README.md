@@ -9,6 +9,8 @@ Examples
 A simple example might be
 
 ```javascript
+var Fraction = require('fraction.js');
+
 var f = new Fraction("9.4'31'"); // 9.4313131313131...
 f.mul([-4, 3]).mod("4.'8'"); // 4.88888888888888...
 ```

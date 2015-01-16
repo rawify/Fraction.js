@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var Fraction = require('../fraction.min').Fraction;
+var Fraction = require('../fraction.min');
 var fraction = new Fraction(0);
 
 var tests = [{
