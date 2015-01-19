@@ -44,7 +44,7 @@ new Fraction(57).add(45, 60).add(17, 3600).toString() // -> 57.7547(2)
 ```
 
 
-Now it get's messy ;d To approximate a number like *sqrt(5) - 2 as n / d*, you can reformat the equation as follows: *pow(n / d + 2, 2) equals 5*. (It's not the best idea to approximate an irrational number as a rational one. That's not for what Fraction.js was invented for!)
+Now it's getting messy ;d To approximate a number like *sqrt(5) - 2 as n / d*, you can reformat the equation as follows: *pow(n / d + 2, 2) equals 5*. (It's not the best idea to approximate an irrational number as a rational one. That's not for what Fraction.js was invented for!)
 
 Then the following algorithm will generate the binary representation and the actual result. 
 
