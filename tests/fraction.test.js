@@ -16,6 +16,9 @@ var tests = [{
         set: "123.(22)123",
         expect: "Corrupted number"
     }, {
+        set: "+33.3(3)",
+        expect: "33.(3)"
+    }, {
         set: "123.(((",
         expect: "Corrupted number"
     }, {

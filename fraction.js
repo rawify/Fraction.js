@@ -69,9 +69,9 @@ function Fraction() {
         parse(arguments);
 
         return cancel(
-            self['s'] * self['n'] * P['d'] + P['s'] * self['d'] * P['n'],
-            self['d'] * P['d']
-        );
+                self['s'] * self['n'] * P['d'] + P['s'] * self['d'] * P['n'],
+                self['d'] * P['d']
+                );
     };
 
     /**
@@ -84,9 +84,9 @@ function Fraction() {
         parse(arguments);
 
         return cancel(
-            self['s'] * self['n'] * P['d'] - P['s'] * self['d'] * P['n'],
-            self['d'] * P['d']
-        );
+                self['s'] * self['n'] * P['d'] - P['s'] * self['d'] * P['n'],
+                self['d'] * P['d']
+                );
     };
 
     /**
@@ -99,9 +99,9 @@ function Fraction() {
         parse(arguments);
 
         return cancel(
-            self['s'] * P['s'] * self['n'] * P['n'],
-            self['d'] * P['d']
-        );
+                self['s'] * P['s'] * self['n'] * P['n'],
+                self['d'] * P['d']
+                );
     };
 
     /**
@@ -114,9 +114,9 @@ function Fraction() {
         parse(arguments);
 
         return cancel(
-            self['s'] * P['s'] * self['n'] * P['d'],
-            self['d'] * P['n']
-        );
+                self['s'] * P['s'] * self['n'] * P['d'],
+                self['d'] * P['n']
+                );
     };
 
     /**
@@ -129,9 +129,9 @@ function Fraction() {
         parse(arguments);
 
         return cancel(
-            P['s'] * P['n'],
-            P['d']
-        );
+                P['s'] * P['n'],
+                P['d']
+                );
     };
 
 
@@ -163,11 +163,11 @@ function Fraction() {
          * => (b2 * a1 % a2 * b1) / (b1 * b2)
          */
         return cancel(
-            (self['s'] * P['d'] * self['n']) % (P['n'] * self['d']),
-            P['d'] * self['d']
-        );
+                (self['s'] * P['d'] * self['n']) % (P['n'] * self['d']),
+                P['d'] * self['d']
+                );
     };
-    
+
     /**
      * Calculates the ceil of a rational number
      *
@@ -228,7 +228,7 @@ function Fraction() {
     self['divisible'] = function() {
 
         parse(arguments);
-        
+
         return !!(P['n'] * self['d']) && !((self['n'] * P['d']) % (P['n'] * self['d']));
     };
 
@@ -345,7 +345,8 @@ function Fraction() {
 
                 } else if (param[0] !== undefined) {
                     n = param[0];
-                    if (param[1] !== undefined) d = param[1];
+                    if (param[1] !== undefined)
+                        d = param[1];
                     s = n * d;
                 } else if ('d' in param && 'n' in param) {
                     n = param['n'];
@@ -370,7 +371,7 @@ function Fraction() {
 
                     if (param >= 1) {
                         scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
-                        param/= scale;
+                        param /= scale;
                     }
 
                     // Using Farey Sequences
@@ -445,6 +446,8 @@ function Fraction() {
                         } else {
                             break;
                         }
+                    } else if (D === 0 && C === '+') {
+
                     } else if (D === 0 && C === '-') {
                         s = -1;
                     } else if (mode < 3 && !isNaN(C = parseInt(C, 10))) {
@@ -492,9 +495,9 @@ function Fraction() {
     var sgn = function(n) {
         return (0 <= n) - (n < 0);
     };
-    
+
     var set = function(dest, s, n, d) {
-        
+
         if (!d) {
             throw "DIV/0";
         }
@@ -581,7 +584,7 @@ function Fraction() {
     };
 
     parse(arguments);
-    
+
     self['s'] = P['s'];
     self['n'] = P['n'];
     self['d'] = P['d'];
