@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v1.4.1 20/07/2014
+ * @license Fraction.js v1.5.0 08/02/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
@@ -71,7 +71,7 @@ function Fraction() {
         return cancel(
                 self['s'] * self['n'] * P['d'] + P['s'] * self['d'] * P['n'],
                 self['d'] * P['d']
-                );
+        );
     };
 
     /**
@@ -86,7 +86,7 @@ function Fraction() {
         return cancel(
                 self['s'] * self['n'] * P['d'] - P['s'] * self['d'] * P['n'],
                 self['d'] * P['d']
-                );
+        );
     };
 
     /**
@@ -101,7 +101,7 @@ function Fraction() {
         return cancel(
                 self['s'] * P['s'] * self['n'] * P['n'],
                 self['d'] * P['d']
-                );
+        );
     };
 
     /**
@@ -116,7 +116,16 @@ function Fraction() {
         return cancel(
                 self['s'] * P['s'] * self['n'] * P['d'],
                 self['d'] * P['n']
-                );
+        );
+    };
+
+    /**
+     * Clones the actual object
+     *
+     * Ex: new Fraction("-17.(345)").clone()
+     **/
+    self['clone'] = function() {
+        return new Fraction(this);
     };
 
     /**
@@ -131,7 +140,7 @@ function Fraction() {
         return cancel(
                 P['s'] * P['n'],
                 P['d']
-                );
+        );
     };
 
 
@@ -165,7 +174,7 @@ function Fraction() {
         return cancel(
                 (self['s'] * P['d'] * self['n']) % (P['n'] * self['d']),
                 P['d'] * self['d']
-                );
+        );
     };
 
     /**
@@ -371,7 +380,7 @@ function Fraction() {
 
                     if (param >= 1) {
                         scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
-                        param /= scale;
+                        param/= scale;
                     }
 
                     // Using Farey Sequences
