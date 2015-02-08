@@ -96,8 +96,8 @@ I published another example on how to approximate PI with fraction.js on my [blo
 Get the exact fractional part of a number
 ---
 ```javascript
-var f = new Fraction("6.(3416)");
-console.log("" + f.mod(1)); // Same as: f - parseInt(f);
+var f = new Fraction("-6.(3416)");
+console.log("" + f.mod(1).abs()); // Same as: f - parseInt(f);
 ```
 
 Mathematical correct modulo
