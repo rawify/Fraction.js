@@ -177,35 +177,39 @@ function Fraction() {
         );
     };
 
+    function round(round) {
+
+        return function() {
+
+            if (0 === (self['n'] = Math.abs(round(self['s'] * self['n'] / self['d'])))) {
+                self['s'] = 0;
+            }
+            self['d'] = 1;
+
+            return self;
+        };
+    }
+
     /**
      * Calculates the ceil of a rational number
      *
      * Ex: new Fraction('4.(3)').ceil() => (5 / 1)
      **/
-    self['ceil'] = function() {
-
-        return cancel(Math.ceil(self['s'] * self['n'] / self['d']), 1);
-    };
+    self['ceil'] = round(Math.ceil);
 
     /**
      * Calculates the floor of a rational number
      *
      * Ex: new Fraction('4.(3)').floor() => (4 / 1)
      **/
-    self['floor'] = function() {
-
-        return cancel(Math.floor(self['s'] * self['n'] / self['d']), 1);
-    };
+    self['floor'] = round(Math.floor);
 
     /**
      * Rounds a rational numbers
      *
      * Ex: new Fraction('4.(3)').round() => (4 / 1)
      **/
-    self['round'] = function() {
-
-        return cancel(Math.round(self['s'] * self['n'] / self['d']), 1);
-    };
+    self['round'] = round(Math.round);
 
     /**
      * Gets the reciprocal form of the fraction, means numerator and denumerator are exchanged
