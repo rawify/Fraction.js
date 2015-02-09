@@ -278,6 +278,9 @@ String toString()
 ---
 Generates an exact string representation of the actual object, including repeating decimal places of any length.
 
+Fraction clone()
+---
+Creates a copy of the actual Fraction object
 
 Exceptions
 ===
