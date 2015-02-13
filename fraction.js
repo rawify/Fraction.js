@@ -71,7 +71,7 @@ function Fraction() {
         return cancel(
                 self['s'] * self['n'] * P['d'] + P['s'] * self['d'] * P['n'],
                 self['d'] * P['d']
-        );
+                );
     };
 
     /**
@@ -86,7 +86,7 @@ function Fraction() {
         return cancel(
                 self['s'] * self['n'] * P['d'] - P['s'] * self['d'] * P['n'],
                 self['d'] * P['d']
-        );
+                );
     };
 
     /**
@@ -101,7 +101,7 @@ function Fraction() {
         return cancel(
                 self['s'] * P['s'] * self['n'] * P['n'],
                 self['d'] * P['d']
-        );
+                );
     };
 
     /**
@@ -116,7 +116,7 @@ function Fraction() {
         return cancel(
                 self['s'] * P['s'] * self['n'] * P['d'],
                 self['d'] * P['n']
-        );
+                );
     };
 
     /**
@@ -140,7 +140,7 @@ function Fraction() {
         return cancel(
                 P['s'] * P['n'],
                 P['d']
-        );
+                );
     };
 
 
@@ -174,7 +174,7 @@ function Fraction() {
         return cancel(
                 (self['s'] * P['d'] * self['n']) % (P['n'] * self['d']),
                 P['d'] * self['d']
-        );
+                );
     };
 
     function round(round) {
@@ -275,6 +275,31 @@ function Fraction() {
     };
 
     /**
+     * Returns a latex representation of a Fraction object
+     *
+     * Ex: new Fraction("1.'3'").toFraction() => "\frac{4}{3}"
+     **/
+    self['toLatex'] = function() {
+
+        var str = "";
+
+        if (self['s'] < 0) {
+            str+= '-';
+        }
+
+        if (self['d'] === 1) {
+            str+= self['n'];
+        } else {
+            str+= '\frac{';
+            str+= self['n'];
+            str+= '}{';
+            str+= self['d'];
+            str+= '}';
+        }
+        return str;
+    };
+
+    /**
      * Creates a string representation of a fraction with all digits
      *
      * Ex: new Fraction("100.'91823'").toString() => "100.(91823)"
@@ -298,10 +323,8 @@ function Fraction() {
 
         for (var i = 0; i < lo; i++) {
 
-            t*= 10;
-
             if (i < p.length) {
-                t+= parseInt(p[i], 10);
+                t+= Number(p[i]);
             } else if (i === p.length) {
                 ret+= ".";
                 j = 0;
@@ -309,11 +332,13 @@ function Fraction() {
                 j++;
             }
 
-            if (A > 0 && j === B) {
-                ret+= "(";
-            } else if (A > 0 && j === A + B) {
-                ret+= ")";
-                break;
+            if (A > 0) {
+                if (j === B) {
+                    ret+= "(";
+                } else if (j === A + B) {
+                    ret+= ")";
+                    break;
+                }
             }
 
             if (t >= q) {
@@ -325,6 +350,7 @@ function Fraction() {
             } else {
                 ret+= "0";
             }
+            t*= 10;
         }
         return (~self['s'] ? "" : "-") + trim0(ret);
     };
@@ -356,18 +382,18 @@ function Fraction() {
 
                 if (param === null) {
 
-                } else if (param[0] !== undefined) {
-                    n = param[0];
-                    if (param[1] !== undefined)
-                        d = param[1];
-                    s = n * d;
                 } else if ('d' in param && 'n' in param) {
                     n = param['n'];
                     d = param['d'];
                     s = n * d;
-                    if (param['s'] !== undefined) {
+                    if ('s' in param) {
                         s*= param['s'];
                     }
+                } else if (0 in param) {
+                    n = param[0];
+                    if (1 in param)
+                        d = param[1];
+                    s = n * d;
                 } else {
                     throw "Unknown format";
                 }
@@ -593,7 +619,7 @@ function Fraction() {
     };
 
     var trim0 = function(ret) {
-        return ret.replace(/^0+([1-9]|0\.)/g, '$1').replace(/(\d)0+$/, '$1');
+        return ret.replace(/^0+([1-9]|0\.)/g, '$1').replace(/(\d)0+$/, '$1').replace(/\.0$/, '');
     };
 
     parse(arguments);

@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var Fraction = require('../fraction.min');
+var Fraction = require('../fraction');
 var fraction = new Fraction(0);
 
 var tests = [{
@@ -23,13 +23,13 @@ var tests = [{
         expect: "Corrupted number"
     }, {
         set: "123.((",
-        expect: "123.0"
+        expect: "123"
     }, {
         set: "123.()",
-        expect: "123.0"
+        expect: "123"
     }, {
         set: null,
-        expect: "0.0" // I would say it's just fine
+        expect: "0" // I would say it's just fine
     }, {
         set: [22, 7],
         expect: '3.(142857)' // We got Pi! - almost ;o
@@ -56,10 +56,10 @@ var tests = [{
         expect: "0.003"
     }, {
         set: 4,
-        expect: "4.0"
+        expect: "4"
     }, {
         set: -99,
-        expect: "-99.0"
+        expect: "-99"
     }, {
         set: "-92332.1192",
         expect: "-92332.1192"
@@ -80,19 +80,19 @@ var tests = [{
         set: '-187',
         fn: "mod",
         param: "12",
-        expect: "-7.0"
+        expect: "-7"
     }, {
         label: "Negate by 99 * -1",
         set: '99',
         fn: "mul",
         param: "-1",
-        expect: "-99.0"
+        expect: "-99"
     }, {
         label: "99.(9) + 66",
         set: '99.(999999)',
         fn: "add",
         param: "66",
-        expect: "166.0"
+        expect: "166"
     }, {
         label: "-82.124 / 66.(3)",
         set: '-82.124',
@@ -126,13 +126,13 @@ var tests = [{
         },
         fn: "reciprocal",
         param: null,
-        expect: "-74.0"
+        expect: "-74"
     }, {
         label: "reciprocal",
         set: 1 / 2,
         fn: "reciprocal",
         param: null,
-        expect: "2.0"
+        expect: "2"
     }, {
         label: "abs(-222/3)",
         set: {
@@ -141,19 +141,19 @@ var tests = [{
         },
         fn: "abs",
         param: null,
-        expect: "74.0"
+        expect: "74"
     }, {
         label: "9 % -2",
         set: 9,
         fn: "mod",
         param: "-2",
-        expect: "1.0"
+        expect: "1"
     }, {
         label: "-9 % 2",
         set: '-9',
         fn: "mod",
         param: "-2",
-        expect: "-1.0"
+        expect: "-1"
     }, {
         label: "10 / 0",
         set: 10,
@@ -255,7 +255,7 @@ var tests = [{
         set: 4.55,
         fn: "mod",
         param: 0.05,
-        expect: "0.0"
+        expect: "0"
     }, {
         label: "fmod(99.12, 0.4)",
         set: 99.12,
@@ -267,7 +267,7 @@ var tests = [{
         set: 1.0,
         fn: "mod",
         param: 0.1,
-        expect: "0.0"
+        expect: "0"
     }, {
         label: "bignum",
         set: [5385020324, 1673196525],
@@ -279,115 +279,121 @@ var tests = [{
         set: 0.4,
         fn: "ceil",
         param: null,
-        expect: "1.0"
+        expect: "1"
     }, {
         label: "ceil(0.5)",
         set: 0.5,
         fn: "ceil",
         param: null,
-        expect: "1.0"
+        expect: "1"
     }, {
         label: "ceil(0.6)",
         set: 0.6,
         fn: "ceil",
         param: null,
-        expect: "1.0"
+        expect: "1"
     }, {
         label: "ceil(-0.4)",
         set: -0.4,
         fn: "ceil",
         param: null,
-        expect: "0.0"
+        expect: "0"
     }, {
         label: "ceil(-0.5)",
         set: -0.5,
         fn: "ceil",
         param: null,
-        expect: "0.0"
+        expect: "0"
     }, {
         label: "ceil(-0.6)",
         set: -0.6,
         fn: "ceil",
         param: null,
-        expect: "0.0"
+        expect: "0"
     }, {
         label: "floor(0.4)",
         set: 0.4,
         fn: "floor",
         param: null,
-        expect: "0.0"
+        expect: "0"
     }, {
         label: "floor(0.5)",
         set: 0.5,
         fn: "floor",
         param: null,
-        expect: "0.0"
+        expect: "0"
     }, {
         label: "floor(0.6)",
         set: 0.6,
         fn: "floor",
         param: null,
-        expect: "0.0"
+        expect: "0"
     }, {
         label: "floor(-0.4)",
         set: -0.4,
         fn: "floor",
         param: null,
-        expect: "-1.0"
+        expect: "-1"
     }, {
         label: "floor(-0.5)",
         set: -0.5,
         fn: "floor",
         param: null,
-        expect: "-1.0"
+        expect: "-1"
     }, {
         label: "floor(-0.6)",
         set: -0.6,
         fn: "floor",
         param: null,
-        expect: "-1.0"
+        expect: "-1"
     }, {
         label: "round(0.4)",
         set: 0.4,
         fn: "round",
         param: null,
-        expect: "0.0"
+        expect: "0"
     }, {
         label: "round(0.5)",
         set: 0.5,
         fn: "round",
         param: null,
-        expect: "1.0"
+        expect: "1"
     }, {
         label: "round(0.6)",
         set: 0.6,
         fn: "round",
         param: null,
-        expect: "1.0"
+        expect: "1"
     }, {
         label: "round(-0.4)",
         set: -0.4,
         fn: "round",
         param: null,
-        expect: "0.0"
+        expect: "0"
     }, {
         label: "round(-0.5)",
         set: -0.5,
         fn: "round",
         param: null,
-        expect: "0.0"
+        expect: "0"
     }, {
         label: "round(-0.6)",
         set: -0.6,
         fn: "round",
         param: null,
-        expect: "-1.0"
+        expect: "-1"
     }, {
         label: "17402216385200408/5539306332998545",
         set: [17402216385200408, 5539306332998545],
         fn: "add",
         param: 0,
         expect: "3.1415876535"
+    }, {
+        label: "99+1",
+        set: [99, 1],
+        fn: "add",
+        param: 1,
+        expect: "100"
     }
 ];
 
@@ -497,5 +503,26 @@ describe('constructors', function() {
         var tmp = new Fraction([-1023461776, 334639305]);
         tmp = tmp.add([4, 25]);
         assert.equal("-4849597436/1673196525", tmp.s * tmp.n + "/" + tmp.d);
+    });
+});
+
+describe('Latex Output', function() {
+
+    it("Should pass 0.08 = 2/25", function() {
+
+        var tmp = new Fraction("123.'3'").clone();
+        assert.equal('\frac{370}{3}', tmp.toLatex());
+
+        var tmp = new Fraction("1.'3'").clone();
+        assert.equal('\frac{4}{3}', tmp.toLatex());
+
+        var tmp = new Fraction("-1.0000000000").clone();
+        assert.equal('-1', tmp.toLatex());
+
+        var tmp = new Fraction("-0.0000000000").clone();
+        assert.equal('0', tmp.toLatex());
+
+        var tmp = new Fraction(-99).reciprocal().div(293);
+        assert.equal('-\frac{1}{29007}', tmp.toLatex());
     });
 });
