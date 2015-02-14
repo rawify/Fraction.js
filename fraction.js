@@ -306,17 +306,18 @@ function Fraction() {
      **/
     self['toString'] = function() {
 
-        var p = ("" + self['n']).split("");
-        var q = self['d'];
-        var t = 0;
-        var u;
+        var p = ("" + self['n']).split(""); // Numerator chars
+        var q = self['d']; // Denominator
+        var t = 0; // Tmp var
 
-        var ret = "";
+        var ret = [~self['s'] ? "" : "-", "", ""]; // Return array, [0] is zero sign, [1] before comma, [2] after
+        var zeros = ""; // Collection variable for zeros
 
-        var A = cycleLen(self['n'], self['d']);
-        var B = cycleStart(self['n'], self['d'], A);
+        var A = cycleLen(self['n'], self['d']); // Cycle length
+        var B = cycleStart(self['n'], self['d'], A); // Cycle start
 
         var j = -1;
+        var n = 1; // str index
 
         // rough estimate to fill zeros
         var lo = 10 + A + B + p.length;
@@ -325,34 +326,41 @@ function Fraction() {
 
             if (i < p.length) {
                 t+= Number(p[i]);
-            } else if (i === p.length) {
-                ret+= ".";
-                j = 0;
             } else {
-                j++;
+                n = 2;
+                j++; // Start now => after comma
             }
 
-            if (A > 0) {
+            if (A > 0) { // If we have a repeating part
                 if (j === B) {
-                    ret+= "(";
+                    ret[n]+= zeros + "(";
+                    zeros = "";
                 } else if (j === A + B) {
-                    ret+= ")";
+                    ret[n]+= zeros + ")";
                     break;
                 }
             }
 
             if (t >= q) {
-                // u = Math.floor(t / q);
-                // t-= u * q;
-                ret+= (t / q) | 0;
+                ret[n]+= zeros + ((t / q) | 0); // Flush zeros, Add current digit
+                zeros = "";
                 t = t % q;
-                // ret+= u;
-            } else {
-                ret+= "0";
+            } else if (n > 1) { // Add zeros to the zero buffer
+                zeros+= "0";
+            } else if (ret[n]) { // If before comma, add zero only if already something was added
+                ret[n]+= "0";
             }
             t*= 10;
         }
-        return (~self['s'] ? "" : "-") + trim0(ret);
+
+        // If it's empty, it's a leading zero only
+        ret[0]+= ret[1] || "0";
+
+        // If there is something after the comma, add the comma sign
+        if (ret[2]) {
+            return ret[0] + "." + ret[2];
+        }
+        return ret[0];
     };
 
     var parse = function(param) {
@@ -616,10 +624,6 @@ function Fraction() {
                 return s;
         }
         return 0;
-    };
-
-    var trim0 = function(ret) {
-        return ret.replace(/^0+([1-9]|0\.)/g, '$1').replace(/(\d)0+$/, '$1').replace(/\.0$/, '');
     };
 
     parse(arguments);

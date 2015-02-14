@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var Fraction = require('../fraction');
+var Fraction = require('../fraction.min');
 var fraction = new Fraction(0);
 
 var tests = [{
@@ -18,6 +18,9 @@ var tests = [{
     }, {
         set: "+33.3(3)",
         expect: "33.(3)"
+    }, {
+        set: "3.'09009'",
+        expect: "3.(09009)"
     }, {
         set: "123.(((",
         expect: "Corrupted number"
