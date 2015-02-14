@@ -97,7 +97,7 @@ Get the exact fractional part of a number
 ---
 ```javascript
 var f = new Fraction("-6.(3416)");
-console.log("" + f.mod(1).abs()); // Same as: f - parseInt(f);
+console.log("" + f.mod(1).abs()); // Same as: Math.abs(f - parseInt(f), 10);
 ```
 
 Mathematical correct modulo
@@ -277,6 +277,10 @@ Returns a decimal representation of the fraction
 String toString()
 ---
 Generates an exact string representation of the actual object, including repeating decimal places of any length.
+
+String toLatex()
+---
+Generates an exact LaTeX representation of the actual object.
 
 Fraction clone()
 ---

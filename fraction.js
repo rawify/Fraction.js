@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v1.5.0 08/02/2015
+ * @license Fraction.js v1.6.0 14/02/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
@@ -306,23 +306,23 @@ function Fraction() {
      **/
     self['toString'] = function() {
 
-        var p = ("" + self['n']).split(""); // Numerator chars
+        var p = String(self['n']).split(""); // Numerator chars
         var q = self['d']; // Denominator
         var t = 0; // Tmp var
 
         var ret = [~self['s'] ? "" : "-", "", ""]; // Return array, [0] is zero sign, [1] before comma, [2] after
         var zeros = ""; // Collection variable for zeros
 
-        var A = cycleLen(self['n'], self['d']); // Cycle length
-        var B = cycleStart(self['n'], self['d'], A); // Cycle start
+        var cycLen = cycleLen(self['n'], self['d']); // Cycle length
+        var cycOff = cycleStart(self['n'], self['d'], cycLen); // Cycle start
 
         var j = -1;
         var n = 1; // str index
 
         // rough estimate to fill zeros
-        var lo = 10 + A + B + p.length;
+        var length = 10 + cycLen + cycOff + p.length;
 
-        for (var i = 0; i < lo; i++) {
+        for (var i = 0; i < length; i++, t*= 10) {
 
             if (i < p.length) {
                 t+= Number(p[i]);
@@ -331,11 +331,11 @@ function Fraction() {
                 j++; // Start now => after comma
             }
 
-            if (A > 0) { // If we have a repeating part
-                if (j === B) {
+            if (cycLen > 0) { // If we have a repeating part
+                if (j === cycOff) {
                     ret[n]+= zeros + "(";
                     zeros = "";
-                } else if (j === A + B) {
+                } else if (j === cycLen + cycOff) {
                     ret[n]+= zeros + ")";
                     break;
                 }
@@ -350,7 +350,6 @@ function Fraction() {
             } else if (ret[n]) { // If before comma, add zero only if already something was added
                 ret[n]+= "0";
             }
-            t*= 10;
         }
 
         // If it's empty, it's a leading zero only
