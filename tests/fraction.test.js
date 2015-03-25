@@ -397,7 +397,67 @@ var tests = [{
         fn: "add",
         param: 1,
         expect: "100"
-    }
+    }, {
+        label: "gcd(5/8, 3/7)",
+        set: [5, 8],
+        fn: "gcd",
+        param: [3, 7],
+        expect: "0.017(857142)" // == 1/56
+    }, {
+        label: "gcd(2/3, 7/5)",
+        set: [2, 3],
+        fn: "gcd",
+        param: [7, 5],
+        expect: "0.0(6)" // == 1/15
+    }, {
+        label: "3.5 < 4.1",
+        set: 3.5,
+        fn: "compare",
+        param: 4.1,
+        expect: "-12"
+    }, {
+        label: "3.5 > 4.1",
+        set: 4.1,
+        fn: "compare",
+        param: 3.1,
+        expect: "100"
+    }, {
+        label: "-3.5 > -4.1",
+        set: -3.5,
+        fn: "compare",
+        param: -4.1,
+        expect: "12"
+    }, {
+        label: "-3.5 > -4.1",
+        set: -4.1,
+        fn: "compare",
+        param: -3.5,
+        expect: "-12"
+    }, {
+        label: "4.3 == 4.3",
+        set: 4.3,
+        fn: "compare",
+        param: 4.3,
+        expect: "0"
+    }, {
+        label: "-4.3 == -4.3",
+        set: -4.3,
+        fn: "compare",
+        param: -4.3,
+        expect: "0"
+    }, {
+        label: "-4.3 < 4.3",
+        set: -4.3,
+        fn: "compare",
+        param: 4.3,
+        expect: "-860"
+    }, {
+        label: "4.3 == -4.3",
+        set: 4.3,
+        fn: "compare",
+        param: -4.3,
+        expect: "860"
+    },
 ];
 
 describe('Fraction', function() {

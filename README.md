@@ -159,6 +159,7 @@ Strings
 ---
 ```javascript
 new Fraction("123.45");
+new Fraction("123/45"); // A fraction represented as two decimals, separated by a slash
 new Fraction("123.'456'"); // Note the quotes, see below!
 new Fraction("123.(456)"); // Note the brackets, see below!
 new Fraction("123.45'6'"); // Note the quotes, see below!
@@ -246,6 +247,10 @@ Fraction mod(n)
 ---
 Returns the modulus (rest of the division) of the actual object and n (this % n). It's a much more precise [fmod()](#fmod-impreciseness-circumvented) if you will. Please note that *mod()* is just like the modulo operator of most programming languages. If you want a mathematical correct modulo, see [here](#mathematical-correct-modulo).
 
+Fraction gcd(n)
+---
+Returns the fractional greatest common divisor
+
 Fraction ceil()
 ---
 Returns the ceiling of a rational number (rounded up)
@@ -265,6 +270,15 @@ Returns the reciprocal of the actual number (n / d becomes d / n)
 boolean equals(n)
 ---
 Check if two numbers are equal
+
+boolean compare(n)
+---
+Compare two numbers.
+```
+result < 0: n is greater than actual number
+result > 0: n is smaller than actual number
+result = 0: n is equal to the actual number
+```
 
 boolean divisible(n)
 ---

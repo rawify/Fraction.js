@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v1.6.0 14/02/2015
+ * @license Fraction.js v1.7.0 25/03/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
@@ -37,6 +37,8 @@
  * @constructor
  */
 function Fraction() {
+
+    "use strict";
 
     // Parsed data to avoid calling "new" all the time
     var P = {
@@ -177,6 +179,18 @@ function Fraction() {
                 );
     };
 
+    /**
+     * Calculates the fractional gcd of two rational numbers
+     * 
+     * Ex: new Fraction(5,8).gcd(3,7) => 1/56
+     */
+    self['gcd'] = function() {
+
+        parse(arguments);
+
+        return cancel(gcd(P['n'], self['n']), P['d'] * self['d'] / gcd(P['d'], self['d']));
+    };
+
     function round(round) {
 
         return function() {
@@ -230,7 +244,19 @@ function Fraction() {
 
         parse(arguments);
 
-        return P['s'] * P['n'] * self['d'] === self['s'] * self['n'] * P['d'];
+        return self['s'] * self['n'] * P['d'] === P['s'] * P['n'] * self['d']; // Same as compare() === 0
+    };
+
+    /**
+     * Check if two rational numbers are the same
+     *
+     * Ex: new Fraction(19.6).equals([98, 5]);
+     **/
+    self['compare'] = function() {
+
+        parse(arguments);
+
+        return (self['s'] * self['n'] * P['d'] - P['s'] * P['n'] * self['d']);
     };
 
     /**
@@ -449,7 +475,7 @@ function Fraction() {
                                 D+= B;
                             }
 
-                            if (B > N) {
+                            if (B > N) {
                                 n = C;
                                 d = D;
                             } else {
@@ -463,6 +489,14 @@ function Fraction() {
                 break;
 
             case "string":
+
+                M = param.split("/");
+
+                if (M.length === 2) {
+                    n = s = parseInt(M[0], 10);
+                    d = parseInt(M[1], 10);
+                    break;
+                }
 
                 M = param.split("");
 
@@ -552,17 +586,10 @@ function Fraction() {
 
         n = Math.abs(n);
         d = Math.abs(d);
+        s = gcd(d, n); // Abuse var s
 
-        var a = n, b = d, t;
-
-        while (b) {
-            t = b;
-            b = a % b;
-            a = t;
-        }
-
-        dest['n'] = n / a;
-        dest['d'] = d / a;
+        dest['n'] = n / s;
+        dest['d'] = d / s;
     };
 
     var cancel = function(n, d) {
@@ -593,7 +620,7 @@ function Fraction() {
             return cycleLen(n, d / 5);
         }
 
-        for (var t = 1; t <= 10000; t++) {
+        for (var t = 1; t < 2000; t++) { // If you expect numbers longer then 2k chars repeating, increase the 2000
             // Solve 10^t == 1 (mod d) for d != 0 (mod 2, 5)
             // http://mathworld.wolfram.com/FullReptendPrime.html
             if (1 === modpow(10, t, d)) {
@@ -623,6 +650,16 @@ function Fraction() {
                 return s;
         }
         return 0;
+    };
+
+    var gcd = function(a, b) {
+        var t;
+        while (b) {
+            t = a;
+            a = b;
+            b = t % b;
+        }
+        return a;
     };
 
     parse(arguments);
