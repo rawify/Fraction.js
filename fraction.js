@@ -346,7 +346,7 @@ function Fraction() {
         var n = 1; // str index
 
         // rough estimate to fill zeros
-        var length = 10 + cycLen + cycOff + p.length;
+        var length = 10 + cycLen + cycOff + p.length;  // 10 = decimal places when no repitation
 
         for (var i = 0; i < length; i++, t*= 10) {
 
