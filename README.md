@@ -109,12 +109,12 @@ var a = -1;
 var b = 10.99;
 
 console.log(new Fraction(a)
-     .mod(b)
-     .toNumber()); // Not correct, normal implementation
+     .mod(b) // Not correct, normal implementation
+     .toNumber());
 
 console.log(new Fraction(a)
-     .mod(b).add(b).mod(b)
-     .toNumber()); // Correct! Mathematical Modulo
+     .mod(b).add(b).mod(b) // Correct! Mathematical Modulo
+     .toNumber());
 ```
 
 fmod() impreciseness circumvented
