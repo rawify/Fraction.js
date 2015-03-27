@@ -24,6 +24,7 @@
  *
  * String form
  * 123.456 - a simple double
+ * 123/456 - A string fraction
  * 123.'456' - a double with repeating decimal places
  * 123.(456) - synonym
  * 123.45'6' - a double with repeating last place
