@@ -110,11 +110,11 @@ var b = 10.99;
 
 console.log(new Fraction(a)
      .mod(b) // Not correct, normal implementation
-     .toNumber());
+     .valueOf());
 
 console.log(new Fraction(a)
      .mod(b).add(b).mod(b) // Correct! Mathematical Modulo
-     .toNumber());
+     .valueOf());
 ```
 
 fmod() impreciseness circumvented
@@ -284,7 +284,7 @@ boolean divisible(n)
 ---
 Check if two numbers are divisible (n divides this)
 
-double toNumber()
+double valueOf()
 ---
 Returns a decimal representation of the fraction
 

@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v1.6.0 14/02/2015
+ * @license Fraction.js v1.8.0 12/05/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
@@ -95,8 +95,8 @@ function run(V, j) {
   var R = (vecSub(V, r));
 
   console.log("X"+j);
-  console.log(R[0].toFraction(), "= "+R[0].toNumber());
-  console.log(R[1].toFraction(), "= "+R[1].toNumber());
+  console.log(R[0].toFraction(), "= "+R[0].valueOf());
+  console.log(R[1].toFraction(), "= "+R[1].valueOf());
   console.log("\n");
 
   return R;
