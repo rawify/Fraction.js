@@ -37,7 +37,7 @@
  *
  * @constructor
  */
-function Fraction() {
+function Fraction(a, b) {
 
     "use strict";
 
@@ -67,9 +67,9 @@ function Fraction() {
      *
      * Ex: new Fraction({n: 2, d: 3}).add("14.9") => 467 / 30
      **/
-    self['add'] = function() {
+    self['add'] = function(a, b) {
 
-        parse(arguments);
+        parse(a, b);
 
         return cancel(
                 self['s'] * self['n'] * P['d'] + P['s'] * self['d'] * P['n'],
@@ -82,9 +82,9 @@ function Fraction() {
      *
      * Ex: new Fraction({n: 2, d: 3}).add("14.9") => -427 / 30
      **/
-    self['sub'] = function() {
+    self['sub'] = function(a, b) {
 
-        parse(arguments);
+        parse(a, b);
 
         return cancel(
                 self['s'] * self['n'] * P['d'] - P['s'] * self['d'] * P['n'],
@@ -97,9 +97,9 @@ function Fraction() {
      *
      * Ex: new Fraction("-17.(345)").mul(3) => 5776 / 111
      **/
-    self['mul'] = function() {
+    self['mul'] = function(a, b) {
 
-        parse(arguments);
+        parse(a, b);
 
         return cancel(
                 self['s'] * P['s'] * self['n'] * P['n'],
@@ -112,9 +112,9 @@ function Fraction() {
      *
      * Ex: new Fraction("-17.(345)").reciprocal().div(3)
      **/
-    self['div'] = function() {
+    self['div'] = function(a, b) {
 
-        parse(arguments);
+        parse(a, b);
 
         return cancel(
                 self['s'] * P['s'] * self['n'] * P['d'],
@@ -136,9 +136,9 @@ function Fraction() {
      *
      * Ex: new Fraction(0).set("100.'91823'") => 10091723 / 99999
      **/
-    self['set'] = function() {
+    self['set'] = function(a, b) {
 
-        parse(arguments);
+        parse(a, b);
 
         return cancel(
                 P['s'] * P['n'],
@@ -152,9 +152,9 @@ function Fraction() {
      *
      * Ex: new Fraction('4.(3)').mod([7, 8]) => (13/3) % (7/8) = (5/6)
      **/
-    self['mod'] = function() {
+    self['mod'] = function(a, b) {
 
-        parse(arguments);
+        parse(a, b);
 
         if (0 === (P['n'] * self['d'])) {
             return cancel(0, 0);
@@ -185,9 +185,9 @@ function Fraction() {
      * 
      * Ex: new Fraction(5,8).gcd(3,7) => 1/56
      */
-    self['gcd'] = function() {
+    self['gcd'] = function(a, b) {
 
-        parse(arguments);
+        parse(a, b);
 
         return cancel(gcd(P['n'], self['n']), P['d'] * self['d'] / gcd(P['d'], self['d']));
     };
@@ -241,9 +241,9 @@ function Fraction() {
      *
      * Ex: new Fraction(19.6).equals([98, 5]);
      **/
-    self['equals'] = function() {
+    self['equals'] = function(a, b) {
 
-        parse(arguments);
+        parse(a, b);
 
         return self['s'] * self['n'] * P['d'] === P['s'] * P['n'] * self['d']; // Same as compare() === 0
     };
@@ -253,9 +253,9 @@ function Fraction() {
      *
      * Ex: new Fraction(19.6).equals([98, 5]);
      **/
-    self['compare'] = function() {
+    self['compare'] = function(a, b) {
 
-        parse(arguments);
+        parse(a, b);
 
         return (self['s'] * self['n'] * P['d'] - P['s'] * P['n'] * self['d']);
     };
@@ -265,9 +265,9 @@ function Fraction() {
      * 
      * Ex: new Fraction(19.6).divisible(1.5);
      */
-    self['divisible'] = function() {
+    self['divisible'] = function(a, b) {
 
-        parse(arguments);
+        parse(a, b);
 
         return !!(P['n'] * self['d']) && !((self['n'] * P['d']) % (P['n'] * self['d']));
     };
@@ -311,17 +311,17 @@ function Fraction() {
         var str = "";
 
         if (self['s'] < 0) {
-            str+= '-';
+            str += '-';
         }
 
         if (self['d'] === 1) {
-            str+= self['n'];
+            str += self['n'];
         } else {
-            str+= '\frac{';
-            str+= self['n'];
-            str+= '}{';
-            str+= self['d'];
-            str+= '}';
+            str += '\frac{';
+            str += self['n'];
+            str += '}{';
+            str += self['d'];
+            str += '}';
         }
         return str;
     };
@@ -349,10 +349,10 @@ function Fraction() {
         // rough estimate to fill zeros
         var length = 10 + cycLen + cycOff + p.length;  // 10 = decimal places when no repitation
 
-        for (var i = 0; i < length; i++, t*= 10) {
+        for (var i = 0; i < length; i++, t *= 10) {
 
             if (i < p.length) {
-                t+= Number(p[i]);
+                t += Number(p[i]);
             } else {
                 n = 2;
                 j++; // Start now => after comma
@@ -360,27 +360,27 @@ function Fraction() {
 
             if (cycLen > 0) { // If we have a repeating part
                 if (j === cycOff) {
-                    ret[n]+= zeros + "(";
+                    ret[n] += zeros + "(";
                     zeros = "";
                 } else if (j === cycLen + cycOff) {
-                    ret[n]+= zeros + ")";
+                    ret[n] += zeros + ")";
                     break;
                 }
             }
 
             if (t >= q) {
-                ret[n]+= zeros + ((t / q) | 0); // Flush zeros, Add current digit
+                ret[n] += zeros + ((t / q) | 0); // Flush zeros, Add current digit
                 zeros = "";
                 t = t % q;
             } else if (n > 1) { // Add zeros to the zero buffer
-                zeros+= "0";
+                zeros += "0";
             } else if (ret[n]) { // If before comma, add zero only if already something was added
-                ret[n]+= "0";
+                ret[n] += "0";
             }
         }
 
         // If it's empty, it's a leading zero only
-        ret[0]+= ret[1] || "0";
+        ret[0] += ret[1] || "0";
 
         // If there is something after the comma, add the comma sign
         if (ret[2]) {
@@ -389,7 +389,7 @@ function Fraction() {
         return ret[0];
     };
 
-    var parse = function(param) {
+    var parse = function(param, _b) {
 
         var n = 0, d = 1, s = 1;
 
@@ -402,173 +402,170 @@ function Fraction() {
         var scale = 1;
         var mode = 0;
 
-        if (param.length === 1) {
-            param = param[0];
-        } else if (param.length === 2) {
-            /* void */
-        } else {
-            throw "Wrong Parameter";
-        }
+        if (_b !== undefined) {
+            n = param;
+            d = _b;
+            s = param * _b;
+        } else
+            switch (typeof param) {
 
-        switch (typeof param) {
+                case "object":
 
-            case "object":
+                    if (param === null) {
 
-                if (param === null) {
-
-                } else if ('d' in param && 'n' in param) {
-                    n = param['n'];
-                    d = param['d'];
-                    s = n * d;
-                    if ('s' in param) {
-                        s*= param['s'];
-                    }
-                } else if (0 in param) {
-                    n = param[0];
-                    if (1 in param)
-                        d = param[1];
-                    s = n * d;
-                } else {
-                    throw "Unknown format";
-                }
-                break;
-
-            case "number":
-
-                if (param < 0) {
-                    param = -param;
-                    s = -1;
-                }
-
-                if (param > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
-
-                    if (param >= 1) {
-                        scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
-                        param/= scale;
-                    }
-
-                    // Using Farey Sequences
-                    // http://www.johndcook.com/blog/2010/10/20/best-rational-approximation/
-
-                    while (B <= N && D <= N) {
-                        M = (A + C) / (B + D);
-
-                        if (param === M) {
-                            if (B + D <= N) {
-                                n = A + C;
-                                d = B + D;
-                            } else if (D > B) {
-                                n = C;
-                                d = D;
-                            } else {
-                                n = A;
-                                d = B;
-                            }
-                            break;
-
-                        } else {
-
-                            if (param > M) {
-                                A+= C;
-                                B+= D;
-                            } else {
-                                C+= A;
-                                D+= B;
-                            }
-
-                            if (B > N) {
-                                n = C;
-                                d = D;
-                            } else {
-                                n = A;
-                                d = B;
-                            }
+                    } else if ('d' in param && 'n' in param) {
+                        n = param['n'];
+                        d = param['d'];
+                        s = n * d;
+                        if ('s' in param) {
+                            s *= param['s'];
                         }
-                    }
-                    n*= scale;
-                }
-                break;
-
-            case "string":
-
-                M = param.split("/");
-
-                if (M.length === 2) {
-                    n = s = parseInt(M[0], 10);
-                    d = parseInt(M[1], 10);
-                    break;
-                }
-
-                M = param.split("");
-
-                /* mode:
-                 0: before comma
-                 1: after comma
-                 2: in interval
-                 3: after interval
-                 */
-
-                A = [0, 0, 0, 0, 0], B = [0, 0, 0, 0, 0];
-                for (D = 0; D < M.length; D++) {
-
-                    C = M[D];
-
-                    if (C === '.') {
-
-                        if (mode === 0) {
-                            mode++;
-                        } else {
-                            break;
-                        }
-                    } else if (C === '(' || C === "'" || C === ')') {
-
-                        if (0 < mode && mode < 3) { // mode === 1 || mode === 2
-                            mode++;
-                        } else {
-                            break;
-                        }
-                    } else if (D === 0 && C === '+') {
-
-                    } else if (D === 0 && C === '-') {
-                        s = -1;
-                    } else if (mode < 3 && !isNaN(C = parseInt(C, 10))) {
-                        A[mode] = A[mode] * 10 + C;
-                        B[mode]++;
+                    } else if (0 in param) {
+                        n = param[0];
+                        if (1 in param)
+                            d = param[1];
+                        s = n * d;
                     } else {
+                        throw "Unknown format";
+                    }
+                    break;
+
+                case "number":
+
+                    if (param < 0) {
+                        param = -param;
+                        s = -1;
+                    }
+
+                    if (param > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
+
+                        if (param >= 1) {
+                            scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
+                            param /= scale;
+                        }
+
+                        // Using Farey Sequences
+                        // http://www.johndcook.com/blog/2010/10/20/best-rational-approximation/
+
+                        while (B <= N && D <= N) {
+                            M = (A + C) / (B + D);
+
+                            if (param === M) {
+                                if (B + D <= N) {
+                                    n = A + C;
+                                    d = B + D;
+                                } else if (D > B) {
+                                    n = C;
+                                    d = D;
+                                } else {
+                                    n = A;
+                                    d = B;
+                                }
+                                break;
+
+                            } else {
+
+                                if (param > M) {
+                                    A += C;
+                                    B += D;
+                                } else {
+                                    C += A;
+                                    D += B;
+                                }
+
+                                if (B > N) {
+                                    n = C;
+                                    d = D;
+                                } else {
+                                    n = A;
+                                    d = B;
+                                }
+                            }
+                        }
+                        n *= scale;
+                    }
+                    break;
+
+                case "string":
+
+                    M = param.split("/");
+
+                    if (M.length === 2) {
+                        n = s = parseInt(M[0], 10);
+                        d = parseInt(M[1], 10);
                         break;
                     }
-                }
-                if (mode === 2 || D < M.length) {
-                    throw "Corrupted number";
-                }
+
+                    M = param.split("");
+
+                    /* mode:
+                     0: before comma
+                     1: after comma
+                     2: in interval
+                     3: after interval
+                     */
+
+                    A = [0, 0, 0, 0, 0], B = [0, 0, 0, 0, 0];
+                    for (D = 0; D < M.length; D++) {
+
+                        C = M[D];
+
+                        if (C === '.') {
+
+                            if (mode === 0) {
+                                mode++;
+                            } else {
+                                break;
+                            }
+                        } else if (C === '(' || C === "'" || C === ')') {
+
+                            if (0 < mode && mode < 3) { // mode === 1 || mode === 2
+                                mode++;
+                            } else {
+                                break;
+                            }
+                        } else if (D === 0 && C === '+') {
+
+                        } else if (D === 0 && C === '-') {
+                            s = -1;
+                        } else if (mode < 3 && !isNaN(C = parseInt(C, 10))) {
+                            A[mode] = A[mode] * 10 + C;
+                            B[mode]++;
+                        } else {
+                            break;
+                        }
+                    }
+                    if (mode === 2 || D < M.length) {
+                        throw "Corrupted number";
+                    }
 
 
-                /*
-                 13	98	112
-                 -> 13 + (98 + 112 / 999) / 100
-                 
-                 ->
-                 n:	((112 + 98 * 999) + 13 * (999 * 100))
-                 d:	(999 * 100)
-                 
-                 -> ((c + b * x) + a * (x * y))	-> x*(ay+b)+c
-                 n:	999 * (13 * 100 + 98) + 112
-                 d:	999 * 100
-                 */
+                    /*
+                     13	98	112
+                     -> 13 + (98 + 112 / 999) / 100
+                     
+                     ->
+                     n:	((112 + 98 * 999) + 13 * (999 * 100))
+                     d:	(999 * 100)
+                     
+                     -> ((c + b * x) + a * (x * y))	-> x*(ay+b)+c
+                     n:	999 * (13 * 100 + 98) + 112
+                     d:	999 * 100
+                     */
 
-                A[3] = Math.pow(10, B[1]);
-                if (A[2] > 0)
-                    A[4] = Math.pow(10, B[2]) - 1;
-                else
-                    A[4] = 1;
+                    A[3] = Math.pow(10, B[1]);
+                    if (A[2] > 0)
+                        A[4] = Math.pow(10, B[2]) - 1;
+                    else
+                        A[4] = 1;
 
-                n = A[2] + A[4] * (A[0] * A[3] + A[1]);
-                d = A[3] * A[4];
-                break;
+                    n = A[2] + A[4] * (A[0] * A[3] + A[1]);
+                    d = A[3] * A[4];
+                    break;
 
-            default:
-                throw "Unknown type";
-        }
+                default:
+                    throw "Unknown type";
+            }
 
         set(P, s, n, d);
     };
@@ -663,7 +660,7 @@ function Fraction() {
         return a;
     };
 
-    parse(arguments);
+    parse(a, b);
 
     self['s'] = P['s'];
     self['n'] = P['n'];
