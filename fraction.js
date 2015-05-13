@@ -402,7 +402,9 @@ function Fraction(a, b) {
         var scale = 1;
         var mode = 0;
 
-        if (_b !== undefined) {
+        if (param === undefined) {
+            /* void */
+        } else if (_b !== undefined) {
             n = param;
             d = _b;
             s = param * _b;
