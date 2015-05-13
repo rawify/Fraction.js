@@ -439,7 +439,9 @@ function Fraction(a, b) {
                         s = -1;
                     }
 
-                    if (param > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
+                    if (param % 1 === 0) {
+                        n = param;
+                    } else if (param > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
 
                         if (param >= 1) {
                             scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
@@ -569,32 +571,29 @@ function Fraction(a, b) {
                     throw "Unknown type";
             }
 
-        set(P, s, n, d);
+        if (!d) {
+            throw "DIV/0";
+        }
+
+        P['s'] = (0 <= s) - (s < 0);
+        P['n'] = Math.abs(n);
+        P['d'] = Math.abs(d);
     };
 
-    var sgn = function(n) {
-        return (0 <= n) - (n < 0);
-    };
-
-    var set = function(dest, s, n, d) {
+    var cancel = function(n, d) {
 
         if (!d) {
             throw "DIV/0";
         }
 
-        dest['s'] = sgn(s);
+        self['s'] = (0 <= n) - (n < 0);
 
         n = Math.abs(n);
-        d = Math.abs(d);
-        s = gcd(d, n); // Abuse var s
 
-        dest['n'] = n / s;
-        dest['d'] = d / s;
-    };
+        var s = gcd(d, n);
 
-    var cancel = function(n, d) {
-
-        set(self, n, n, d);
+        self['n'] = n / s;
+        self['d'] = d / s;
 
         return self;
     };
@@ -663,10 +662,12 @@ function Fraction(a, b) {
     };
 
     parse(a, b);
+    
+    a = gcd(P['d'], P['n']); // Abuse a
 
     self['s'] = P['s'];
-    self['n'] = P['n'];
-    self['d'] = P['d'];
+    self['n'] = P['n'] / a;
+    self['d'] = P['d'] / a;
 }
 
 if (typeof module !== 'undefined' && module['exports']) {

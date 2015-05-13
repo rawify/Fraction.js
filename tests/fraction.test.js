@@ -414,25 +414,25 @@ var tests = [{
         set: 3.5,
         fn: "compare",
         param: 4.1,
-        expect: "-12"
+        expect: "-120"
     }, {
         label: "3.5 > 4.1",
         set: 4.1,
         fn: "compare",
         param: 3.1,
-        expect: "100"
+        expect: "1000"
     }, {
         label: "-3.5 > -4.1",
         set: -3.5,
         fn: "compare",
         param: -4.1,
-        expect: "12"
+        expect: "120"
     }, {
         label: "-3.5 > -4.1",
         set: -4.1,
         fn: "compare",
         param: -3.5,
-        expect: "-12"
+        expect: "-120"
     }, {
         label: "4.3 == 4.3",
         set: 4.3,
@@ -450,13 +450,13 @@ var tests = [{
         set: -4.3,
         fn: "compare",
         param: 4.3,
-        expect: "-860"
+        expect: "-8600"
     }, {
         label: "4.3 == -4.3",
         set: 4.3,
         fn: "compare",
         param: -4.3,
-        expect: "860"
+        expect: "8600"
     },
 ];
 
