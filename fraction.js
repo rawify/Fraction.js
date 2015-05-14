@@ -235,6 +235,30 @@ function Fraction(a, b) {
 
         return cancel(self['s'] * self['d'], self['n']);
     };
+    
+    /**
+     * Calculates the fraction to some integer exponent
+     * 
+     * Ex: new Fraction(-1,2).pow(-3) => -8
+     */
+    self['pow'] = function(m) {
+        
+        var d = self['d'];
+        var n = self['n'];
+        
+        if (m < 0) {
+            self['d'] = Math.pow(n, -m);
+            self['n'] = Math.pow(d, -m);            
+        } else {
+            self['d'] = Math.pow(d, m);
+            self['n'] = Math.pow(n, m);
+        }
+        
+        if (0 === (m % 2)) {
+            self['s'] = 1;
+        }        
+        return self;        
+    };
 
     /**
      * Check if two rational numbers are the same
@@ -257,7 +281,9 @@ function Fraction(a, b) {
 
         parse(a, b);
 
-        return (self['s'] * self['n'] * P['d'] - P['s'] * P['n'] * self['d']);
+        var t = (self['s'] * self['n'] * P['d'] - P['s'] * P['n'] * self['d']);
+
+        return (0 < t) - (t < 0);
     };
 
     /**

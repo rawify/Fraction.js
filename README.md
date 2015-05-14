@@ -239,6 +239,10 @@ Fraction div(n)
 ---
 Returns the quotient of the actual number and the parameter n
 
+Fraction pow(exp)
+---
+Returns the power of the actual number, raised to an integer exponent
+
 Fraction set(n)
 ---
 Set a number n to the actual object

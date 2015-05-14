@@ -414,25 +414,25 @@ var tests = [{
         set: 3.5,
         fn: "compare",
         param: 4.1,
-        expect: "-120"
+        expect: "-1"
     }, {
         label: "3.5 > 4.1",
         set: 4.1,
         fn: "compare",
         param: 3.1,
-        expect: "1000"
+        expect: "1"
     }, {
         label: "-3.5 > -4.1",
         set: -3.5,
         fn: "compare",
         param: -4.1,
-        expect: "120"
+        expect: "1"
     }, {
         label: "-3.5 > -4.1",
         set: -4.1,
         fn: "compare",
         param: -3.5,
-        expect: "-120"
+        expect: "-1"
     }, {
         label: "4.3 == 4.3",
         set: 4.3,
@@ -450,14 +450,44 @@ var tests = [{
         set: -4.3,
         fn: "compare",
         param: 4.3,
-        expect: "-8600"
+        expect: "-1"
     }, {
         label: "4.3 == -4.3",
         set: 4.3,
         fn: "compare",
         param: -4.3,
-        expect: "8600"
-    },
+        expect: "1"
+    },{
+        label: "-0.5^-3",
+        set: -0.5,
+        fn: "pow",
+        param: -3,
+        expect: "-8"
+    },{
+        label: "-3",
+        set: -3,
+        fn: "pow",
+        param: 2,
+        expect: "9"
+    },{
+        label: "0^0",
+        set: 0,
+        fn: "pow",
+        param: 0,
+        expect: "1"
+    },{
+        label: "2/3^7",
+        set: [2,3],
+        fn: "pow",
+        param: 7,
+        expect: "0.(058527663465935070873342478280749885688157293095564700502972107910379515317786922725194330132601737540009144947416552354823959762231367169638774577046181984453589391860996799268404206675811614083219021490626428898033836305441243712848651120256)"
+    },{
+        label: "-0.6^4",
+        set: -0.6,
+        fn: "pow",
+        param: 4,
+        expect: "0.1296"
+    }
 ];
 
 describe('Fraction', function() {
