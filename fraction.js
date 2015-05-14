@@ -345,7 +345,7 @@ function Fraction(a, b) {
     /**
      * Returns a latex representation of a Fraction object
      *
-     * Ex: new Fraction("1.'3'").toTex() => "\frac{4}{3}"
+     * Ex: new Fraction("1.'3'").toLatex() => "\frac{4}{3}"
      **/
     self['toLatex'] = function() {
 
