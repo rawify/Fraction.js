@@ -4,7 +4,7 @@ Tired of inprecise numbers represented by doubles, which have to store ratios an
 
 Internally, numbers are represented as *numerator / denominator*, which adds just a little overhead. The library is written with performance in mind.
 
-Examples
+Examples / Motivation
 ===
 A simple example might be
 
@@ -109,12 +109,10 @@ var a = -1;
 var b = 10.99;
 
 console.log(new Fraction(a)
-     .mod(b) // Not correct, normal implementation
-     .valueOf());
+     .mod(b)); // Not correct, normal implementation
 
 console.log(new Fraction(a)
-     .mod(b).add(b).mod(b) // Correct! Mathematical Modulo
-     .valueOf());
+     .mod(b).add(b).mod(b)); // Correct! Mathematical Modulo
 ```
 
 fmod() impreciseness circumvented
