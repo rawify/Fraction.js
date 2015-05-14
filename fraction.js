@@ -235,29 +235,29 @@ function Fraction(a, b) {
 
         return cancel(self['s'] * self['d'], self['n']);
     };
-    
+
     /**
      * Calculates the fraction to some integer exponent
      * 
      * Ex: new Fraction(-1,2).pow(-3) => -8
      */
     self['pow'] = function(m) {
-        
+
         var d = self['d'];
         var n = self['n'];
-        
+
         if (m < 0) {
             self['d'] = Math.pow(n, -m);
-            self['n'] = Math.pow(d, -m);            
+            self['n'] = Math.pow(d, -m);
         } else {
             self['d'] = Math.pow(d, m);
             self['n'] = Math.pow(n, m);
         }
-        
+
         if (0 === (m % 2)) {
             self['s'] = 1;
-        }        
-        return self;        
+        }
+        return self;
     };
 
     /**
@@ -315,39 +315,64 @@ function Fraction(a, b) {
      **/
     self['toFraction'] = function() {
 
-        var rest = self['n'] % self['d'];
+        var whole, str = "";
 
-        if (self['n'] > self['d']) {
+        var n = self['n'];
+        var d = self['d'];
 
-            if (self['n'] % self['d'] === 0) {
-                return "" + (self['s'] * self['n'] / self['d']);
-            }
-            return (self['s'] * (self['n'] - rest) / self['d']) + " " + rest + "/" + self['d'];
+        if (self['s'] < 0) {
+            str+= '-';
         }
-        return self['s'] * self['n'] + "/" + self['d'];
+
+        if (d === 1) {
+            str+= n;
+        } else {
+            whole = Math.floor(n / d);
+
+            if (whole > 0) {
+                str+= whole;
+                str+= " ";
+                n = n % d;
+            }
+
+            str+= n;
+            str+= '/';
+            str+= d;
+        }
+        return str;
     };
 
     /**
      * Returns a latex representation of a Fraction object
      *
-     * Ex: new Fraction("1.'3'").toFraction() => "\frac{4}{3}"
+     * Ex: new Fraction("1.'3'").toTex() => "\frac{4}{3}"
      **/
     self['toLatex'] = function() {
 
-        var str = "";
+        var whole, str = "";
+
+        var n = self['n'];
+        var d = self['d'];
 
         if (self['s'] < 0) {
-            str += '-';
+            str+= '-';
         }
 
-        if (self['d'] === 1) {
-            str += self['n'];
+        if (d === 1) {
+            str+= n;
         } else {
-            str += '\frac{';
-            str += self['n'];
-            str += '}{';
-            str += self['d'];
-            str += '}';
+            whole = Math.floor(n / d);
+
+            if (whole > 0) {
+                str+= whole;
+                n = n % d;
+            }
+
+            str+= '\frac{';
+            str+= n;
+            str+= '}{';
+            str+= d;
+            str+= '}';
         }
         return str;
     };
@@ -375,10 +400,10 @@ function Fraction(a, b) {
         // rough estimate to fill zeros
         var length = 10 + cycLen + cycOff + p.length;  // 10 = decimal places when no repitation
 
-        for (var i = 0; i < length; i++, t *= 10) {
+        for (var i = 0; i < length; i++, t*= 10) {
 
             if (i < p.length) {
-                t += Number(p[i]);
+                t+= Number(p[i]);
             } else {
                 n = 2;
                 j++; // Start now => after comma
@@ -386,27 +411,27 @@ function Fraction(a, b) {
 
             if (cycLen > 0) { // If we have a repeating part
                 if (j === cycOff) {
-                    ret[n] += zeros + "(";
+                    ret[n]+= zeros + "(";
                     zeros = "";
                 } else if (j === cycLen + cycOff) {
-                    ret[n] += zeros + ")";
+                    ret[n]+= zeros + ")";
                     break;
                 }
             }
 
             if (t >= q) {
-                ret[n] += zeros + ((t / q) | 0); // Flush zeros, Add current digit
+                ret[n]+= zeros + ((t / q) | 0); // Flush zeros, Add current digit
                 zeros = "";
                 t = t % q;
             } else if (n > 1) { // Add zeros to the zero buffer
-                zeros += "0";
+                zeros+= "0";
             } else if (ret[n]) { // If before comma, add zero only if already something was added
-                ret[n] += "0";
+                ret[n]+= "0";
             }
         }
 
         // If it's empty, it's a leading zero only
-        ret[0] += ret[1] || "0";
+        ret[0]+= ret[1] || "0";
 
         // If there is something after the comma, add the comma sign
         if (ret[2]) {
@@ -446,7 +471,7 @@ function Fraction(a, b) {
                         d = param['d'];
                         s = n * d;
                         if ('s' in param) {
-                            s *= param['s'];
+                            s*= param['s'];
                         }
                     } else if (0 in param) {
                         n = param[0];
@@ -471,7 +496,7 @@ function Fraction(a, b) {
 
                         if (param >= 1) {
                             scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
-                            param /= scale;
+                            param/= scale;
                         }
 
                         // Using Farey Sequences
@@ -496,11 +521,11 @@ function Fraction(a, b) {
                             } else {
 
                                 if (param > M) {
-                                    A += C;
-                                    B += D;
+                                    A+= C;
+                                    B+= D;
                                 } else {
-                                    C += A;
-                                    D += B;
+                                    C+= A;
+                                    D+= B;
                                 }
 
                                 if (B > N) {
@@ -512,7 +537,7 @@ function Fraction(a, b) {
                                 }
                             }
                         }
-                        n *= scale;
+                        n*= scale;
                     }
                     break;
 
@@ -688,7 +713,7 @@ function Fraction(a, b) {
     };
 
     parse(a, b);
-    
+
     a = gcd(P['d'], P['n']); // Abuse a
 
     self['s'] = P['s'];

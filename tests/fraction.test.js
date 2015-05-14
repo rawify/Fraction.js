@@ -457,31 +457,31 @@ var tests = [{
         fn: "compare",
         param: -4.3,
         expect: "1"
-    },{
+    }, {
         label: "-0.5^-3",
         set: -0.5,
         fn: "pow",
         param: -3,
         expect: "-8"
-    },{
+    }, {
         label: "-3",
         set: -3,
         fn: "pow",
         param: 2,
         expect: "9"
-    },{
+    }, {
         label: "0^0",
         set: 0,
         fn: "pow",
         param: 0,
         expect: "1"
-    },{
+    }, {
         label: "2/3^7",
-        set: [2,3],
+        set: [2, 3],
         fn: "pow",
         param: 7,
         expect: "0.(058527663465935070873342478280749885688157293095564700502972107910379515317786922725194330132601737540009144947416552354823959762231367169638774577046181984453589391860996799268404206675811614083219021490626428898033836305441243712848651120256)"
-    },{
+    }, {
         label: "-0.6^4",
         set: -0.6,
         fn: "pow",
@@ -604,10 +604,10 @@ describe('Latex Output', function() {
     it("Should pass 0.08 = 2/25", function() {
 
         var tmp = new Fraction("123.'3'").clone();
-        assert.equal('\frac{370}{3}', tmp.toLatex());
+        assert.equal('123\frac{1}{3}', tmp.toLatex());
 
         var tmp = new Fraction("1.'3'").clone();
-        assert.equal('\frac{4}{3}', tmp.toLatex());
+        assert.equal('1\frac{1}{3}', tmp.toLatex());
 
         var tmp = new Fraction("-1.0000000000").clone();
         assert.equal('-1', tmp.toLatex());
@@ -617,5 +617,26 @@ describe('Latex Output', function() {
 
         var tmp = new Fraction(-99).reciprocal().div(293);
         assert.equal('-\frac{1}{29007}', tmp.toLatex());
+    });
+});
+
+describe('Fraction Output', function() {
+
+    it("Should pass 0.08 = 2/25", function() {
+
+        var tmp = new Fraction("123.'3'").clone();
+        assert.equal('123 1/3', tmp.toFraction());
+
+        var tmp = new Fraction("1.'3'").clone();
+        assert.equal('1 1/3', tmp.toFraction());
+
+        var tmp = new Fraction("-1.0000000000").clone();
+        assert.equal('-1', tmp.toFraction());
+
+        var tmp = new Fraction("-0.0000000000").clone();
+        assert.equal('0', tmp.toFraction());
+
+        var tmp = new Fraction(-99).reciprocal().div(293);
+        assert.equal('-1/29007', tmp.toFraction());
     });
 });
