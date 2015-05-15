@@ -295,6 +295,8 @@ String toString()
 ---
 Generates an exact string representation of the actual object, including repeating decimal places of any length.
 
+*Note: * As valueOf() and toString() are provided, toString() is only applied implicitly in a real string context. Using the plus-operator like `"123" + new Fraction` will call valueOf(), because JavaScript tries to combine two primitives first and concatenates them later, as string will be the more dominant type. `alert(new Fraction)` or `String(new Fraction)` on the other hand will do what you expect. If you really want to have control, you should call `toString()` or `valueOf()` explicitly!
+
 String toLatex()
 ---
 Generates an exact LaTeX representation of the actual object.
