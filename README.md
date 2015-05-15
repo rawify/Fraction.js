@@ -40,7 +40,7 @@ var deg = 57; // 57°
 var min = 45; // 45 Minutes
 var sec = 17; // 17 Seconds
 
-new Fraction(57).add(45, 60).add(17, 3600).toString() // -> 57.7547(2)
+new Fraction(deg).add(min, 60).add(sec, 3600).toString() // -> 57.7547(2)
 ```
 
 
