@@ -121,10 +121,25 @@ It turns out that Fraction.js outperforms almost any fmod() implementation, incl
 
 The equation *fmod(4.55, 0.05)* gives *0.04999999999999957*, wolframalpha says *1/20*. The correct answer should be **zero**, as 0.05 divides 4.55 without any remainder.
 
+
+Fraction.js Object
+===
+The Fraction.js object is **not** immutable! The result of every operation is written back to the calling object. The current design decision was made to make the library as fast as possible and leave it to the user when to create a new object in a calling chain. For example, if you want to compute x^3 without altering the calling object, you could come up with something like:
+
+```javascript
+var a = Fraction(0.5);
+
+// Calc the cube
+var b = a.clone().pow(3); // Will not change a
+
+// In contrast:
+var c = a.pow(3); // Will change a. c will point to a
+```
+
 Parser
 ===
 
-Any function (see below) as well as the constructor of the *Fraction* class parses it's input and reduce it to the smallest term.
+Any function (see below) as well as the constructor of the *Fraction* class parses its input and reduce it to the smallest term.
 
 You can pass either Arrays, Objects, Integers, Doubles or Strings.
 
