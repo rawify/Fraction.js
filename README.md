@@ -14,7 +14,7 @@ var Fraction = require('fraction.js');
 var f = new Fraction("9.4'31'"); // 9.4313131313131...
 f.mul([-4, 3]).mod("4.'8'"); // 4.88888888888888...
 ```
-The result is 
+The result is
 
 ```javascript
 console.log(f.getFraction()); // -4154 / 1485
@@ -46,7 +46,7 @@ new Fraction(deg).add(min, 60).add(sec, 3600).toString() // -> 57.7547(2)
 
 Now it's getting messy ;d To approximate a number like *sqrt(5) - 2 as n / d*, you can reformat the equation as follows: *pow(n / d + 2, 2) equals 5*. (It's not the best idea to approximate an irrational number as a rational one. That's not for what Fraction.js was invented for!)
 
-Then the following algorithm will generate the binary representation and the actual result. 
+Then the following algorithm will generate the binary representation and the actual result.
 
 ```javascript
 var x = "/", s = "";
@@ -121,20 +121,6 @@ It turns out that Fraction.js outperforms almost any fmod() implementation, incl
 
 The equation *fmod(4.55, 0.05)* gives *0.04999999999999957*, wolframalpha says *1/20*. The correct answer should be **zero**, as 0.05 divides 4.55 without any remainder.
 
-
-Fraction.js Object
-===
-The Fraction.js object is **not** immutable! The result of every operation is written back to the calling object. The current design decision was made to make the library as fast as possible and leave it to the user when to create a new object in a calling chain. For example, if you want to compute x^3 without altering the calling object, you could come up with something like:
-
-```javascript
-var a = Fraction(0.5);
-
-// Calc the cube
-var b = a.clone().pow(3); // Will not change a
-
-// In contrast:
-var c = a.pow(3); // Will change a. c will point to a
-```
 
 Parser
 ===
@@ -254,12 +240,8 @@ Returns the quotient of the actual number and the parameter n
 
 Fraction pow(exp)
 ---
-Returns the power of the actual number, raised to an integer exponent. 
+Returns the power of the actual number, raised to an integer exponent.
 *Note:* Rational exponents are planned, but would slow down the function a lot, because of a kinda slow root finding algorithm, whether the result will become irrational. So for now, only integer exponents are implemented.
-
-Fraction set(n)
----
-Set a number n to the actual object
 
 Fraction mod(n)
 ---

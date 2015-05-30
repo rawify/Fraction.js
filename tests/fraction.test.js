@@ -1,7 +1,6 @@
 var assert = require('assert');
 
 var Fraction = require('../fraction.min');
-var fraction = new Fraction(0);
 
 var tests = [{
         set: "foo",
@@ -500,7 +499,7 @@ describe('Fraction', function() {
 
                 it(tests[i].label, function() {
                     try {
-                        assert.equal(tests[i].expect, fraction.set(tests[i].set)[tests[i].fn](tests[i].param).toString());
+                        assert.equal(tests[i].expect, new Fraction(tests[i].set)[tests[i].fn](tests[i].param).toString());
                     } catch (e) {
                         assert.equal(e.toString(), tests[i].expect.toString());
                     }
@@ -510,7 +509,7 @@ describe('Fraction', function() {
 
                 it(tests[i].label, function() {
                     try {
-                        assert.equal(tests[i].expect, fraction.set(tests[i].set).toString());
+                        assert.equal(tests[i].expect, new Fraction(tests[i].set).toString());
                     } catch (e) {
                         assert.equal(e.toString(), tests[i].expect.toString());
                     }
@@ -525,13 +524,9 @@ describe('JSON', function() {
 
     it("Should be possible to stringify the object", function() {
 
-        fraction.set("44.3(12)");
+        assert.equal('{"s":1,"n":14623,"d":330}', JSON.stringify(new Fraction("44.3(12)")));
 
-        assert.equal('{"s":1,"n":14623,"d":330}', JSON.stringify(fraction));
-
-        fraction.set(-1 / 2).reciprocal();
-
-        assert.equal('{"s":-1,"n":2,"d":1}', JSON.stringify(fraction));
+        assert.equal('{"s":-1,"n":2,"d":1}', JSON.stringify(new Fraction(-1 / 2).reciprocal()));
 
     });
 });
@@ -541,19 +536,19 @@ describe('Arguments', function() {
     it("Should be possible to use different kind of params", function() {
 
         // String
-        fraction.set("0.1");
+        var fraction = new Fraction("0.1");
         assert.equal("1/10", fraction.n + "/" + fraction.d);
 
         // Two params
-        fraction.set(1, 2);
+        var fraction = new Fraction(1, 2);
         assert.equal("1/2", fraction.n + "/" + fraction.d);
 
         // Object
-        fraction.set({n: 1, d: 3});
+        var fraction = new Fraction({n: 1, d: 3});
         assert.equal("1/3", fraction.n + "/" + fraction.d);
 
         // Array
-        fraction.set([1, 4]);
+        var fraction = new Fraction([1, 4]);
         assert.equal("1/4", fraction.n + "/" + fraction.d);
     });
 });
@@ -562,13 +557,19 @@ describe('fractions', function() {
 
     it("Should pass 0.08 = 2/25", function() {
 
-        fraction.set("0.08");
+        var fraction = new Fraction("0.08");
         assert.equal("2/25", fraction.n + "/" + fraction.d);
+    });
 
-        fraction.set("0.200");
+    it("Should pass 0.200 = 1/5", function() {
+
+        var fraction = new Fraction("0.200");
         assert.equal("1/5", fraction.n + "/" + fraction.d);
+    });
 
-        fraction.set("0.125");
+    it("Should pass 0.125 = 1/8", function() {
+
+        var fraction = new Fraction("0.125");
         assert.equal("1/8", fraction.n + "/" + fraction.d);
     });
 });
@@ -601,40 +602,58 @@ describe('constructors', function() {
 
 describe('Latex Output', function() {
 
-    it("Should pass 0.08 = 2/25", function() {
+    it("Should pass 123.'3' = 123\\frac{1}{3}", function() {
 
-        var tmp = new Fraction("123.'3'").clone();
+        var tmp = new Fraction("123.'3'");
         assert.equal('123\frac{1}{3}', tmp.toLatex());
+    });
 
-        var tmp = new Fraction("1.'3'").clone();
+    it("Should pass 1.'3' = 1\\frac{1}{3}", function() {
+
+        var tmp = new Fraction("1.'3'");
         assert.equal('1\frac{1}{3}', tmp.toLatex());
+    });
 
-        var tmp = new Fraction("-1.0000000000").clone();
+    it("Should pass -1.0000000000 = -1", function() {
+
+        var tmp = new Fraction("-1.0000000000");
         assert.equal('-1', tmp.toLatex());
+    });
 
-        var tmp = new Fraction("-0.0000000000").clone();
+    it("Should pass -0.0000000000 = 0", function() {
+
+        var tmp = new Fraction("-0.0000000000");
         assert.equal('0', tmp.toLatex());
-
-        var tmp = new Fraction(-99).reciprocal().div(293);
-        assert.equal('-\frac{1}{29007}', tmp.toLatex());
     });
 });
 
 describe('Fraction Output', function() {
 
-    it("Should pass 0.08 = 2/25", function() {
+    it("Should pass 123.'3' = 123 1/3", function() {
 
-        var tmp = new Fraction("123.'3'").clone();
+        var tmp = new Fraction("123.'3'");
         assert.equal('123 1/3', tmp.toFraction());
+    });
 
-        var tmp = new Fraction("1.'3'").clone();
+    it("Should pass 1.'3' = 1 1/3", function() {
+
+        var tmp = new Fraction("1.'3'");
         assert.equal('1 1/3', tmp.toFraction());
+    });
 
-        var tmp = new Fraction("-1.0000000000").clone();
+    it("Should pass -1.0000000000 = -1", function() {
+
+        var tmp = new Fraction("-1.0000000000");
         assert.equal('-1', tmp.toFraction());
+    });
 
-        var tmp = new Fraction("-0.0000000000").clone();
+    it("Should pass -0.0000000000 = 0", function() {
+
+        var tmp = new Fraction("-0.0000000000");
         assert.equal('0', tmp.toFraction());
+    });
+
+    it("Should pass 1/-99/293 = -1/29007", function() {
 
         var tmp = new Fraction(-99).reciprocal().div(293);
         assert.equal('-1/29007', tmp.toFraction());
