@@ -486,7 +486,151 @@ var tests = [{
         fn: "pow",
         param: 4,
         expect: "0.1296"
-    }
+    }, {
+        label: "3/4 + 1/4",
+        set: "3/4",
+        fn: "add",
+        param: "1/4",
+        expect: "1"
+    }, {
+        label: "1/10 + 2/10",
+        set: "1/10",
+        fn: "add",
+        param: "2/10",
+        expect: "0.3"
+    }, {
+        label: "5/10 + 2/10",
+        set: "5/10",
+        fn: "add",
+        param: "2/10",
+        expect: "0.7"
+    }, {
+        label: "18/10 + 2/10",
+        set: "18/10",
+        fn: "add",
+        param: "2/10",
+        expect: "2"
+    }, {
+        label: "1/3 + 1/6",
+        set: "1/3",
+        fn: "add",
+        param: "1/6",
+        expect: "0.5"
+    }, {
+        label: "1/3 + 2/6",
+        set: "1/3",
+        fn: "add",
+        param: "2/6",
+        expect: "0.(6)"
+    }, {
+        label: "3/4 / 1/4",
+        set: "3/4",
+        fn: "div",
+        param: "1/4",
+        expect: "3"
+    }, {
+        label: "1/10 / 2/10",
+        set: "1/10",
+        fn: "div",
+        param: "2/10",
+        expect: "0.5"
+    }, {
+        label: "5/10 / 2/10",
+        set: "5/10",
+        fn: "div",
+        param: "2/10",
+        expect: "2.5"
+    }, {
+        label: "18/10 / 2/10",
+        set: "18/10",
+        fn: "div",
+        param: "2/10",
+        expect: "9"
+    }, {
+        label: "1/3 / 1/6",
+        set: "1/3",
+        fn: "div",
+        param: "1/6",
+        expect: "2"
+    }, {
+        label: "1/3 / 2/6",
+        set: "1/3",
+        fn: "div",
+        param: "2/6",
+        expect: "1"
+    }, {
+        label: "3/4 * 1/4",
+        set: "3/4",
+        fn: "mul",
+        param: "1/4",
+        expect: "0.1875"
+    }, {
+        label: "1/10 * 2/10",
+        set: "1/10",
+        fn: "mul",
+        param: "2/10",
+        expect: "0.02"
+    }, {
+        label: "5/10 * 2/10",
+        set: "5/10",
+        fn: "mul",
+        param: "2/10",
+        expect: "0.1"
+    }, {
+        label: "18/10 * 2/10",
+        set: "18/10",
+        fn: "mul",
+        param: "2/10",
+        expect: "0.36"
+    }, {
+        label: "1/3 * 1/6",
+        set: "1/3",
+        fn: "mul",
+        param: "1/6",
+        expect: "0.0(5)"
+    }, {
+        label: "1/3 * 2/6",
+        set: "1/3",
+        fn: "mul",
+        param: "2/6",
+        expect: "0.(1)"
+    }, {
+        label: "5/4 - 1/4",
+        set: "5/4",
+        fn: "sub",
+        param: "1/4",
+        expect: "1"
+    }, {
+        label: "5/10 - 2/10",
+        set: "5/10",
+        fn: "sub",
+        param: "2/10",
+        expect: "0.3"
+    }, {
+        label: "9/10 - 2/10",
+        set: "9/10",
+        fn: "sub",
+        param: "2/10",
+        expect: "0.7"
+    }, {
+        label: "22/10 - 2/10",
+        set: "22/10",
+        fn: "sub",
+        param: "2/10",
+        expect: "2"
+    }, {
+        label: "2/3 - 1/6",
+        set: "2/3",
+        fn: "sub",
+        param: "1/6",
+        expect: "0.5"
+    }, {
+        label: "3/3 - 2/6",
+        set: "3/3",
+        fn: "sub",
+        param: "2/6",
+        expect: "0.(6)"
+    },
 ];
 
 describe('Fraction', function() {
