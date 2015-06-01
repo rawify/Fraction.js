@@ -56,7 +56,7 @@ new Fraction(deg).add(min, 60).add(sec, 3600).toString() // -> 57.7547(2)
 ```
 
 
-Now it's getting messy ;d To approximate a number like *sqrt(5) - 2 as n / d*, you can reformat the equation as follows: *pow(n / d + 2, 2) equals 5*. (It's not the best idea to approximate an irrational number as a rational one. That's not for what Fraction.js was invented for!)
+Now it's getting messy ;d To approximate a number like *sqrt(5) - 2 as n / d*, you can reformat the equation as follows: *pow(n / d + 2, 2) equals 5*. (It's not the best idea to approximate an irrational number as a rational one.)
 
 Then the following algorithm will generate the binary representation and the actual result.
 
@@ -71,7 +71,7 @@ for (var n = 0; n <= 10; n++) {
 
     console.log(n + "\t" + a.n + "/" + a.d + "\t" + b.n + "/" + b.d + "\t" + c.n + "/" + c.d + "\t" + x);
 
-    if (Math.pow(c.n / c.d + 2, 2) < 5) {
+    if (c.add(2).pow(2) < 5) {
         a = c;
         x = "1";
     } else {
@@ -109,7 +109,7 @@ Get the exact fractional part of a number
 ---
 ```javascript
 var f = new Fraction("-6.(3416)");
-console.log("" + f.mod(1).abs()); // Same as: Math.abs(f - parseInt(f), 10);
+console.log("" + f.mod(1).abs()); // Same as: Math.abs(f - parseInt(f, 10));
 ```
 
 Mathematical correct modulo
@@ -163,7 +163,7 @@ new Fraction(55.4);
 
 **Note:** If you pass a double as it is, Fraction.js will perform a number analysis based on Farey Sequences. If you concern performance, cache Fraction.js objects and pass arrays/objects.
 
-The method is really precise, but too large exact numbers, like 1234567.9991829 will result in a wrong approximation. If you want to keep the number as it is, convert it to a string, as the string parser will not perform any further approximation.
+The method is really precise, but too large exact numbers, like 1234567.9991829 will result in a wrong approximation. If you want to keep the number as it is, convert it to a string, as the string parser will not perform any further observations.
 
 
 Strings
