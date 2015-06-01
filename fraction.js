@@ -1,8 +1,8 @@
 /**
- * @license Fraction.js v2.0.0 15/05/2015
+ * @license Fraction.js v2.0.0 01/06/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
- * Copyright (c) 2014, Robert Eisele (robert@xarg.org)
+ * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  **/
 
@@ -66,7 +66,7 @@
         } else if (_b !== undefined) {
             n = param;
             d = _b;
-            s = param * _b;
+            s = n * d;
         } else
             switch (typeof param) {
 
@@ -94,8 +94,8 @@
                 case "number":
 
                     if (param < 0) {
+                        s = param;
                         param = -param;
-                        s = -1;
                     }
 
                     if (param % 1 === 0) {
@@ -154,8 +154,9 @@
                     M = param.split("/");
 
                     if (M.length === 2) {
-                        n = s = parseInt(M[0], 10);
+                        n = parseInt(M[0], 10);
                         d = parseInt(M[1], 10);
+                        s = n * d;
                         break;
                     }
 
@@ -205,11 +206,11 @@
                     /*
                      13	98	112
                      -> 13 + (98 + 112 / 999) / 100
-                     
+
                      ->
                      n:	((112 + 98 * 999) + 13 * (999 * 100))
                      d:	(999 * 100)
-                     
+
                      -> ((c + b * x) + a * (x * y))	-> x*(ay+b)+c
                      n:	999 * (13 * 100 + 98) + 112
                      d:	999 * 100
@@ -292,7 +293,7 @@
 
     /**
      * Module constructor
-     * 
+     *
      * @constructor
      * @param {number|Fraction} a
      * @param {number=} b
@@ -401,7 +402,7 @@
         parse(a, b);
 
         if (0 === (P['n'] * this['d'])) {
-            return new Fraction(0, 0);
+            Fraction(0, 0); // Throw div/0
         }
 
         /*
@@ -426,7 +427,7 @@
 
     /**
      * Calculates the fractional gcd of two rational numbers
-     * 
+     *
      * Ex: new Fraction(5,8).gcd(3,7) => 1/56
      */
     Fraction.prototype['gcd'] = function(a, b) {
@@ -480,7 +481,7 @@
 
     /**
      * Calculates the fraction to some integer exponent
-     * 
+     *
      * Ex: new Fraction(-1,2).pow(-3) => -8
      */
     Fraction.prototype['pow'] = function(m) {
@@ -530,7 +531,7 @@
 
     /**
      * Check if two rational numbers are divisible
-     * 
+     *
      * Ex: new Fraction(19.6).divisible(1.5);
      */
     Fraction.prototype['divisible'] = function(a, b) {
