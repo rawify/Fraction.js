@@ -1,5 +1,9 @@
 # Fraction.js - ℚ in JavaSript
 
+[![NPM Package](https://img.shields.io/npm/v/fraction.js.svg?style=flat)](https://npmjs.org/package/fraction.js "View this project on npm")
+[![Build Status](https://travis-ci.org/infusion/Fraction.js.svg?branch=master)](https://travis-ci.org/infusion/Fraction.js)
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+
 Tired of inprecise numbers represented by doubles, which have to store ratios and irrational numbers like PI or sqrt(2) the same way? If you need more precision or just want a fraction as a result, have a look at *Fraction.js*!
 
 Internally, numbers are represented as *numerator / denominator*, which adds just a little overhead. However, the library is written with performance in mind and outperforms any other implementation, as you can see [here](http://jsperf.com/convert-a-rational-number-to-a-babylonian-fractions/28).
