@@ -1,23 +1,35 @@
 # Fraction.js - ℚ in JavaSript
 
+[![NPM Package](https://img.shields.io/npm/v/fraction.js.svg?style=flat)](https://npmjs.org/package/fraction.js "View this project on npm")
+[![Build Status](https://travis-ci.org/infusion/Fraction.js.svg?branch=master)](https://travis-ci.org/infusion/Fraction.js)
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+
 Tired of inprecise numbers represented by doubles, which have to store ratios and irrational numbers like PI or sqrt(2) the same way? If you need more precision or just want a fraction as a result, have a look at *Fraction.js*!
 
 Internally, numbers are represented as *numerator / denominator*, which adds just a little overhead. However, the library is written with performance in mind and outperforms any other implementation, as you can see [here](http://jsperf.com/convert-a-rational-number-to-a-babylonian-fractions/28).
+
+Convert decimal to fraction
+===
+The simplest job for fraction.js is to get a fraction out of a decimal:
+```javascript
+var Fraction = require('fraction.js');
+
+var x = new Fraction(1.88);
+var res = x.toFraction(); // String "1 22/25"
+```
 
 Examples / Motivation
 ===
 A simple example might be
 
 ```javascript
-var Fraction = require('fraction.js');
-
 var f = new Fraction("9.4'31'"); // 9.4313131313131...
 f.mul([-4, 3]).mod("4.'8'"); // 4.88888888888888...
 ```
 The result is
 
 ```javascript
-console.log(f.getFraction()); // -4154 / 1485
+console.log(f.toFraction()); // -4154 / 1485
 ```
 You could of course also access the sign (s), numerator (n) and denominator (d) on your own:
 ```javascript
@@ -297,6 +309,10 @@ Generates an exact string representation of the actual object, including repeati
 String toLatex()
 ---
 Generates an exact LaTeX representation of the actual object.
+
+String toFraction()
+---
+Gets a string representation of the fraction
 
 Fraction clone()
 ---
