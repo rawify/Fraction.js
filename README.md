@@ -170,7 +170,8 @@ Strings
 ---
 ```javascript
 new Fraction("123.45");
-new Fraction("123/45"); // A fraction represented as two decimals, separated by a slash
+new Fraction("123/45"); // A rational number represented as two decimals, separated by a slash
+new Fraction("4 123/45"); // A rational number represented as a whole number and a fraction
 new Fraction("123.'456'"); // Note the quotes, see below!
 new Fraction("123.(456)"); // Note the brackets, see below!
 new Fraction("123.45'6'"); // Note the quotes, see below!
@@ -354,5 +355,5 @@ npm test
 
 Copyright and licensing
 ===
-Copyright (c) 2014, Robert Eisele (robert@xarg.org)
+Copyright (c) 2015, Robert Eisele (robert@xarg.org)
 Dual licensed under the MIT or GPL Version 2 licenses.

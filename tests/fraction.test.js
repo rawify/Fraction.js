@@ -4,16 +4,64 @@ var Fraction = require('../fraction.min');
 
 var tests = [{
         set: "foo",
-        expect: "Corrupted number"
+        expect: "Invalid Param"
     }, {
         set: " 123",
-        expect: "Corrupted number"
+        expect: "Invalid Param"
     }, {
         set: " - ",
-        expect: "Corrupted number"
+        expect: "Invalid Param"
+    }, {
+        set: ".5",
+        expect: "0.5"
+    }, {
+        set: "-.5",
+        expect: "-0.5"
+    }, {
+        set: "123",
+        expect: "123"
+    }, {
+        set: "-123",
+        expect: "-123"
+    }, {
+        set: "123.4",
+        expect: "123.4"
+    }, {
+        set: "-123.4",
+        expect: "-123.4"
+    }, {
+        set: "123.",
+        expect: "123"
+    }, {
+        set: "-123.",
+        expect: "-123"
+    }, {
+        set: "123.4(56)",
+        expect: "123.4(56)"
+    }, {
+        set: "-123.4(56)",
+        expect: "-123.4(56)"
+    }, {
+        set: "123.(4)",
+        expect: "123.(4)"
+    }, {
+        set: "-123.(4)",
+        expect: "-123.(4)"
+    }, {
+        set: "123/456",
+        expect: "0.269(736842105263157894)"
+    }, {
+        set: "-123/456",
+        expect: "-0.269(736842105263157894)"
+    }, {
+        set: "19 123/456",
+        expect: "19.269(736842105263157894)"
+    }, {
+        set: "-19 123/456",
+        expect: "-19.269(736842105263157894)"
     }, {
         set: "123.(22)123",
-        expect: "Corrupted number"
+        expect: "Invalid Param"
     }, {
         set: "+33.3(3)",
         expect: "33.(3)"
@@ -22,13 +70,13 @@ var tests = [{
         expect: "3.(09009)"
     }, {
         set: "123.(((",
-        expect: "Corrupted number"
+        expect: "Invalid Param"
     }, {
         set: "123.((",
-        expect: "123"
+        expect: "Invalid Param"
     }, {
         set: "123.()",
-        expect: "123"
+        expect: "Invalid Param"
     }, {
         set: null,
         expect: "0" // I would say it's just fine
@@ -630,55 +678,55 @@ var tests = [{
         fn: "sub",
         param: "2/6",
         expect: "0.(6)"
-    },{
+    }, {
         label: "0.006999999999999999",
         set: 0.006999999999999999,
         fn: "add",
         param: 0,
         expect: "0.007"
-    },{
+    }, {
         label: "1/7 - 1",
-        set: 1/7,
+        set: 1 / 7,
         fn: "add",
         param: -1,
         expect: "-0.(857142)"
-    },{
+    }, {
         label: "0.0065 + 0.0005",
         set: 0.0065,
         fn: "add",
         param: 0.0005,
         expect: "0.007"
-    },{
+    }, {
         label: "6.5/.5",
         set: 6.5,
         fn: "div",
         param: .5,
         expect: "13"
-    },{
+    }, {
         label: "0.999999999999999999999999999",
         set: 0.999999999999999999999999999,
         fn: "sub",
         param: 1,
         expect: "0"
-    },{
+    }, {
         label: "0.5833333333333334",
         set: 0.5833333333333334,
         fn: "add",
         param: 0,
         expect: "0.58(3)"
-    },{
+    }, {
         label: "1.75/3",
-        set: 1.75/3,
+        set: 1.75 / 3,
         fn: "add",
         param: 0,
         expect: "0.58(3)"
-    },{
+    }, {
         label: "3.3333333333333",
         set: 3.3333333333333,
         fn: "add",
         param: 0,
         expect: "3.(3)"
-    },{
+    }, {
         label: "4.285714285714285714285714",
         set: 4.285714285714285714285714,
         fn: "add",
@@ -695,7 +743,7 @@ describe('Fraction', function() {
 
             if (tests[i].fn) {
 
-                it(tests[i].label, function() {
+                it(tests[i].label || tests[i].set, function() {
                     try {
                         assert.equal(tests[i].expect, new Fraction(tests[i].set)[tests[i].fn](tests[i].param).toString());
                     } catch (e) {
@@ -705,7 +753,7 @@ describe('Fraction', function() {
 
             } else {
 
-                it(tests[i].label, function() {
+                it(tests[i].label || tests[i].set, function() {
                     try {
                         assert.equal(tests[i].expect, new Fraction(tests[i].set).toString());
                     } catch (e) {

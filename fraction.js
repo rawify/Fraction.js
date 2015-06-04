@@ -48,9 +48,23 @@
         's': 0
     };
 
-    var parse = function(param, _b) {
+    function assign(n, s) {
+
+        if (isNaN(n = parseInt(n, 10))) {
+            EXIT();
+        }
+        return n * s;
+    }
+
+    function EXIT() {
+        throw "Invalid Param";
+    }
+
+    var parse = function(p1, p2) {
 
         var n = 0, d = 1, s = 1;
+
+        var v = 0, w = 0, x = 0, y = 1, z = 1;
 
         var A = 0, B = 1;
         var C = 1, D = 1;
@@ -58,53 +72,46 @@
         var N = 10000000;
         var M;
 
-        var scale = 1;
-        var mode = 0;
-
-        if (param === undefined) {
+        if (p1 === undefined || p1 === null) {
             /* void */
-        } else if (_b !== undefined) {
-            n = param;
-            d = _b;
+        } else if (p2 !== undefined) {
+            n = p1;
+            d = p2;
             s = n * d;
         } else
-            switch (typeof param) {
+            switch (typeof p1) {
 
                 case "object":
-
-                    if (param === null) {
-
-                    } else if ('d' in param && 'n' in param) {
-                        n = param['n'];
-                        d = param['d'];
-                        s = n * d;
-                        if ('s' in param) {
-                            s*= param['s'];
-                        }
-                    } else if (0 in param) {
-                        n = param[0];
-                        if (1 in param)
-                            d = param[1];
-                        s = n * d;
+                {
+                    if ('d' in p1 && 'n' in p1) {
+                        n = p1['n'];
+                        d = p1['d'];
+                        if ('s' in p1)
+                            n*= p1['s'];
+                    } else if (0 in p1) {
+                        n = p1[0];
+                        if (1 in p1)
+                            d = p1[1];
                     } else {
-                        throw "Unknown format";
+                        EXIT();
                     }
+                    s = n * d;
                     break;
-
+                }
                 case "number":
-
-                    if (param < 0) {
-                        s = param;
-                        param = -param;
+                {
+                    if (p1 < 0) {
+                        s = p1;
+                        p1 = -p1;
                     }
 
-                    if (param % 1 === 0) {
-                        n = param;
-                    } else if (param > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
+                    if (p1 % 1 === 0) {
+                        n = p1;
+                    } else if (p1 > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
 
-                        if (param >= 1) {
-                            scale = Math.pow(10, Math.floor(1 + Math.log(param) / Math.LN10));
-                            param/= scale;
+                        if (p1 >= 1) {
+                            z = Math.pow(10, Math.floor(1 + Math.log(p1) / Math.LN10));
+                            p1/= z;
                         }
 
                         // Using Farey Sequences
@@ -113,7 +120,7 @@
                         while (B <= N && D <= N) {
                             M = (A + C) / (B + D);
 
-                            if (param === M) {
+                            if (p1 === M) {
                                 if (B + D <= N) {
                                     n = A + C;
                                     d = B + D;
@@ -128,7 +135,7 @@
 
                             } else {
 
-                                if (param > M) {
+                                if (p1 > M) {
                                     A+= C;
                                     B+= D;
                                 } else {
@@ -145,90 +152,66 @@
                                 }
                             }
                         }
-                        n*= scale;
+                        n*= z;
                     }
                     break;
-
+                }
                 case "string":
+                {
+                    B = p1.match(/\d+|./g);
 
-                    M = param.split("/");
-
-                    if (M.length === 2) {
-                        n = parseInt(M[0], 10);
-                        d = parseInt(M[1], 10);
-                        s = n * d;
-                        break;
+                    if (B[A] === '-') {// Check for minus sign at the beginning
+                        s = -1;
+                        A++;
+                    } else if (B[A] === '+') {// Check for plus sign at the beginning
+                        A++;
                     }
 
-                    M = param.split("");
+                    if (B.length === A + 1) { // Check if it's just a simple number "1234"
+                        w = assign(B[A++], s);
+                    } else if (B[A + 1] === '.' || B[A] === '.') { // Check if it's a decimal number
 
-                    /* mode:
-                     0: before comma
-                     1: after comma
-                     2: in interval
-                     3: after interval
-                     */
-
-                    A = [0, 0, 0, 0, 0];
-                    for (D = 0; D < M.length; D++) {
-
-                        C = M[D];
-
-                        if (C === '.') {
-
-                            if (mode === 0) {
-                                mode++;
-                            } else {
-                                break;
-                            }
-                        } else if (C === '(' || C === "'" || C === ')') {
-
-                            if (0 < mode && mode < 3) { // mode === 1 || mode === 2
-                                mode++;
-                            } else {
-                                break;
-                            }
-                        } else if (D === 0 && C === '+') {
-
-                        } else if (D === 0 && C === '-') {
-                            s = -1;
-                        } else if (mode < 3 && !isNaN(C = parseInt(C, 10))) {
-                            A[mode] = A[mode] * 10 + C;
-                            if (mode) A[mode + 2]++;
-                        } else {
-                            break;
+                        if (B[A] !== '.') { // Handle 0.5 and .5
+                            v = assign(B[A++], s);
                         }
+                        A++;
+
+                        // Check for decimal places
+                        if (A + 1 === B.length || B[A + 1] === '(' && B[A + 3] === ')' || B[A + 1] === "'" && B[A + 3] === "'") {
+                            w = assign(B[A], s);
+                            y = Math.pow(10, B[A].length);
+                            A++;
+                        }
+
+                        // Check for repeating places
+                        if (B[A] === '(' && B[A + 2] === ')' || B[A] === "'" && B[A + 2] === "'") {
+                            x = assign(B[A + 1], s);
+                            z = Math.pow(10, B[A + 1].length) - 1;
+                            A+= 3;
+                        }
+
+                    } else if (B[A + 1] === '/') { // Check for a simple fraction "123/456"
+                        w = assign(B[A], s);
+                        y = assign(B[A + 2], 1);
+                        A+= 3;
+                    } else if (B[A + 3] === '/' && B[A + 1] === ' ') { // Check for a complex fraction "123 1/2"
+                        v = assign(B[A], s);
+                        w = assign(B[A + 2], s);
+                        y = assign(B[A + 4], 1);
+                        A+= 5;
                     }
-                    if (mode === 2 || D < M.length) {
-                        throw "Corrupted number";
+
+                    if (B.length > A) { // Check for more tokens on the stack
+                        EXIT();
                     }
 
-                    /*
-                     13	98	112
-                     -> 13 + (98 + 112 / 999) / 100
-
-                     ->
-                     n:	((112 + 98 * 999) + 13 * (999 * 100))
-                     d:	(999 * 100)
-
-                     -> ((c + b * x) + a * (x * y))	-> x*(ay+b)+c
-                     n:	999 * (13 * 100 + 98) + 112
-                     d:	999 * 100
-                     */
-
-                    A[3] = Math.pow(10, A[3]);
-                    if (A[2] > 0)
-                        A[4] = Math.pow(10, A[4]) - 1;
-                    else
-                        A[4] = 1;
-
-                    n = A[2] + A[4] * (A[0] * A[3] + A[1]);
-                    d = A[3] * A[4];
-                    s = s * n;
+                    s = /* void */
+                    n = x + z * (v * y + w);
+                    d = y * z;
                     break;
-
+                }
                 default:
-                    throw "Unknown type";
+                    EXIT();
             }
 
         if (!d) {
