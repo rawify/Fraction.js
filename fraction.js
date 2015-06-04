@@ -169,7 +169,7 @@
                      3: after interval
                      */
 
-                    A = [0, 0, 0, 0, 0], B = [0, 0, 0, 0, 0];
+                    A = [0, 0, 0, 0, 0];
                     for (D = 0; D < M.length; D++) {
 
                         C = M[D];
@@ -194,7 +194,7 @@
                             s = -1;
                         } else if (mode < 3 && !isNaN(C = parseInt(C, 10))) {
                             A[mode] = A[mode] * 10 + C;
-                            B[mode]++;
+                            if (mode) A[mode + 2]++;
                         } else {
                             break;
                         }
@@ -216,9 +216,9 @@
                      d:	999 * 100
                      */
 
-                    A[3] = Math.pow(10, B[1]);
+                    A[3] = Math.pow(10, A[3]);
                     if (A[2] > 0)
-                        A[4] = Math.pow(10, B[2]) - 1;
+                        A[4] = Math.pow(10, A[4]) - 1;
                     else
                         A[4] = 1;
 
