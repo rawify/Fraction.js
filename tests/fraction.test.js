@@ -630,7 +630,61 @@ var tests = [{
         fn: "sub",
         param: "2/6",
         expect: "0.(6)"
-    },
+    },{
+        label: "0.006999999999999999",
+        set: 0.006999999999999999,
+        fn: "add",
+        param: 0,
+        expect: "0.007"
+    },{
+        label: "1/7 - 1",
+        set: 1/7,
+        fn: "add",
+        param: -1,
+        expect: "-0.(857142)"
+    },{
+        label: "0.0065 + 0.0005",
+        set: 0.0065,
+        fn: "add",
+        param: 0.0005,
+        expect: "0.007"
+    },{
+        label: "6.5/.5",
+        set: 6.5,
+        fn: "div",
+        param: .5,
+        expect: "13"
+    },{
+        label: "0.999999999999999999999999999",
+        set: 0.999999999999999999999999999,
+        fn: "sub",
+        param: 1,
+        expect: "0"
+    },{
+        label: "0.5833333333333334",
+        set: 0.5833333333333334,
+        fn: "add",
+        param: 0,
+        expect: "0.58(3)"
+    },{
+        label: "1.75/3",
+        set: 1.75/3,
+        fn: "add",
+        param: 0,
+        expect: "0.58(3)"
+    },{
+        label: "3.3333333333333",
+        set: 3.3333333333333,
+        fn: "add",
+        param: 0,
+        expect: "3.(3)"
+    },{
+        label: "4.285714285714285714285714",
+        set: 4.285714285714285714285714,
+        fn: "add",
+        param: 0,
+        expect: "4.(285714)"
+    }
 ];
 
 describe('Fraction', function() {
