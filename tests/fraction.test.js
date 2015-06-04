@@ -84,6 +84,15 @@ var tests = [{
         set: [22, 7],
         expect: '3.(142857)' // We got Pi! - almost ;o
     }, {
+        set: "3 1/7",
+        expect: '3.(142857)'
+    }, {
+        set: [36, -36],
+        expect: "-1"
+    }, {
+        set: "9/12",
+        expect: "0.75"
+    }, {
         set: "0.09(33)",
         expect: "0.09(3)"
     }, {
@@ -732,6 +741,24 @@ var tests = [{
         fn: "add",
         param: 0,
         expect: "4.(285714)"
+    }, {
+        label: "-4",
+        set: -4,
+        fn: "neg",
+        param: 0,
+        expect: "4"
+    }, {
+        label: "4",
+        set: 4,
+        fn: "neg",
+        param: 0,
+        expect: "-4"
+    }, {
+        label: "0",
+        set: 0,
+        fn: "neg",
+        param: 0,
+        expect: "0"
     }
 ];
 

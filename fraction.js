@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v2.0.0 01/06/2015
+ * @license Fraction.js v2.2.0 01/06/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -307,6 +307,16 @@
     };
 
     /**
+     * Inverts the sign of the current fraction
+     *
+     * Ex: new Fraction(-4).neg() => 4
+     **/
+    Fraction.prototype['neg'] = function() {
+
+        return new Fraction(-this['s'] * this['n'], this['d']);
+    };
+
+    /**
      * Adds two rational numbers
      *
      * Ex: new Fraction({n: 2, d: 3}).add("14.9") => 467 / 30
@@ -381,6 +391,10 @@
      * Ex: new Fraction('4.(3)').mod([7, 8]) => (13/3) % (7/8) = (5/6)
      **/
     Fraction.prototype['mod'] = function(a, b) {
+
+        if (a === undefined) {
+            return new Fraction(this['s'] * this['n'] % this['d'], 1);
+        }
 
         parse(a, b);
 

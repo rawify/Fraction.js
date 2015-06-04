@@ -235,6 +235,10 @@ Fraction abs()
 ---
 Returns the actual number without any sign information
 
+Fraction neg()
+---
+Returns the actual number with flipped sign
+
 Fraction add(n)
 ---
 Returns the sum of the actual number and the parameter n
@@ -259,6 +263,10 @@ Returns the power of the actual number, raised to an integer exponent.
 Fraction mod(n)
 ---
 Returns the modulus (rest of the division) of the actual object and n (this % n). It's a much more precise [fmod()](#fmod-impreciseness-circumvented) if you will. Please note that *mod()* is just like the modulo operator of most programming languages. If you want a mathematical correct modulo, see [here](#mathematical-correct-modulo).
+
+Fraction mod()
+---
+Returns the modulus (rest of the division) of the actual object (numerator mod denominator)
 
 Fraction gcd(n)
 ---
