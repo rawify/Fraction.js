@@ -543,6 +543,12 @@ var tests = [{
         fn: "pow",
         param: 4,
         expect: "0.1296"
+    },{
+        label: "8128371:12394 - 8128371/12394",
+        set: "8128371:12394",
+        fn: "sub",
+        param: "8128371/12394",
+        expect: "0"
     }, {
         label: "3/4 + 1/4",
         set: "3/4",
@@ -811,6 +817,9 @@ describe('Arguments', function() {
         // String
         var fraction = new Fraction("0.1");
         assert.equal("1/10", fraction.n + "/" + fraction.d);
+        
+        var fraction = new Fraction("6234/6460");
+        assert.equal("3117/3230", fraction.n + "/" + fraction.d);
 
         // Two params
         var fraction = new Fraction(1, 2);

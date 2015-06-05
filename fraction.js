@@ -51,12 +51,12 @@
     function assign(n, s) {
 
         if (isNaN(n = parseInt(n, 10))) {
-            EXIT();
+            parser_exit();
         }
         return n * s;
     }
 
-    function EXIT() {
+    function parser_exit() {
         throw "Invalid Param";
     }
 
@@ -93,7 +93,7 @@
                         if (1 in p1)
                             d = p1[1];
                     } else {
-                        EXIT();
+                        parser_exit();
                     }
                     s = n * d;
                     break;
@@ -190,7 +190,7 @@
                             A+= 3;
                         }
 
-                    } else if (B[A + 1] === '/') { // Check for a simple fraction "123/456"
+                    } else if (B[A + 1] === '/' || B[A + 1] === ':') { // Check for a simple fraction "123/456" or "123:456"
                         w = assign(B[A], s);
                         y = assign(B[A + 2], 1);
                         A+= 3;
@@ -201,17 +201,17 @@
                         A+= 5;
                     }
 
-                    if (B.length > A) { // Check for more tokens on the stack
-                        EXIT();
+                    if (B.length <= A) { // Check for more tokens on the stack
+                        s = /* void */
+                        n = x + z * (v * y + w);
+                        d = y * z;
+                        break;
                     }
 
-                    s = /* void */
-                    n = x + z * (v * y + w);
-                    d = y * z;
-                    break;
+                    /* Fall through on error */
                 }
                 default:
-                    EXIT();
+                    parser_exit();
             }
 
         if (!d) {
