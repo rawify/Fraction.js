@@ -144,9 +144,9 @@ You can pass either Arrays, Objects, Integers, Doubles or Strings.
 Arrays / Objects
 ---
 ```javascript
-new Fraction(numerator, denumerator);
-new Fraction([numerator, denumerator]);
-new Fraction({n: numerator, d: denumerator});
+new Fraction(numerator, denominator);
+new Fraction([numerator, denominator]);
+new Fraction({n: numerator, d: denominator});
 ```
 
 Integers
