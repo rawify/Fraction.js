@@ -218,7 +218,7 @@
             throw "DIV/0";
         }
 
-        P['s'] = (0 <= s) - (s < 0);
+        P['s'] = s < 0 ? -1 : 1;
         P['n'] = Math.abs(n);
         P['d'] = Math.abs(d);
     };
