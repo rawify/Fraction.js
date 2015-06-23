@@ -3,10 +3,12 @@
     "title": "fraction.js",
     "version": "2.2.0",
     "homepage": "http://www.xarg.org/2014/03/precise-calculations-in-javascript/",
+    "bugs": "https://github.com/infusion/Fraction.js/issues",
     "description": "A rational number library",
     "keywords": ["math", "fraction", "rational", "number"],
     "author": "Robert Eisele <robert@xarg.org>",
     "main": "fraction",
+    "readmeFilename": "README.md",
     "licenses": [{
             "type": "MIT",
             "url": "http://www.opensource.org/licenses/MIT"
