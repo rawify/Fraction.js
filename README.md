@@ -285,9 +285,9 @@ Fraction round()
 ---
 Returns the rational number rounded (normal round)
 
-Fraction reciprocal()
+Fraction inverse()
 ---
-Returns the reciprocal of the actual number (n / d becomes d / n)
+Returns the inverse of the actual number (n / d becomes d / n)
 
 boolean equals(n)
 ---

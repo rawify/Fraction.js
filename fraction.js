@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v2.2.0 01/06/2015
+ * @license Fraction.js v2.3.0 01/06/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -367,7 +367,7 @@
     /**
      * Divides two rational numbers
      *
-     * Ex: new Fraction("-17.(345)").reciprocal().div(3)
+     * Ex: new Fraction("-17.(345)").inverse().div(3)
      **/
     Fraction.prototype['div'] = function(a, b) {
 
@@ -468,11 +468,11 @@
     };
     
     /**
-     * Gets the reciprocal form of the fraction, means numerator and denumerator are exchanged
+     * Gets the inverse of the fraction, means numerator and denumerator are exchanged
      *
-     * Ex: new Fraction([-3, 4]).reciprocal() => -4 / 3
+     * Ex: new Fraction([-3, 4]).inverse() => -4 / 3
      **/
-    Fraction.prototype['reciprocal'] = function() {
+    Fraction.prototype['inverse'] = function() {
 
         return new Fraction(this['s'] * this['d'], this['n']);
     };

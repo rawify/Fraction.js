@@ -183,13 +183,13 @@ var tests = [{
             d: 222,
             s: -1
         },
-        fn: "reciprocal",
+        fn: "inverse",
         param: null,
         expect: "-74"
     }, {
-        label: "reciprocal",
+        label: "inverse",
         set: 1 / 2,
-        fn: "reciprocal",
+        fn: "inverse",
         param: null,
         expect: "2"
     }, {
@@ -222,7 +222,7 @@ var tests = [{
     }, {
         label: "-3 / 4",
         set: [-3, 4],
-        fn: "reciprocal",
+        fn: "inverse",
         param: null,
         expect: "-1.(3)"
     }, {
@@ -258,7 +258,7 @@ var tests = [{
     }, {
         label: "0/1 -> 1/0",
         set: 0,
-        fn: "reciprocal",
+        fn: "inverse",
         param: null,
         expect: "DIV/0"
     }, {
@@ -805,7 +805,7 @@ describe('JSON', function() {
 
         assert.equal('{"s":1,"n":14623,"d":330}', JSON.stringify(new Fraction("44.3(12)")));
 
-        assert.equal('{"s":-1,"n":2,"d":1}', JSON.stringify(new Fraction(-1 / 2).reciprocal()));
+        assert.equal('{"s":-1,"n":2,"d":1}', JSON.stringify(new Fraction(-1 / 2).inverse()));
 
     });
 });
@@ -937,7 +937,7 @@ describe('Fraction Output', function() {
 
     it("Should pass 1/-99/293 = -1/29007", function() {
 
-        var tmp = new Fraction(-99).reciprocal().div(293);
+        var tmp = new Fraction(-99).inverse().div(293);
         assert.equal('-1/29007', tmp.toFraction());
     });
 });
