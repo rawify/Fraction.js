@@ -18,6 +18,25 @@ var x = new Fraction(1.88);
 var res = x.toFraction(); // String "1 22/25"
 ```
 
+Laplace Probability
+===
+Simple example. What's the probability of throwing a 3, and 1 or 4, and 2 or 4 or 6 with a fair dice?
+
+P({3}):
+```javascript
+var p = new Fraction([3].length, 6).toString(); // 0.1(6)
+```
+
+P({1, 4}):
+```javascript
+var p = new Fraction([1, 4].length, 6).toString(); // 0.(3)
+```
+
+P({2, 4, 6}):
+```javascript
+var p = new Fraction([2, 4, 6].length, 6).toString(); // 0.5
+```
+
 Examples / Motivation
 ===
 A simple example might be
