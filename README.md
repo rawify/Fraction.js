@@ -198,6 +198,12 @@ new Fraction("123.45'6'"); // Note the quotes, see below!
 new Fraction("123.45(6)"); // Note the brackets, see below!
 ```
 
+Two arguments
+---
+```javascript
+new Fraction(3, 2); // 3/2 = 1.5
+```
+
 Repeating decimal places
 ---
 *Fraction.js* can easily handle repeating decimal places. For example *1/3* is *0.3333...*. There is only one repeating digit. As you can see in the examples above, you can pass a number like *1/3* as "0.'3'" or "0.(3)", which are synonym. There are no tests to parse something like 0.166666666 to 1/6! If you really want to handle this number, wrap around brackets on your own with the function below for example: 0.1(66666666)
