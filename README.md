@@ -18,6 +18,25 @@ var x = new Fraction(1.88);
 var res = x.toFraction(); // String "1 22/25"
 ```
 
+Laplace Probability
+===
+Simple example. What's the probability of throwing a 3, and 1 or 4, and 2 or 4 or 6 with a fair dice?
+
+P({3}):
+```javascript
+var p = new Fraction([3].length, 6).toString(); // 0.1(6)
+```
+
+P({1, 4}):
+```javascript
+var p = new Fraction([1, 4].length, 6).toString(); // 0.(3)
+```
+
+P({2, 4, 6}):
+```javascript
+var p = new Fraction([2, 4, 6].length, 6).toString(); // 0.5
+```
+
 Examples / Motivation
 ===
 A simple example might be
@@ -177,6 +196,12 @@ new Fraction("123.'456'"); // Note the quotes, see below!
 new Fraction("123.(456)"); // Note the brackets, see below!
 new Fraction("123.45'6'"); // Note the quotes, see below!
 new Fraction("123.45(6)"); // Note the brackets, see below!
+```
+
+Two arguments
+---
+```javascript
+new Fraction(3, 2); // 3/2 = 1.5
 ```
 
 Repeating decimal places
@@ -347,6 +372,23 @@ or
 npm install fraction.js
 ```
 
+Using Fraction.js at the browser
+===
+    <script src="fraction.js"></script>
+    <script>
+        console.log(Fraction("123/456"));
+    </script>
+
+
+Using Fraction.js with require.js
+===
+    <script src="require.js"></script>
+    <script>
+    requirejs(['fraction.js'],
+    function(Fraction) {
+        console.log(Fraction("123/456"));
+    });
+    </script>
 
 Coding Style
 ===
