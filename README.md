@@ -372,6 +372,23 @@ or
 npm install fraction.js
 ```
 
+Using Complex.js at the browser
+===
+    <script src="fraction.js"></script>
+    <script>
+        console.log(Fraction("123/456"));
+    </script>
+
+
+Using Complex.js with require.js
+===
+    <script src="require.js"></script>
+    <script>
+    requirejs(['fraction.js'],
+    function(Fraction) {
+        console.log(Fraction("123/456"));
+    });
+    </script>
 
 Coding Style
 ===
