@@ -372,7 +372,7 @@ or
 npm install fraction.js
 ```
 
-Using Complex.js at the browser
+Using Fraction.js at the browser
 ===
     <script src="fraction.js"></script>
     <script>
@@ -380,7 +380,7 @@ Using Complex.js at the browser
     </script>
 
 
-Using Complex.js with require.js
+Using Fraction.js with require.js
 ===
     <script src="require.js"></script>
     <script>
