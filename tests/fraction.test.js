@@ -778,9 +778,9 @@ describe('Fraction', function() {
 
                 it(tests[i].label || tests[i].set, function() {
                     try {
-                        assert.equal(tests[i].expect, new Fraction(tests[i].set)[tests[i].fn](tests[i].param).toString());
+                        assert.equal(new Fraction(tests[i].set)[tests[i].fn](tests[i].param).toString(), tests[i].expect);
                     } catch (e) {
-                        assert.equal(e.toString(), tests[i].expect.toString());
+                        assert.equal(e.toString(), tests[i].expect);
                     }
                 });
 
@@ -788,9 +788,9 @@ describe('Fraction', function() {
 
                 it(tests[i].label || tests[i].set, function() {
                     try {
-                        assert.equal(tests[i].expect, new Fraction(tests[i].set).toString());
+                        assert.equal(new Fraction(tests[i].set).toString(), tests[i].expect);
                     } catch (e) {
-                        assert.equal(e.toString(), tests[i].expect.toString());
+                        assert.equal(e.toString(), tests[i].expect);
                     }
                 });
             }
@@ -887,13 +887,13 @@ describe('Latex Output', function() {
     it("Should pass 123.'3' = 123\\frac{1}{3}", function() {
 
         var tmp = new Fraction("123.'3'");
-        assert.equal('123\frac{1}{3}', tmp.toLatex());
+        assert.equal("123\\frac{1}{3}", tmp.toLatex());
     });
 
     it("Should pass 1.'3' = 1\\frac{1}{3}", function() {
 
         var tmp = new Fraction("1.'3'");
-        assert.equal('1\frac{1}{3}', tmp.toLatex());
+        assert.equal("1\\frac{1}{3}", tmp.toLatex());
     });
 
     it("Should pass -1.0000000000 = -1", function() {

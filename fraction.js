@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v2.3.0 01/06/2015
+ * @license Fraction.js v2.4.0 01/06/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -609,7 +609,7 @@
                 n = n % d;
             }
 
-            str+= '\frac{';
+            str+= "\\frac{";
             str+= n;
             str+= '}{';
             str+= d;
