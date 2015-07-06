@@ -263,7 +263,7 @@ Returns the actual number without any sign information
 
 Fraction neg()
 ---
-Returns the actual number with flipped sign
+Returns the actual number with flipped sign in order to get the additive inverse
 
 Fraction add(n)
 ---
@@ -312,7 +312,7 @@ Returns the rational number rounded (normal round)
 
 Fraction inverse()
 ---
-Returns the inverse of the actual number (n / d becomes d / n)
+Returns the multiplicative inverse of the actual number (n / d becomes d / n) in order to get the reciprocal
 
 boolean equals(n)
 ---
