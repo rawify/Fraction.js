@@ -168,7 +168,7 @@
 
                     if (B.length === A + 1) { // Check if it's just a simple number "1234"
                         w = assign(B[A++], s);
-                    } else if (B[A + 1] === '.' || B[A] === '.') { // Check if it's a decimal number
+                    } else if (B[A + 1] === '.' || B[A] === '.') { // Check if it's a decimal number
 
                         if (B[A] !== '.') { // Handle 0.5 and .5
                             v = assign(B[A++], s);
@@ -176,7 +176,7 @@
                         A++;
                         
                         // Check for decimal places
-                        if (A + 1 === B.length || B[A + 1] === '(' && B[A + 3] === ')' || B[A + 1] === "'" && B[A + 3] === "'") {
+                        if (A + 1 === B.length || B[A + 1] === '(' && B[A + 3] === ')' || B[A + 1] === "'" && B[A + 3] === "'") {
                             w = assign(B[A], s);
                             y = Math.pow(10, B[A].length);
                             A++;
