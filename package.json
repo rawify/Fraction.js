@@ -6,7 +6,7 @@
     "bugs": "https://github.com/infusion/Fraction.js/issues",
     "description": "A rational number library",
     "keywords": ["math", "fraction", "rational", "number"],
-    "author": "Robert Eisele <robert@xarg.org>",
+    "author": "Robert Eisele <robert@xarg.org> (http://www.xarg.org/)",
     "main": "fraction",
     "readmeFilename": "README.md",
     "licenses": [{
