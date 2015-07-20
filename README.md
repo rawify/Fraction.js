@@ -372,7 +372,7 @@ or
 npm install fraction.js
 ```
 
-Using Fraction.js at the browser
+Using Fraction.js with the browser
 ===
     <script src="fraction.js"></script>
     <script>
