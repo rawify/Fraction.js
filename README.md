@@ -6,7 +6,7 @@
 
 Tired of inprecise numbers represented by doubles, which have to store ratios and irrational numbers like PI or sqrt(2) the same way? If you need more precision or just want a fraction as a result, have a look at *Fraction.js*!
 
-Internally, numbers are represented as *numerator / denominator*, which adds just a little overhead. However, the library is written with performance in mind and outperforms any other implementation, as you can see [here](http://jsperf.com/convert-a-rational-number-to-a-babylonian-fractions/28).
+Internally, numbers are represented as *numerator / denominator*, which adds just a little overhead. However, the library is written with performance in mind and outperforms any other implementation, as you can see [here](http://jsperf.com/convert-a-rational-number-to-a-babylonian-fractions/28). This basic data-type makes it the perfect basis for [Polynomial.js](https://github.com/infusion/Polynomial.js).
 
 Convert decimal to fraction
 ===
