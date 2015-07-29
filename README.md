@@ -353,6 +353,34 @@ Fraction clone()
 ---
 Creates a copy of the actual Fraction object
 
+Options
+===
+
+The library should work without configuring anything. However, there is one global option:
+
+```
+Fraction.REDUCE = <true|false>
+```
+
+It tells Fraction.js whether to reduce the fraction or not. 
+
+```
+// Normal behavior
+var f = Fraction(3, 6);
+console.log(f); // 1/2
+
+// Disable fraction reduction
+Fraction.REDUCE = false;
+var g = Fraction(3, 6);
+console.log(g); // 3/6
+
+// Back to normal behavior
+Fraction.REDUCE = true;
+var h = Fraction(g);
+console.log(h); // 1/2
+```
+
+
 Exceptions
 ===
 If a really hard error occurs (parsing error, division by zero), *fraction.js* throws exceptions! Please make sure you handle them correctly.

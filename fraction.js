@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v2.4.1 01/06/2015
+ * @license Fraction.js v2.5.0 01/06/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -288,7 +288,11 @@
 
         parse(a, b);
         
-        a = gcd(P['d'], P['n']); // Abuse a
+        if (Fraction['REDUCE']) {
+            a = gcd(P['d'], P['n']); // Abuse a
+        } else {
+            a = 1;
+        }
 
         this['s'] = P['s'];
         this['n'] = P['n'] / a;
@@ -298,6 +302,12 @@
     Fraction.prototype['s'] = 1;
     Fraction.prototype['n'] = 0;
     Fraction.prototype['d'] = 1;
+    
+    /**
+     * Boolean global variable to be able to disable automatic reduction of the fraction
+     * 
+     */
+    Fraction['REDUCE'] = 1;
     
     /**
      * Calculates the absolute value
@@ -625,15 +635,25 @@
      **/
     Fraction.prototype['toString'] = function() {
 
-        var p = String(this['n']).split(""); // Numerator chars
-        var q = this['d']; // Denominator
+        var g;
+        var N = this['n'];
+        var D = this['d'];
+
+        if (!Fraction['REDUCE']) {
+            g = gcd(N, D);
+
+            N/= g;
+            D/= g;
+        }
+
+        var p = String(N).split(""); // Numerator chars
         var t = 0; // Tmp var
 
         var ret = [~this['s'] ? "" : "-", "", ""]; // Return array, [0] is zero sign, [1] before comma, [2] after
         var zeros = ""; // Collection variable for zeros
 
-        var cycLen = cycleLen(this['n'], this['d']); // Cycle length
-        var cycOff = cycleStart(this['n'], this['d'], cycLen); // Cycle start
+        var cycLen = cycleLen(N, D); // Cycle length
+        var cycOff = cycleStart(N, D, cycLen); // Cycle start
 
         var j = -1;
         var n = 1; // str index
@@ -660,10 +680,10 @@
                 }
             }
 
-            if (t >= q) {
-                ret[n]+= zeros + ((t / q) | 0); // Flush zeros, Add current digit
+            if (t >= D) {
+                ret[n]+= zeros + ((t / D) | 0); // Flush zeros, Add current digit
                 zeros = "";
-                t = t % q;
+                t = t % D;
             } else if (n > 1) { // Add zeros to the zero buffer
                 zeros+= "0";
             } else if (ret[n]) { // If before comma, add zero only if already something was added
