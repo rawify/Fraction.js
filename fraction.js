@@ -444,6 +444,8 @@
 
         parse(a, b);
         
+        // gcd(a / b, c / d) = gcd(a, c) / lcm(b, d)
+        
         return new Fraction(gcd(P['n'], this['n']), P['d'] * this['d'] / gcd(P['d'], this['d']));
     };
     
