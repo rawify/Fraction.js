@@ -43,9 +43,9 @@
 
     // Parsed data to avoid calling "new" all the time
     var P = {
-        'n': 0,
-        'd': 0,
-        's': 0
+        "n": 0,
+        "d": 0,
+        "s": 0
     };
 
     function assign(n, s) {
@@ -64,13 +64,13 @@
 
         var n = 0, d = 1, s = 1;
         var v = 0, w = 0, x = 0, y = 1, z = 1;
-        
+
         var A = 0, B = 1;
         var C = 1, D = 1;
-        
+
         var N = 10000000;
         var M;
-        
+
         if (p1 === undefined || p1 === null) {
             /* void */
         } else if (p2 !== undefined) {
@@ -82,11 +82,11 @@
 
                 case "object":
                 {
-                    if ('d' in p1 && 'n' in p1) {
-                        n = p1['n'];
-                        d = p1['d'];
-                        if ('s' in p1)
-                            n*= p1['s'];
+                    if ("d" in p1 && "n" in p1) {
+                        n = p1["n"];
+                        d = p1["d"];
+                        if ("s" in p1)
+                            n*= p1["s"];
                     } else if (0 in p1) {
                         n = p1[0];
                         if (1 in p1)
@@ -118,7 +118,7 @@
 
                         while (B <= N && D <= N) {
                             M = (A + C) / (B + D);
-                            
+
                             if (p1 === M) {
                                 if (B + D <= N) {
                                     n = A + C;
@@ -131,7 +131,7 @@
                                     d = B;
                                 }
                                 break;
-                                
+
                             } else {
 
                                 if (p1 > M) {
@@ -158,7 +158,7 @@
                 case "string":
                 {
                     B = p1.match(/\d+|./g);
-                    
+
                     if (B[A] === '-') {// Check for minus sign at the beginning
                         s = -1;
                         A++;
@@ -174,7 +174,7 @@
                             v = assign(B[A++], s);
                         }
                         A++;
-                        
+
                         // Check for decimal places
                         if (A + 1 === B.length || B[A + 1] === '(' && B[A + 3] === ')' || B[A + 1] === "'" && B[A + 3] === "'") {
                             w = assign(B[A], s);
@@ -202,7 +202,7 @@
 
                     if (B.length <= A) { // Check for more tokens on the stack
                         s = /* void */
-                                n = x + z * (v * y + w);
+                        n = x + z * (v * y + w);
                         d = y * z;
                         break;
                     }
@@ -217,11 +217,11 @@
             throw "DIV/0";
         }
 
-        P['s'] = s < 0 ? -1 : 1;
-        P['n'] = Math.abs(n);
-        P['d'] = Math.abs(d);
+        P["s"] = s < 0 ? -1 : 1;
+        P["n"] = Math.abs(n);
+        P["d"] = Math.abs(d);
     };
-    
+
     var modpow = function(b, e, m) {
 
         for (var r = 1; e > 0; b = (b * b) % m, e >>= 1) {
@@ -232,7 +232,7 @@
         }
         return r;
     };
-    
+
     var cycleLen = function(n, d) {
 
         if (d % 2 === 0) {
@@ -252,7 +252,7 @@
         }
         return 0;
     };
-    
+
     var cycleStart = function(n, d, len) {
 
         for (var s = 0; s < 300; s++) { // s < ~log10(Number.MAX_VALUE)
@@ -262,7 +262,7 @@
         }
         return 0;
     };
-    
+
     var gcd = function(a, b) {
         var t;
         while (b) {
@@ -272,7 +272,7 @@
         }
         return a;
     };
-    
+
     /**
      * Module constructor
      *
@@ -287,428 +287,414 @@
         }
 
         parse(a, b);
-        
+
         if (Fraction['REDUCE']) {
-            a = gcd(P['d'], P['n']); // Abuse a
+            a = gcd(P["d"], P["n"]); // Abuse a
         } else {
             a = 1;
         }
 
-        this['s'] = P['s'];
-        this['n'] = P['n'] / a;
-        this['d'] = P['d'] / a;
+        this["s"] = P["s"];
+        this["n"] = P["n"] / a;
+        this["d"] = P["d"] / a;
     }
 
-    Fraction.prototype['s'] = 1;
-    Fraction.prototype['n'] = 0;
-    Fraction.prototype['d'] = 1;
-    
     /**
      * Boolean global variable to be able to disable automatic reduction of the fraction
-     * 
+     *
      */
     Fraction['REDUCE'] = 1;
-    
-    /**
-     * Calculates the absolute value
-     *
-     * Ex: new Fraction(-4).abs() => 4
-     **/
-    Fraction.prototype['abs'] = function() {
 
-        return new Fraction(this['n'], this['d']);
-    };
-    
-    /**
-     * Inverts the sign of the current fraction
-     *
-     * Ex: new Fraction(-4).neg() => 4
-     **/
-    Fraction.prototype['neg'] = function() {
+    Fraction.prototype = {
 
-        return new Fraction(-this['s'] * this['n'], this['d']);
-    };
-    
-    /**
-     * Adds two rational numbers
-     *
-     * Ex: new Fraction({n: 2, d: 3}).add("14.9") => 467 / 30
-     **/
-    Fraction.prototype['add'] = function(a, b) {
+        "s": 1,
+        "n": 0,
+        "d": 1,
 
-        parse(a, b);
-        
-        return new Fraction(
-                this['s'] * this['n'] * P['d'] + P['s'] * this['d'] * P['n'],
-                this['d'] * P['d']
-                );
-    };
-    
-    /**
-     * Subtracts two rational numbers
-     *
-     * Ex: new Fraction({n: 2, d: 3}).add("14.9") => -427 / 30
-     **/
-    Fraction.prototype['sub'] = function(a, b) {
-
-        parse(a, b);
-        
-        return new Fraction(
-                this['s'] * this['n'] * P['d'] - P['s'] * this['d'] * P['n'],
-                this['d'] * P['d']
-                );
-    };
-    
-    /**
-     * Multiplies two rational numbers
-     *
-     * Ex: new Fraction("-17.(345)").mul(3) => 5776 / 111
-     **/
-    Fraction.prototype['mul'] = function(a, b) {
-
-        parse(a, b);
-        
-        return new Fraction(
-                this['s'] * P['s'] * this['n'] * P['n'],
-                this['d'] * P['d']
-                );
-    };
-    
-    /**
-     * Divides two rational numbers
-     *
-     * Ex: new Fraction("-17.(345)").inverse().div(3)
-     **/
-    Fraction.prototype['div'] = function(a, b) {
-
-        parse(a, b);
-        
-        return new Fraction(
-                this['s'] * P['s'] * this['n'] * P['d'],
-                this['d'] * P['n']
-                );
-    };
-    
-    /**
-     * Clones the actual object
-     *
-     * Ex: new Fraction("-17.(345)").clone()
-     **/
-    Fraction.prototype['clone'] = function() {
-        return new Fraction(this);
-    };
-    
-    /**
-     * Calculates the modulo of two rational numbers - a more precise fmod
-     *
-     * Ex: new Fraction('4.(3)').mod([7, 8]) => (13/3) % (7/8) = (5/6)
-     **/
-    Fraction.prototype['mod'] = function(a, b) {
-
-        if (a === undefined) {
-            return new Fraction(this['s'] * this['n'] % this['d'], 1);
-        }
-
-        parse(a, b);
-        
-        if (0 === (P['n'] * this['d'])) {
-            Fraction(0, 0); // Throw div/0
-        }
-
-        /*
-         * First silly attempt, kinda slow
+        /**
+         * Calculates the absolute value
          *
-         return that['sub']({
-         'n': num['n'] * Math.floor((this.n / this.d) / (num.n / num.d)),
-         'd': num['d'],
-         's': this['s']
-         });*/
+         * Ex: new Fraction(-4).abs() => 4
+         **/
+        "abs": function() {
 
-        /*
-         * New attempt: a1 / b1 = a2 / b2 * q + r
-         * => b2 * a1 = a2 * b1 * q + b1 * b2 * r
-         * => (b2 * a1 % a2 * b1) / (b1 * b2)
+            return new Fraction(this["n"], this["d"]);
+        },
+
+        /**
+         * Inverts the sign of the current fraction
+         *
+         * Ex: new Fraction(-4).neg() => 4
+         **/
+        "neg": function() {
+
+            return new Fraction(-this["s"] * this["n"], this["d"]);
+        },
+
+        /**
+         * Adds two rational numbers
+         *
+         * Ex: new Fraction({n: 2, d: 3}).add("14.9") => 467 / 30
+         **/
+        "add": function(a, b) {
+
+            parse(a, b);
+            return new Fraction(
+                    this["s"] * this["n"] * P["d"] + P["s"] * this["d"] * P["n"],
+                    this["d"] * P["d"]
+                    );
+        },
+
+        /**
+         * Subtracts two rational numbers
+         *
+         * Ex: new Fraction({n: 2, d: 3}).add("14.9") => -427 / 30
+         **/
+        "sub": function(a, b) {
+
+            parse(a, b);
+            return new Fraction(
+                    this["s"] * this["n"] * P["d"] - P["s"] * this["d"] * P["n"],
+                    this["d"] * P["d"]
+                    );
+        },
+
+        /**
+         * Multiplies two rational numbers
+         *
+         * Ex: new Fraction("-17.(345)").mul(3) => 5776 / 111
+         **/
+        "mul": function(a, b) {
+
+            parse(a, b);
+            return new Fraction(
+                    this["s"] * P["s"] * this["n"] * P["n"],
+                    this["d"] * P["d"]
+                    );
+        },
+
+        /**
+         * Divides two rational numbers
+         *
+         * Ex: new Fraction("-17.(345)").inverse().div(3)
+         **/
+        "div": function(a, b) {
+
+            parse(a, b);
+            return new Fraction(
+                    this["s"] * P["s"] * this["n"] * P["d"],
+                    this["d"] * P["n"]
+                    );
+        },
+
+        /**
+         * Clones the actual object
+         *
+         * Ex: new Fraction("-17.(345)").clone()
+         **/
+        "clone": function() {
+            return new Fraction(this);
+        },
+
+        /**
+         * Calculates the modulo of two rational numbers - a more precise fmod
+         *
+         * Ex: new Fraction('4.(3)').mod([7, 8]) => (13/3) % (7/8) = (5/6)
+         **/
+        "mod": function(a, b) {
+
+            if (a === undefined) {
+                return new Fraction(this["s"] * this["n"] % this["d"], 1);
+            }
+
+            parse(a, b);
+            if (0 === (P["n"] * this["d"])) {
+                Fraction(0, 0); // Throw div/0
+            }
+
+            /*
+             * First silly attempt, kinda slow
+             *
+             return that["sub"]({
+             "n": num["n"] * Math.floor((this.n / this.d) / (num.n / num.d)),
+             "d": num["d"],
+             "s": this["s"]
+             });*/
+
+            /*
+             * New attempt: a1 / b1 = a2 / b2 * q + r
+             * => b2 * a1 = a2 * b1 * q + b1 * b2 * r
+             * => (b2 * a1 % a2 * b1) / (b1 * b2)
+             */
+            return new Fraction(
+                    (this["s"] * P["d"] * this["n"]) % (P["n"] * this["d"]),
+                    P["d"] * this["d"]
+                    );
+        },
+
+        /**
+         * Calculates the fractional gcd of two rational numbers
+         *
+         * Ex: new Fraction(5,8).gcd(3,7) => 1/56
          */
-        return new Fraction(
-                (this['s'] * P['d'] * this['n']) % (P['n'] * this['d']),
-                P['d'] * this['d']
-                );
-    };
-    
-    /**
-     * Calculates the fractional gcd of two rational numbers
-     *
-     * Ex: new Fraction(5,8).gcd(3,7) => 1/56
-     */
-    Fraction.prototype['gcd'] = function(a, b) {
+        "gcd": function(a, b) {
 
-        parse(a, b);
-        
-        // gcd(a / b, c / d) = gcd(a, c) / lcm(b, d)
-        
-        return new Fraction(gcd(P['n'], this['n']), P['d'] * this['d'] / gcd(P['d'], this['d']));
-    };
-    
-    /**
-     * Calculates the ceil of a rational number
-     *
-     * Ex: new Fraction('4.(3)').ceil() => (5 / 1)
-     **/
-    Fraction.prototype['ceil'] = function() {
+            parse(a, b);
 
-        return new Fraction(Math.ceil(this['s'] * this['n'] / this['d']), 1);
-    };
-    
-    /**
-     * Calculates the floor of a rational number
-     *
-     * Ex: new Fraction('4.(3)').floor() => (4 / 1)
-     **/
-    Fraction.prototype['floor'] = function() {
+            // gcd(a / b, c / d) = gcd(a, c) / lcm(b, d)
 
-        return new Fraction(Math.floor(this['s'] * this['n'] / this['d']), 1);
-    };
-    
-    /**
-     * Rounds a rational numbers
-     *
-     * Ex: new Fraction('4.(3)').round() => (4 / 1)
-     **/
-    Fraction.prototype['round'] = function() {
+            return new Fraction(gcd(P["n"], this["n"]), P["d"] * this["d"] / gcd(P["d"], this["d"]));
+        },
 
-        return new Fraction(Math.round(this['s'] * this['n'] / this['d']), 1);
-    };
-    
-    /**
-     * Gets the inverse of the fraction, means numerator and denumerator are exchanged
-     *
-     * Ex: new Fraction([-3, 4]).inverse() => -4 / 3
-     **/
-    Fraction.prototype['inverse'] = function() {
+        /**
+         * Calculates the ceil of a rational number
+         *
+         * Ex: new Fraction('4.(3)').ceil() => (5 / 1)
+         **/
+        "ceil": function() {
 
-        return new Fraction(this['s'] * this['d'], this['n']);
-    };
-    
-    /**
-     * Calculates the fraction to some integer exponent
-     *
-     * Ex: new Fraction(-1,2).pow(-3) => -8
-     */
-    Fraction.prototype['pow'] = function(m) {
+            return new Fraction(Math.ceil(this["s"] * this["n"] / this["d"]), 1);
+        },
 
-        var d = this['d'];
-        var n = this['n'];
-        
-        if (m < 0) {
-            this['d'] = Math.pow(n, -m);
-            this['n'] = Math.pow(d, -m);
-        } else {
-            this['d'] = Math.pow(d, m);
-            this['n'] = Math.pow(n, m);
-        }
+        /**
+         * Calculates the floor of a rational number
+         *
+         * Ex: new Fraction('4.(3)').floor() => (4 / 1)
+         **/
+        "floor": function() {
 
-        if (0 === (m % 2)) {
-            this['s'] = 1;
-        }
-        return this;
-    };
-    
-    /**
-     * Check if two rational numbers are the same
-     *
-     * Ex: new Fraction(19.6).equals([98, 5]);
-     **/
-    Fraction.prototype['equals'] = function(a, b) {
+            return new Fraction(Math.floor(this["s"] * this["n"] / this["d"]), 1);
+        },
 
-        parse(a, b);
-        
-        return this['s'] * this['n'] * P['d'] === P['s'] * P['n'] * this['d']; // Same as compare() === 0
-    };
-    
-    /**
-     * Check if two rational numbers are the same
-     *
-     * Ex: new Fraction(19.6).equals([98, 5]);
-     **/
-    Fraction.prototype['compare'] = function(a, b) {
+        /**
+         * Rounds a rational numbers
+         *
+         * Ex: new Fraction('4.(3)').round() => (4 / 1)
+         **/
+        "round": function() {
 
-        parse(a, b);
-        
-        var t = (this['s'] * this['n'] * P['d'] - P['s'] * P['n'] * this['d']);
-        
-        return (0 < t) - (t < 0);
-    };
-    
-    /**
-     * Check if two rational numbers are divisible
-     *
-     * Ex: new Fraction(19.6).divisible(1.5);
-     */
-    Fraction.prototype['divisible'] = function(a, b) {
+            return new Fraction(Math.round(this["s"] * this["n"] / this["d"]), 1);
+        },
 
-        parse(a, b);
-        
-        return !!(P['n'] * this['d']) && !((this['n'] * P['d']) % (P['n'] * this['d']));
-    };
-    
-    /**
-     * Returns a decimal representation of the fraction
-     *
-     * Ex: new Fraction("100.'91823'").valueOf() => 100.91823918239183
-     **/
-    Fraction.prototype['valueOf'] = function() {
+        /**
+         * Gets the inverse of the fraction, means numerator and denumerator are exchanged
+         *
+         * Ex: new Fraction([-3, 4]).inverse() => -4 / 3
+         **/
+        "inverse": function() {
 
-        return this['s'] * this['n'] / this['d'];
-    };
-    
-    /**
-     * Returns a string-fraction representation of a Fraction object
-     *
-     * Ex: new Fraction("1.'3'").toFraction() => "4 1/3"
-     **/
-    Fraction.prototype['toFraction'] = function() {
+            return new Fraction(this["s"] * this["d"], this["n"]);
+        },
 
-        var whole, str = "";
-        
-        var n = this['n'];
-        var d = this['d'];
-        
-        if (this['s'] < 0) {
-            str+= '-';
-        }
+        /**
+         * Calculates the fraction to some integer exponent
+         *
+         * Ex: new Fraction(-1,2).pow(-3) => -8
+         */
+        "pow": function(m) {
 
-        if (d === 1) {
-            str+= n;
-        } else {
-            whole = Math.floor(n / d);
-            
-            if (whole > 0) {
-                str+= whole;
-                str+= " ";
-                n = n % d;
-            }
-
-            str+= n;
-            str+= '/';
-            str+= d;
-        }
-        return str;
-    };
-    
-    /**
-     * Returns a latex representation of a Fraction object
-     *
-     * Ex: new Fraction("1.'3'").toLatex() => "\frac{4}{3}"
-     **/
-    Fraction.prototype['toLatex'] = function() {
-
-        var whole, str = "";
-        
-        var n = this['n'];
-        var d = this['d'];
-        
-        if (this['s'] < 0) {
-            str+= '-';
-        }
-
-        if (d === 1) {
-            str+= n;
-        } else {
-            whole = Math.floor(n / d);
-            
-            if (whole > 0) {
-                str+= whole;
-                n = n % d;
-            }
-
-            str+= "\\frac{";
-            str+= n;
-            str+= '}{';
-            str+= d;
-            str+= '}';
-        }
-        return str;
-    };
-    
-    /**
-     * Creates a string representation of a fraction with all digits
-     *
-     * Ex: new Fraction("100.'91823'").toString() => "100.(91823)"
-     **/
-    Fraction.prototype['toString'] = function() {
-
-        var g;
-        var N = this['n'];
-        var D = this['d'];
-
-        if (!Fraction['REDUCE']) {
-            g = gcd(N, D);
-
-            N/= g;
-            D/= g;
-        }
-
-        var p = String(N).split(""); // Numerator chars
-        var t = 0; // Tmp var
-
-        var ret = [~this['s'] ? "" : "-", "", ""]; // Return array, [0] is zero sign, [1] before comma, [2] after
-        var zeros = ""; // Collection variable for zeros
-
-        var cycLen = cycleLen(N, D); // Cycle length
-        var cycOff = cycleStart(N, D, cycLen); // Cycle start
-
-        var j = -1;
-        var n = 1; // str index
-
-        // rough estimate to fill zeros
-        var length = 10 + cycLen + cycOff + p.length; // 10 = decimal places when no repitation
-
-        for (var i = 0; i < length; i++, t*= 10) {
-
-            if (i < p.length) {
-                t+= Number(p[i]);
+            var d = this["d"];
+            var n = this["n"];
+            if (m < 0) {
+                this["d"] = Math.pow(n, -m);
+                this["n"] = Math.pow(d, -m);
             } else {
-                n = 2;
-                j++; // Start now => after comma
+                this["d"] = Math.pow(d, m);
+                this["n"] = Math.pow(n, m);
             }
 
-            if (cycLen > 0) { // If we have a repeating part
-                if (j === cycOff) {
-                    ret[n]+= zeros + "(";
+            if (0 === (m % 2)) {
+                this["s"] = 1;
+            }
+            return this;
+        },
+
+        /**
+         * Check if two rational numbers are the same
+         *
+         * Ex: new Fraction(19.6).equals([98, 5]);
+         **/
+        "equals": function(a, b) {
+
+            parse(a, b);
+            return this["s"] * this["n"] * P["d"] === P["s"] * P["n"] * this["d"]; // Same as compare() === 0
+        },
+
+        /**
+         * Check if two rational numbers are the same
+         *
+         * Ex: new Fraction(19.6).equals([98, 5]);
+         **/
+        "compare": function(a, b) {
+
+            parse(a, b);
+            var t = (this["s"] * this["n"] * P["d"] - P["s"] * P["n"] * this["d"]);
+            return (0 < t) - (t < 0);
+        },
+
+        /**
+         * Check if two rational numbers are divisible
+         *
+         * Ex: new Fraction(19.6).divisible(1.5);
+         */
+        "divisible": function(a, b) {
+
+            parse(a, b);
+            return !!(P["n"] * this["d"]) && !((this["n"] * P["d"]) % (P["n"] * this["d"]));
+        },
+
+        /**
+         * Returns a decimal representation of the fraction
+         *
+         * Ex: new Fraction("100.'91823'").valueOf() => 100.91823918239183
+         **/
+        'valueOf': function() {
+
+            return this["s"] * this["n"] / this["d"];
+        },
+
+        /**
+         * Returns a string-fraction representation of a Fraction object
+         *
+         * Ex: new Fraction("1.'3'").toFraction() => "4 1/3"
+         **/
+        'toFraction': function() {
+
+            var whole, str = "";
+            var n = this["n"];
+            var d = this["d"];
+            if (this["s"] < 0) {
+                str+= '-';
+            }
+
+            if (d === 1) {
+                str+= n;
+            } else {
+                whole = Math.floor(n / d);
+                if (whole > 0) {
+                    str+= whole;
+                    str+= " ";
+                    n = n % d;
+                }
+
+                str+= n;
+                str+= '/';
+                str+= d;
+            }
+            return str;
+        },
+
+        /**
+         * Returns a latex representation of a Fraction object
+         *
+         * Ex: new Fraction("1.'3'").toLatex() => "\frac{4}{3}"
+         **/
+        'toLatex': function() {
+
+            var whole, str = "";
+            var n = this["n"];
+            var d = this["d"];
+            if (this["s"] < 0) {
+                str+= '-';
+            }
+
+            if (d === 1) {
+                str+= n;
+            } else {
+                whole = Math.floor(n / d);
+                if (whole > 0) {
+                    str+= whole;
+                    n = n % d;
+                }
+
+                str+= "\\frac{";
+                str+= n;
+                str+= '}{';
+                str+= d;
+                str+= '}';
+            }
+            return str;
+        },
+
+        /**
+         * Creates a string representation of a fraction with all digits
+         *
+         * Ex: new Fraction("100.'91823'").toString() => "100.(91823)"
+         **/
+        'toString': function() {
+
+            var g;
+            var N = this["n"];
+            var D = this["d"];
+
+            if (!Fraction['REDUCE']) {
+                g = gcd(N, D);
+                N/= g;
+                D/= g;
+            }
+
+            var p = String(N).split(""); // Numerator chars
+            var t = 0; // Tmp var
+
+            var ret = [~this["s"] ? "" : "-", "", ""]; // Return array, [0] is zero sign, [1] before comma, [2] after
+            var zeros = ""; // Collection variable for zeros
+
+            var cycLen = cycleLen(N, D); // Cycle length
+            var cycOff = cycleStart(N, D, cycLen); // Cycle start
+
+            var j = -1;
+            var n = 1; // str index
+
+            // rough estimate to fill zeros
+            var length = 10 + cycLen + cycOff + p.length; // 10 = decimal places when no repitation
+
+            for (var i = 0; i < length; i++, t*= 10) {
+
+                if (i < p.length) {
+                    t+= Number(p[i]);
+                } else {
+                    n = 2;
+                    j++; // Start now => after comma
+                }
+
+                if (cycLen > 0) { // If we have a repeating part
+                    if (j === cycOff) {
+                        ret[n]+= zeros + "(";
+                        zeros = "";
+                    } else if (j === cycLen + cycOff) {
+                        ret[n]+= zeros + ")";
+                        break;
+                    }
+                }
+
+                if (t >= D) {
+                    ret[n]+= zeros + ((t / D) | 0); // Flush zeros, Add current digit
                     zeros = "";
-                } else if (j === cycLen + cycOff) {
-                    ret[n]+= zeros + ")";
-                    break;
+                    t = t % D;
+                } else if (n > 1) { // Add zeros to the zero buffer
+                    zeros+= "0";
+                } else if (ret[n]) { // If before comma, add zero only if already something was added
+                    ret[n]+= "0";
                 }
             }
 
-            if (t >= D) {
-                ret[n]+= zeros + ((t / D) | 0); // Flush zeros, Add current digit
-                zeros = "";
-                t = t % D;
-            } else if (n > 1) { // Add zeros to the zero buffer
-                zeros+= "0";
-            } else if (ret[n]) { // If before comma, add zero only if already something was added
-                ret[n]+= "0";
+            // If it's empty, it's a leading zero only
+            ret[0]+= ret[1] || "0";
+
+            // If there is something after the comma, add the comma sign
+            if (ret[2]) {
+                return ret[0] + "." + ret[2];
             }
+            return ret[0];
         }
-
-        // If it's empty, it's a leading zero only
-        ret[0]+= ret[1] || "0";
-
-        // If there is something after the comma, add the comma sign
-        if (ret[2]) {
-            return ret[0] + "." + ret[2];
-        }
-        return ret[0];
     };
 
-    if (typeof define === 'function' && define['amd']) {
+    if (typeof define === "function" && define["amd"]) {
         define([], function() {
             return Fraction;
         });
-    } else if (typeof exports === 'object') {
-        module['exports'] = Fraction;
+    } else if (typeof exports === "object") {
+        module["exports"] = Fraction;
     } else {
         root['Fraction'] = Fraction;
     }
