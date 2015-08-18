@@ -9,6 +9,30 @@ var tests = [{
         set: " 123",
         expect: "Invalid Param"
     }, {
+        set: 0,
+        expect: 0
+    }, {
+        set: .2,
+        expect: "0.2"
+    }, {
+        set: 1.1,
+        expect: "1.1"
+    }, {
+        set: 1.2,
+        expect: "1.2"
+    }, {
+        set: 1.3,
+        expect: "1.3"
+    }, {
+        set: 1.4,
+        expect: "1.4"
+    }, {
+        set: 1.5,
+        expect: "1.5"
+    }, {
+        set: 2.555,
+        expect: "2.555"
+    }, {
         set: " - ",
         expect: "Invalid Param"
     }, {
@@ -543,7 +567,7 @@ var tests = [{
         fn: "pow",
         param: 4,
         expect: "0.1296"
-    },{
+    }, {
         label: "8128371:12394 - 8128371/12394",
         set: "8128371:12394",
         fn: "sub",
@@ -817,7 +841,7 @@ describe('Arguments', function() {
         // String
         var fraction = new Fraction("0.1");
         assert.equal("1/10", fraction.n + "/" + fraction.d);
-        
+
         var fraction = new Fraction("6234/6460");
         assert.equal("3117/3230", fraction.n + "/" + fraction.d);
 
@@ -854,8 +878,14 @@ describe('fractions', function() {
         var fraction = new Fraction("0.125");
         assert.equal("1/8", fraction.n + "/" + fraction.d);
     });
-});
 
+    it("Should pass 8.36 = 209/25", function() {
+
+        var fraction = new Fraction(8.36);
+        assert.equal("209/25", fraction.n + "/" + fraction.d);
+    });
+
+});
 
 describe('constructors', function() {
 
