@@ -241,7 +241,7 @@
         while (d % 5 === 0)
             d/= 5;
         
-        if (d === 1)
+        if (d === 1) // Catch non-cyclic numbers
             return 0;
 
         var rem = 10 % d;
@@ -249,7 +249,7 @@
         for (var t = 1; rem !== 1; t++) {
             rem = rem * 10 % d;
 
-            if (t > 2000) // TODO: find an entity which states that a number has no cycle
+            if (t > 2000) // This check is not necessary per se, but for really large numbers the algorithm runs into an endless loop. There might be a better fix
                 return 0;
         }
         return t;
