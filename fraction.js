@@ -234,7 +234,7 @@
     };
 
     var cycleLen = function(n, d) {
-
+        
         if (d % 2 === 0) {
             return cycleLen(n, d / 2);
         }
@@ -243,18 +243,19 @@
             return cycleLen(n, d / 5);
         }
 
-        for (var t = 1; t < 2000; t++) { // If you expect numbers longer then 2k chars repeating, increase the 2000
-            // Solve 10^t == 1 (mod d) for d != 0 (mod 2, 5)
-            // http://mathworld.wolfram.com/FullReptendPrime.html
-            if (1 === modpow(10, t, d)) {
-                return t;
-            }
+        var rem = 10 % d;
+
+        for (var t = 1; rem !== 1; t++) {
+            rem = rem * 10 % d;
+
+            if (t > 2000) // TODO: find an entity which states that a number has no cycle
+                return 0;
         }
-        return 0;
+        return t;
     };
 
     var cycleStart = function(n, d, len) {
-
+        
         for (var s = 0; s < 300; s++) { // s < ~log10(Number.MAX_VALUE)
             // Solve 10^s == 10^(s+t) (mod d)
             if (modpow(10, s, d) === modpow(10, s + len, d))
