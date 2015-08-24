@@ -1,10 +1,13 @@
 /**
- * @license Fraction.js v2.4.1 01/06/2015
+ * @license Fraction.js v2.7.0 01/06/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  **/
+
+// NOTE: This is a nice example, but a stable version of this is served with Polynomial.js: 
+// https://github.com/infusion/Polynomial.js
 
 var Fraction = require('../fraction.min.js');
 
