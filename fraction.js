@@ -48,9 +48,9 @@
 
     // Parsed data to avoid calling "new" all the time
     var P = {
+        "s": 1,
         "n": 0,
-        "d": 0,
-        "s": 0
+        "d": 1
     };
 
     function assign(n, s) {
@@ -240,11 +240,11 @@
 
     var cycleLen = function(n, d) {
 
-        while (d % 2 === 0)
-            d/= 2;
-        
-        while (d % 5 === 0)
-            d/= 5;
+        for (; d % 2 === 0; 
+            d/= 2) {}
+
+        for (; d % 5 === 0; 
+            d/= 5) {}
         
         if (d === 1) // Catch non-cyclic numbers
             return 0;
@@ -593,7 +593,7 @@
                 if (whole > 0) {
                     str+= whole;
                     str+= " ";
-                    n = n % d;
+                    n %= d;
                 }
 
                 str+= n;
@@ -623,7 +623,7 @@
                 whole = Math.floor(n / d);
                 if (whole > 0) {
                     str+= whole;
-                    n = n % d;
+                    n %= d;
                 }
 
                 str+= "\\frac{";
