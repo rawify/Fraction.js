@@ -343,7 +343,7 @@ Generates an exact string representation of the actual object, including repeati
 
 String toLatex()
 ---
-Generates an exact LaTeX representation of the actual object.
+Generates an exact LaTeX representation of the actual object. You can see a [live demo](http://www.xarg.org/2014/03/precise-calculations-in-javascript/) on my blog.
 
 String toFraction()
 ---
