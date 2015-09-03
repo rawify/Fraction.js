@@ -283,13 +283,16 @@
     };
 
     var gcd = function(a, b) {
-        var t;
-        while (b) {
-            t = a;
-            a = b;
-            b = t % b;
+
+        if (!a) return b;
+        if (!b) return a;
+
+        while (1) {
+            a%= b;
+            if (!a) return b;
+            b%= a;
+            if (!b) return a;
         }
-        return a;
     };
 
     /**
