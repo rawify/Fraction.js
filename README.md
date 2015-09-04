@@ -4,7 +4,19 @@
 [![Build Status](https://travis-ci.org/infusion/Fraction.js.svg?branch=master)](https://travis-ci.org/infusion/Fraction.js)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
-Tired of inprecise numbers represented by doubles, which have to store ratios and irrational numbers like PI or sqrt(2) the same way? If you need more precision or just want a fraction as a result, have a look at *Fraction.js*!
+Tired of inprecise numbers represented by doubles, which have to store rational and irrational numbers like PI or sqrt(2) the same way? Obviously the following problem is preventable:
+
+```javascript
+1 / 98 * 98 // = 0.9999999999999999
+```
+
+If you need more precision or just want a fraction as a result, have a look at *Fraction.js*:
+
+```javascript
+var Fraction = require('fraction.js');
+
+Fraction(a).div(98).mul(98) // = 1
+```
 
 Internally, numbers are represented as *numerator / denominator*, which adds just a little overhead. However, the library is written with performance in mind and outperforms any other implementation, as you can see [here](http://jsperf.com/convert-a-rational-number-to-a-babylonian-fractions/28). This basic data-type makes it the perfect basis for [Polynomial.js](https://github.com/infusion/Polynomial.js).
 
@@ -12,29 +24,8 @@ Convert decimal to fraction
 ===
 The simplest job for fraction.js is to get a fraction out of a decimal:
 ```javascript
-var Fraction = require('fraction.js');
-
 var x = new Fraction(1.88);
 var res = x.toFraction(); // String "1 22/25"
-```
-
-Laplace Probability
-===
-Simple example. What's the probability of throwing a 3, and 1 or 4, and 2 or 4 or 6 with a fair dice?
-
-P({3}):
-```javascript
-var p = new Fraction([3].length, 6).toString(); // 0.1(6)
-```
-
-P({1, 4}):
-```javascript
-var p = new Fraction([1, 4].length, 6).toString(); // 0.(3)
-```
-
-P({2, 4, 6}):
-```javascript
-var p = new Fraction([2, 4, 6].length, 6).toString(); // 0.5
 ```
 
 Examples / Motivation
@@ -63,7 +54,28 @@ If you would try to calculate it yourself, you would come up with something like
 
 Quite okay, but yea - not as accurate as it could be.
 
-Another example might be to calculate degrees/minutes/seconds into precise decimal representations:
+
+Laplace Probability
+===
+Simple example. What's the probability of throwing a 3, and 1 or 4, and 2 or 4 or 6 with a fair dice?
+
+P({3}):
+```javascript
+var p = new Fraction([3].length, 6).toString(); // 0.1(6)
+```
+
+P({1, 4}):
+```javascript
+var p = new Fraction([1, 4].length, 6).toString(); // 0.(3)
+```
+
+P({2, 4, 6}):
+```javascript
+var p = new Fraction([2, 4, 6].length, 6).toString(); // 0.5
+```
+
+Convert degrees/minutes/seconds to precise rational representation:
+===
 
 57+45/60+17/3600
 ```javascript
