@@ -15,6 +15,9 @@ var tests = [{
         set: .2,
         expect: "0.2"
     }, {
+        set: .333,
+        expect: "0.333"
+    }, {
         set: 1.1,
         expect: "1.1"
     }, {
@@ -108,6 +111,9 @@ var tests = [{
         set: [22, 7],
         expect: '3.(142857)' // We got Pi! - almost ;o
     }, {
+        set: "355/113",
+        expect: "3.(1415929203539823008849557522123893805309734513274336283185840707964601769911504424778761061946902654867256637168)" // Yay, a better PI
+    }, {
         set: "3 1/7",
         expect: '3.(142857)'
     }, {
@@ -159,6 +165,30 @@ var tests = [{
         param: "0.09(34)",
         expect: "-0.07(95)"
     }, {
+        label: "0.4 / 0.1",
+        set: .4,
+        fn: "div",
+        param: ".1",
+        expect: "4"
+    }, {
+        label: "1 / -.1",
+        set: 1,
+        fn: "div",
+        param: "-.1",
+        expect: "-10"
+    }, {
+        label: "1 - (-1)",
+        set: 1,
+        fn: "sub",
+        param: "-1",
+        expect: "2"
+    }, {
+        label: "1 + (-1)",
+        set: 1,
+        fn: "add",
+        param: "-1",
+        expect: "0"
+    }, {
         label: "-187 % 12",
         set: '-187',
         fn: "mod",
@@ -194,6 +224,12 @@ var tests = [{
         fn: "mod",
         param: "11.119(356)",
         expect: "3.275(997225017295217)"
+    }, {
+        label: "13/26 mod 1",
+        set: '13/26',
+        fn: "mod",
+        param: "1.000",
+        expect: "0.5"
     }, {
         label: "381.(33411) % 1", // Extract fraction part of a number
         set: '381.(33411)',
@@ -914,16 +950,16 @@ describe('constructors', function() {
 
 describe('Latex Output', function() {
 
-    it("Should pass 123.'3' = 123\\frac{1}{3}", function() {
+    it("Should pass 123.'3' = \\frac{370}{3}", function() {
 
         var tmp = new Fraction("123.'3'");
-        assert.equal("123\\frac{1}{3}", tmp.toLatex());
+        assert.equal("\\frac{370}{3}", tmp.toLatex());
     });
 
-    it("Should pass 1.'3' = 1\\frac{1}{3}", function() {
+    it("Should pass 1.'3' = \\frac{4}{3}", function() {
 
         var tmp = new Fraction("1.'3'");
-        assert.equal("1\\frac{1}{3}", tmp.toLatex());
+        assert.equal("\\frac{4}{3}", tmp.toLatex());
     });
 
     it("Should pass -1.0000000000 = -1", function() {
@@ -969,5 +1005,13 @@ describe('Fraction Output', function() {
 
         var tmp = new Fraction(-99).inverse().div(293);
         assert.equal('-1/29007', tmp.toFraction());
+    });
+
+    it('Should work with large calculations', function() {
+        var x = Fraction(1123875);
+        var y = Fraction(1238750184);
+        var z = Fraction(1657134);
+        var r = Fraction(77344464613500, 92063);
+        assert.equal(x.mul(y).div(z).toFraction(), r.toFraction());
     });
 });
