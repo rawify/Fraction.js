@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v2.7.0 01/06/2015
+ * @license Fraction.js v2.8.0 01/06/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -56,12 +56,12 @@
     function assign(n, s) {
 
         if (isNaN(n = parseInt(n, 10))) {
-            parser_exit();
+            thorwInvalidParam();
         }
         return n * s;
     }
 
-    function parser_exit() {
+    function thorwInvalidParam() {
         throw "Invalid Param";
     }
 
@@ -97,7 +97,7 @@
                         if (1 in p1)
                             d = p1[1];
                     } else {
-                        parser_exit();
+                        thorwInvalidParam();
                     }
                     s = n * d;
                     break;
@@ -215,7 +215,7 @@
                     /* Fall through on error */
                 }
                 default:
-                    parser_exit();
+                    thorwInvalidParam();
             }
 
         if (!d) {
@@ -623,12 +623,6 @@
             if (d === 1) {
                 str+= n;
             } else {
-                whole = Math.floor(n / d);
-                if (whole > 0) {
-                    str+= whole;
-                    n %= d;
-                }
-
                 str+= "\\frac{";
                 str+= n;
                 str+= '}{';
