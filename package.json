@@ -1,11 +1,11 @@
 {
     "name": "fraction.js",
     "title": "fraction.js",
-    "version": "2.7.0",
+    "version": "2.8.0",
     "homepage": "http://www.xarg.org/2014/03/precise-calculations-in-javascript/",
     "bugs": "https://github.com/infusion/Fraction.js/issues",
     "description": "A rational number library",
-    "keywords": ["math", "fraction", "rational", "number", "parser"],
+    "keywords": ["math", "fraction", "rational", "number", "parser", "rational numbers"],
     "author": "Robert Eisele <robert@xarg.org> (http://www.xarg.org/)",
     "main": "fraction",
     "readmeFilename": "README.md",
