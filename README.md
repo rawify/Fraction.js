@@ -266,6 +266,19 @@ if (x !== null) {
 }
 ```
 
+Attributes
+===
+
+The Fraction object allows direct access to the numerator, denominator and sign attributes. It is ensured that only the sign-attribute holds sign information so that a sign comparision is only necessary against this attribute.
+
+```javascript
+var f = new Fraction('-1/2');
+console.log(f.n); // Numerator: 1
+console.log(f.d); // Denominator: 2
+console.log(f.s); // Sign: -1
+```
+
+
 Functions
 ===
 
@@ -353,13 +366,17 @@ Generates an exact string representation of the actual object, including repeati
 
 **Note:** As `valueOf()` and `toString()` are provided, `toString()` is only called implicitly in a real string context. Using the plus-operator like `"123" + new Fraction` will call valueOf(), because JavaScript tries to combine two primitives first and concatenates them later, as string will be the more dominant type. `alert(new Fraction)` or `String(new Fraction)` on the other hand will do what you expect. If you really want to have control, you should call `toString()` or `valueOf()` explicitly!
 
-String toLatex()
+String toLatex(excludeWhole=false)
 ---
 Generates an exact LaTeX representation of the actual object. You can see a [live demo](http://www.xarg.org/2014/03/precise-calculations-in-javascript/) on my blog.
 
-String toFraction()
+The optional boolean parameter indicates if you want to exclude the whole part. "1 1/3" instead of "4/3"
+
+String toFraction(excludeWhole=false)
 ---
 Gets a string representation of the fraction
+
+The optional boolean parameter indicates if you want to exclude the whole part. "1 1/3" instead of "4/3"
 
 Fraction clone()
 ---
