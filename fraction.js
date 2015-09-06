@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v2.8.0 01/06/2015
+ * @license Fraction.js v2.9.0 01/06/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -580,7 +580,7 @@
          *
          * Ex: new Fraction("1.'3'").toFraction() => "4 1/3"
          **/
-        'toFraction': function() {
+        'toFraction': function(excludeWhole) {
 
             var whole, str = "";
             var n = this["n"];
@@ -592,8 +592,8 @@
             if (d === 1) {
                 str+= n;
             } else {
-                whole = Math.floor(n / d);
-                if (whole > 0) {
+
+                if (excludeWhole && (whole = Math.floor(n / d)) > 0) {
                     str+= whole;
                     str+= " ";
                     n %= d;
@@ -611,7 +611,7 @@
          *
          * Ex: new Fraction("1.'3'").toLatex() => "\frac{4}{3}"
          **/
-        'toLatex': function() {
+        'toLatex': function(excludeWhole) {
 
             var whole, str = "";
             var n = this["n"];
@@ -623,6 +623,12 @@
             if (d === 1) {
                 str+= n;
             } else {
+                
+                if (excludeWhole && (whole = Math.floor(n / d)) > 0) {		
+                    str+= whole;		
+                    n %= d;		
+                }
+
                 str+= "\\frac{";
                 str+= n;
                 str+= '}{';

@@ -980,13 +980,13 @@ describe('Fraction Output', function() {
     it("Should pass 123.'3' = 123 1/3", function() {
 
         var tmp = new Fraction("123.'3'");
-        assert.equal('123 1/3', tmp.toFraction());
+        assert.equal('370/3', tmp.toFraction());
     });
 
     it("Should pass 1.'3' = 1 1/3", function() {
 
         var tmp = new Fraction("1.'3'");
-        assert.equal('1 1/3', tmp.toFraction());
+        assert.equal('4/3', tmp.toFraction());
     });
 
     it("Should pass -1.0000000000 = -1", function() {
