@@ -25,7 +25,7 @@ Convert decimal to fraction
 The simplest job for fraction.js is to get a fraction out of a decimal:
 ```javascript
 var x = new Fraction(1.88);
-var res = x.toFraction(); // String "1 22/25"
+var res = x.toFraction(true); // String "1 22/25"
 ```
 
 Examples / Motivation
