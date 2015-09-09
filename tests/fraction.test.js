@@ -526,6 +526,41 @@ var tests = [{
         param: [7, 5],
         expect: "0.0(6)" // == 1/15
     }, {
+        label: "lcm(-3, 3)",
+        set: -3,
+        fn: "lcm",
+        param: 3,
+        expect: "3"
+    }, {
+        label: "lcm(3,-3)",
+        set: 3,
+        fn: "lcm",
+        param: -3,
+        expect: "3"
+    }, {
+        label: "lcm(0,3)",
+        set: 0,
+        fn: "lcm",
+        param: 3,
+        expect: "0"
+    }, {
+        label: "lcm(3, 0)",
+        set: 3,
+        fn: "lcm",
+        param: 0,
+        expect: "0"
+    }, {
+        label: "lcm(0, 0)",
+        set: 0,
+        fn: "lcm",
+        param: 0,
+        expect: "0"
+    }, {
+        label: "lcm(200, 333)",
+        set: 200,
+        fn: "lcm",
+        param: 333, expect: "66600"
+    }, {
         label: "3.5 < 4.1",
         set: 3.5,
         fn: "compare",

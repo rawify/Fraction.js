@@ -323,6 +323,10 @@ Fraction gcd(n)
 ---
 Returns the fractional greatest common divisor
 
+Fraction lcm(n)
+---
+Returns the fractional least common multiple
+
 Fraction ceil()
 ---
 Returns the ceiling of a rational number (rounded up)

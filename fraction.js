@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v2.9.0 01/06/2015
+ * @license Fraction.js v3.0.0 09/09/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -466,6 +466,20 @@
             // gcd(a / b, c / d) = gcd(a, c) / lcm(b, d)
 
             return new Fraction(gcd(P["n"], this["n"]), P["d"] * this["d"] / gcd(P["d"], this["d"]));
+        },
+
+        /**
+         * Calculates the fractional lcm of two rational numbers
+         *
+         * Ex: new Fraction(5,8).lcm(3,7) => 15
+         */
+        "lcm": function(a, b) {
+
+            parse(a, b);
+
+            // lcm(a / b, c / d) = lcm(a, c) / gcd(b, d)
+
+            return new Fraction(P["n"] * this["n"] / gcd(P["n"], this["n"]), gcd(P["d"], this["d"]));
         },
 
         /**
