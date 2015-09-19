@@ -15,7 +15,7 @@ If you need more precision or just want a fraction as a result, have a look at *
 ```javascript
 var Fraction = require('fraction.js');
 
-Fraction(a).div(98).mul(98) // = 1
+Fraction(1).div(98).mul(98) // = 1
 ```
 
 Internally, numbers are represented as *numerator / denominator*, which adds just a little overhead. However, the library is written with performance in mind and outperforms any other implementation, as you can see [here](http://jsperf.com/convert-a-rational-number-to-a-babylonian-fractions/28). This basic data-type makes it the perfect basis for [Polynomial.js](https://github.com/infusion/Polynomial.js).
