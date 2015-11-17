@@ -206,9 +206,9 @@
                     }
 
                     if (B.length <= A) { // Check for more tokens on the stack
-                        s = /* void */
-                        n = x + z * (v * y + w);
                         d = y * z;
+                        s = /* void */
+                        n = x + d * v + z * w;
                         break;
                     }
 
