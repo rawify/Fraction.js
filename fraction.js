@@ -576,7 +576,7 @@
         "divisible": function(a, b) {
 
             parse(a, b);
-            return !!(P["n"] * this["d"]) && !((this["n"] * P["d"]) % (P["n"] * this["d"]));
+            return !(!(P["n"] * this["d"]) || ((this["n"] * P["d"]) % (P["n"] * this["d"])));
         },
 
         /**
