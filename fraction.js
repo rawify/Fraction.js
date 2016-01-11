@@ -43,7 +43,7 @@
     
     // Maximum search depth for cyclic rational numbers. 2000 should be more than enough. 
     // Example: 1/7 = 0.(142857) has 6 repeating decimal places.
-    // When number gets reduced, long cycles will not be detected and toString() only gets the first 10 digits
+    // If MAX_CYCLE_LEN gets reduced, long cycles will not be detected and toString() only gets the first 10 digits
     var MAX_CYCLE_LEN = 2000;
 
     // Parsed data to avoid calling "new" all the time
