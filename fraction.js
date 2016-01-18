@@ -643,6 +643,11 @@
             return str;
         },
         
+        /**
+         * Returns an array of continued fraction elements
+         * 
+         * Ex: new Fraction("7/8").toContinued() => [0,1,7]
+         */
         'toContinued': function() {
             
             var t;

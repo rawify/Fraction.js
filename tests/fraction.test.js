@@ -1101,4 +1101,10 @@ describe('Fraction toContined', function() {
         assert.equal('17,1,6,14', tmp.toContinued().toString());
     });
 
+    it("Should pass 1768/99", function() {
+
+        var tmp = new Fraction('7/8');
+        assert.equal('0,1,7', tmp.toContinued().toString());
+    });
+
 });

@@ -382,6 +382,15 @@ Gets a string representation of the fraction
 
 The optional boolean parameter indicates if you want to exclude the whole part. "1 1/3" instead of "4/3"
 
+Array toContinued()
+---
+Gets an array of the fraction represented as a continued fraction. The first element always contains the whole part.
+
+```javascript
+var f = new Fraction('88/33');
+var c = f.toContinued(); // [2, 1, 2]
+```
+
 Fraction clone()
 ---
 Creates a copy of the actual Fraction object
