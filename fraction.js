@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v3.0.0 09/09/2015
+ * @license Fraction.js v3.1.0 09/09/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -528,21 +528,12 @@
          * Ex: new Fraction(-1,2).pow(-3) => -8
          */
         "pow": function(m) {
-
-            var d = this["d"];
-            var n = this["n"];
+            
             if (m < 0) {
-                this["d"] = Math.pow(n, -m);
-                this["n"] = Math.pow(d, -m);
+                return new Fraction(Math.pow(this['s'] * this["d"],-m), Math.pow(this["n"],-m));
             } else {
-                this["d"] = Math.pow(d, m);
-                this["n"] = Math.pow(n, m);
+                return new Fraction(Math.pow(this['s'] * this["n"], m), Math.pow(this["d"], m));
             }
-
-            if (0 === (m % 2)) {
-                this["s"] = 1;
-            }
-            return this;
         },
 
         /**

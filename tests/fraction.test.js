@@ -615,11 +615,23 @@ var tests = [{
         param: -3,
         expect: "-8"
     }, {
+        label: "",
+        set: -3,
+        fn: "pow",
+        param: -3,
+        expect: "-0.(037)"
+    }, {
         label: "-3",
         set: -3,
         fn: "pow",
         param: 2,
         expect: "9"
+    }, {
+        label: "-3",
+        set: -3,
+        fn: "pow",
+        param: 3,
+        expect: "-27"
     }, {
         label: "0^0",
         set: 0,
