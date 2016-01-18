@@ -642,6 +642,23 @@
             }
             return str;
         },
+        
+        'toContinued': function() {
+            
+            var t;
+            var a = this['n'];
+            var b = this['d'];
+            var res = [];
+            
+            do {
+                res.push(Math.floor(a / b));
+                t = a % b;
+                a = b;
+                b = t;
+            } while(a !== 1);
+            
+            return res;
+        },
 
         /**
          * Creates a string representation of a fraction with all digits
@@ -725,5 +742,5 @@
     } else {
         root['Fraction'] = Fraction;
     }
-
+    
 })(this);

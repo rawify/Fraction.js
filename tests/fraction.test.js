@@ -1062,3 +1062,43 @@ describe('Fraction Output', function() {
         assert.equal(x.mul(y).div(z).toFraction(), r.toFraction());
     });
 });
+
+describe('Fraction toContined', function() {
+
+    it("Should pass 415/93", function() {
+
+        var tmp = new Fraction(415, 93);
+        assert.equal('4,2,6,7', tmp.toContinued().toString());
+    });
+
+    it("Should pass 0/2", function() {
+
+        var tmp = new Fraction(0, 2);
+        assert.equal('0', tmp.toContinued().toString());
+    });
+
+    it("Should pass 1/7", function() {
+
+        var tmp = new Fraction(1, 7);
+        assert.equal('0,7', tmp.toContinued().toString());
+    });
+
+    it("Should pass 23/88", function() {
+
+        var tmp = new Fraction('23/88');
+        assert.equal('0,3,1,4,1,3', tmp.toContinued().toString());
+    });
+
+    it("Should pass 1/99", function() {
+
+        var tmp = new Fraction('1/99');
+        assert.equal('0,99', tmp.toContinued().toString());
+    });
+
+    it("Should pass 1768/99", function() {
+
+        var tmp = new Fraction('1768/99');
+        assert.equal('17,1,6,14', tmp.toContinued().toString());
+    });
+
+});
