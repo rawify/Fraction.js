@@ -406,6 +406,12 @@ var tests = [{
         param: null,
         expect: "1"
     }, {
+        label: "ceil(0.23, 2)",
+        set: 0.23,
+        fn: "ceil",
+        param: 2,
+        expect: "0.23"
+    }, {
         label: "ceil(0.6)",
         set: 0.6,
         fn: "ceil",
@@ -435,6 +441,12 @@ var tests = [{
         fn: "floor",
         param: null,
         expect: "0"
+    }, {
+        label: "floor(0.4, 1)",
+        set: 0.4,
+        fn: "floor",
+        param: 1,
+        expect: "0.4"
     }, {
         label: "floor(0.5)",
         set: 0.5,
@@ -477,6 +489,12 @@ var tests = [{
         fn: "round",
         param: null,
         expect: "1"
+    }, {
+        label: "round(0.5, 1)",
+        set: 0.5,
+        fn: "round",
+        param: 1,
+        expect: "0.5"
     }, {
         label: "round(0.6)",
         set: 0.6,

@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v3.1.0 09/09/2015
+ * @license Fraction.js v3.2.0 09/09/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -487,9 +487,11 @@
          *
          * Ex: new Fraction('4.(3)').ceil() => (5 / 1)
          **/
-        "ceil": function() {
+        "ceil": function(places) {
+            
+            places = Math.pow(10, places || 0);
 
-            return new Fraction(Math.ceil(this["s"] * this["n"] / this["d"]), 1);
+            return new Fraction(Math.ceil(places * this["s"] * this["n"] / this["d"]), places);
         },
 
         /**
@@ -497,9 +499,11 @@
          *
          * Ex: new Fraction('4.(3)').floor() => (4 / 1)
          **/
-        "floor": function() {
+        "floor": function(places) {
+            
+            places = Math.pow(10, places || 0);
 
-            return new Fraction(Math.floor(this["s"] * this["n"] / this["d"]), 1);
+            return new Fraction(Math.floor(places * this["s"] * this["n"] / this["d"]), places);
         },
 
         /**
@@ -507,9 +511,11 @@
          *
          * Ex: new Fraction('4.(3)').round() => (4 / 1)
          **/
-        "round": function() {
+        "round": function(places) {
+            
+            places = Math.pow(10, places || 0);
 
-            return new Fraction(Math.round(this["s"] * this["n"] / this["d"]), 1);
+            return new Fraction(Math.round(places * this["s"] * this["n"] / this["d"]), places);
         },
 
         /**

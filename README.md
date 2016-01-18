@@ -327,15 +327,15 @@ Fraction lcm(n)
 ---
 Returns the fractional least common multiple
 
-Fraction ceil()
+Fraction ceil([places=0])
 ---
 Returns the ceiling of a rational number (rounded up)
 
-Fraction floor()
+Fraction floor([places=0])
 ---
 Returns the floor of a rational number (rounded down)
 
-Fraction round()
+Fraction round([places=0])
 ---
 Returns the rational number rounded (normal round)
 
