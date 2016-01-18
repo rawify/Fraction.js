@@ -9,6 +9,9 @@
     "author": "Robert Eisele <robert@xarg.org> (http://www.xarg.org/)",
     "main": "fraction",
     "readmeFilename": "README.md",
+    "directories": {
+        "example": "examples"
+    },
     "licenses": [{
             "type": "MIT",
             "url": "http://www.opensource.org/licenses/MIT"
