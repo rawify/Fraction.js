@@ -465,6 +465,10 @@ Coding Style
 As every library I publish, fraction.js is also built to be as small as possible after compressing it with Google Closure Compiler in advanced mode. Thus the coding style orientates a little on maxing-out the compression rate. Please make sure you keep this style if you plan to extend the library.
 
 
+Precision
+===
+Fraction.js tries to circumvent floating point errors, by having an internal representation of numerator and denominator. As it relies on JavaScript, there is also a limit. The biggest number representable is `|Number.MAX_SAFE_INTEGER / 1|` and the smallest is `|1 / Number.MAX_SAFE_INTEGER|`, with `Number.MAX_SAFE_INTEGER=9007199254740991`.
+
 Testing
 ===
 If you plan to enhance the library, make sure you add test cases and all the previous tests are passing. You can test the library with
