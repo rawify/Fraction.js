@@ -18,7 +18,7 @@ var Fraction = require('fraction.js');
 Fraction(1).div(98).mul(98) // = 1
 ```
 
-Internally, numbers are represented as *numerator / denominator*, which adds just a little overhead. However, the library is written with performance in mind and outperforms any other implementation, as you can see [here](http://jsperf.com/convert-a-rational-number-to-a-babylonian-fractions/28). This basic data-type makes it the perfect basis for [Polynomial.js](https://github.com/infusion/Polynomial.js).
+Internally, numbers are represented as *numerator / denominator*, which adds just a little overhead. However, the library is written with performance in mind and outperforms any other implementation, as you can see [here](http://jsperf.com/convert-a-rational-number-to-a-babylonian-fractions/28). This basic data-type makes it the perfect basis for [Polynomial.js](https://github.com/infusion/Polynomial.js) and [Math.js](https://github.com/josdejong/mathjs).
 
 Convert decimal to fraction
 ===
