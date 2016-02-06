@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v3.2.0 09/09/2015
+ * @license Fraction.js v3.2.5 09/09/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -157,6 +157,8 @@
                             }
                         }
                         n*= z;
+                    } else if (isNaN(p1) || isNaN(p2)) {
+                      d = n = NaN;
                     }
                     break;
                 }
@@ -218,7 +220,7 @@
                     thorwInvalidParam();
             }
 
-        if (!d) {
+        if (d === 0) {
             throw "DIV/0";
         }
 
@@ -425,12 +427,16 @@
          **/
         "mod": function(a, b) {
 
+            if (isNaN(this['n']) || isNaN(this['d'])) {
+              return new Fraction(NaN);
+            }
+
             if (a === undefined) {
                 return new Fraction(this["s"] * this["n"] % this["d"], 1);
             }
 
             parse(a, b);
-            if (0 === (P["n"] * this["d"])) {
+            if (0 === P["n"] && 0 === this["d"]) {
                 Fraction(0, 0); // Throw div/0
             }
 
@@ -478,7 +484,10 @@
             parse(a, b);
 
             // lcm(a / b, c / d) = lcm(a, c) / gcd(b, d)
-
+            
+            if (P["n"] === 0 && this["n"] === 0) {
+              return new Fraction;
+            }
             return new Fraction(P["n"] * this["n"] / gcd(P["n"], this["n"]), gcd(P["d"], this["d"]));
         },
 
@@ -490,7 +499,10 @@
         "ceil": function(places) {
             
             places = Math.pow(10, places || 0);
-
+            
+            if (isNaN(this["n"]) || isNaN(this["d"])) {
+              return new Fraction(NaN);
+            }
             return new Fraction(Math.ceil(places * this["s"] * this["n"] / this["d"]), places);
         },
 
@@ -503,6 +515,9 @@
             
             places = Math.pow(10, places || 0);
 
+            if (isNaN(this["n"]) || isNaN(this["d"])) {
+              return new Fraction(NaN);
+            }
             return new Fraction(Math.floor(places * this["s"] * this["n"] / this["d"]), places);
         },
 
@@ -512,9 +527,12 @@
          * Ex: new Fraction('4.(3)').round() => (4 / 1)
          **/
         "round": function(places) {
-            
+
             places = Math.pow(10, places || 0);
 
+            if (isNaN(this["n"]) || isNaN(this["d"])) {
+              return new Fraction(NaN);
+            }
             return new Fraction(Math.round(places * this["s"] * this["n"] / this["d"]), places);
         },
 
@@ -681,6 +699,10 @@
             var g;
             var N = this["n"];
             var D = this["d"];
+
+            if (isNaN(N) || isNaN(D)) {
+              return "NaN";
+            }
 
             if (!Fraction['REDUCE']) {
                 g = gcd(N, D);
