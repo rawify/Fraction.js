@@ -75,6 +75,22 @@ var tests = [{
     set: "-123.(4)",
     expect: "-123.(4)"
   }, {
+    set: "0/0",
+    expect: "DIV/0"
+  }, {
+    set: "9/0",
+    expect: "DIV/0"
+  }, {
+    label: "0/1+0/1",
+    set: "0/1",
+    param: "0/1",
+    expect: "0"
+  }, {
+    label: "1/9+0/1",
+    set: "1/9",
+    param: "0/1",
+    expect: "0.(1)"
+  }, {
     set: "123/456",
     expect: "0.269(736842105263157894)"
   }, {
@@ -538,6 +554,24 @@ var tests = [{
     param: [3, 7],
     expect: "0.017(857142)" // == 1/56
   }, {
+    label: "gcd(52, 39)",
+    set: 52,
+    fn: "gcd",
+    param: 39,
+    expect: "13"
+  }, {
+    label: "gcd(51357, 3819)",
+    set: 51357,
+    fn: "gcd",
+    param: 3819,
+    expect: "57"
+  }, {
+    label: "gcd(841, 299)",
+    set: 841,
+    fn: "gcd",
+    param: 299,
+    expect: "1"
+  }, {
     label: "gcd(2/3, 7/5)",
     set: [2, 3],
     fn: "gcd",
@@ -577,7 +611,174 @@ var tests = [{
     label: "lcm(200, 333)",
     set: 200,
     fn: "lcm",
-    param: 333, expect: "66600"
+    param: 333, expect: "66600"},
+  {
+    label: "1 + -1",
+    set: 1,
+    fn: "add",
+    param: -1,
+    expect: "0"
+  }, {
+    label: "3/10+3/14",
+    set: "3/10",
+    fn: "add",
+    param: "3/14",
+    expect: "0.5(142857)"
+  }, {
+    label: "3/10-3/14",
+    set: "3/10",
+    fn: "sub",
+    param: "3/14",
+    expect: "0.0(857142)"
+  }, {
+    label: "3/10*3/14",
+    set: "3/10",
+    fn: "mul",
+    param: "3/14",
+    expect: "0.06(428571)"
+  }, {
+    label: "3/10 / 3/14",
+    set: "3/10",
+    fn: "div",
+    param: "3/14",
+    expect: "1.4"
+  }, {
+    label: "1-2",
+    set: "1",
+    fn: "sub",
+    param: "2",
+    expect: "-1"
+  }, {
+    label: "1--1",
+    set: "1",
+    fn: "sub",
+    param: "-1",
+    expect: "2"
+  }, {
+    label: "0/1*1/3",
+    set: "0/1",
+    fn: "mul",
+    param: "1/3",
+    expect: "0"
+  }, {
+    label: "3/10 * 8/12",
+    set: "3/10",
+    fn: "mul",
+    param: "8/12",
+    expect: "0.2"
+  }, {
+    label: ".5+5",
+    set: ".5",
+    fn: "add",
+    param: 5, expect: "5.5"},
+  {
+    label: "10/12-5/60",
+    set: "10/12",
+    fn: "sub",
+    param: "5/60",
+    expect: "0.75"
+  }, {
+    label: "10/15 / 3/4",
+    set: "10/15",
+    fn: "div",
+    param: "3/4",
+    expect: "0.(8)"
+  }, {
+    label: "1/4 + 3/8",
+    set: "1/4",
+    fn: "add",
+    param: "3/8",
+    expect: "0.625"
+  }, {
+    label: "2-1/3",
+    set: "2",
+    fn: "sub",
+    param: "1/3",
+    expect: "1.(6)"
+  }, {
+    label: "5*6",
+    set: "5",
+    fn: "mul",
+    param: 6,
+    expect: "30"
+  }, {
+    label: "1/2-1/5",
+    set: "1/2",
+    fn: "sub",
+    param: "1/5",
+    expect: "0.3"
+  }, {
+    label: "1/2-5",
+    set: "1/2",
+    fn: "add",
+    param: -5,
+    expect: "-4.5"
+  }, {
+    label: "1*-1",
+    set: "1",
+    fn: "mul",
+    param: -1,
+    expect: "-1"
+  }, {
+    label: "5/10",
+    set: 5.0,
+    fn: "div",
+    param: 10,
+    expect: "0.5"
+  }, {
+    label: "1/-1",
+    set: "1",
+    fn: "div",
+    param: -1,
+    expect: "-1"
+  }, {
+    label: "4/5 + 13/2",
+    set: "4/5",
+    fn: "add",
+    param: "13/2",
+    expect: "7.3"
+  }, {
+    label: "4/5 + 61/2",
+    set: "4/5",
+    fn: "add",
+    param: "61/2",
+    expect: "31.3"
+  }, {
+    label: "0.8 + 6.5",
+    set: "0.8",
+    fn: "add",
+    param: "6.5",
+    expect: "7.3"
+  }, {
+    label: "2/7 inverse",
+    set: "2/7",
+    fn: "inverse",
+    param: null,
+    expect: "3.5"
+  }, {
+    label: "neg 1/3",
+    set: "1/3",
+    fn: "neg",
+    param: null,
+    expect: "-0.(3)"
+  }, {
+    label: "1/2+1/3",
+    set: "1/2",
+    fn: "add",
+    param: "1/3",
+    expect: "0.8(3)"
+  }, {
+    label: "1/2+3",
+    set: ".5",
+    fn: "add",
+    param: 3,
+    expect: "3.5"
+  }, {
+    label: "1/2+3.14",
+    set: "1/2",
+    fn: "add",
+    param: "3.14",
+    expect: "3.64"
   }, {
     label: "3.5 < 4.1",
     set: 3.5,
