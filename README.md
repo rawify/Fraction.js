@@ -439,7 +439,7 @@ bower install fraction.js
 or
 
 ```
-npm install fraction.js
+npm install --save fraction.js
 ```
 
 Using Fraction.js with the browser
