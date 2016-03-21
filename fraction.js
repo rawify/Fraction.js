@@ -9,7 +9,7 @@
 
 /**
  *
- * This class offers the possebility to calculate fractions.
+ * This class offers the possibility to calculate fractions.
  * You can pass a fraction in different formats. Either as array, as double, as string or as an integer.
  *
  * Array/Object form
@@ -24,7 +24,7 @@
  *
  * String form
  * 123.456 - a simple double
- * 123/456 - A string fraction
+ * 123/456 - a string fraction
  * 123.'456' - a double with repeating decimal places
  * 123.(456) - synonym
  * 123.45'6' - a double with repeating last place
