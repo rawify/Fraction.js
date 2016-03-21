@@ -427,7 +427,7 @@
      **/
     "mod": function(a, b) {
 
-      if (isNaN(this['n']) || isNaN(this['d'])) {
+      if (isNaN(this['n']) || isNaN(this['d'])) {
         return new Fraction(NaN);
       }
 
