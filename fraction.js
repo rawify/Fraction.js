@@ -56,12 +56,12 @@
   function assign(n, s) {
 
     if (isNaN(n = parseInt(n, 10))) {
-      thorwInvalidParam();
+      throwInvalidParam();
     }
     return n * s;
   }
 
-  function thorwInvalidParam() {
+  function throwInvalidParam() {
     throw "Invalid Param";
   }
 
@@ -97,7 +97,7 @@
             if (1 in p1)
               d = p1[1];
           } else {
-            thorwInvalidParam();
+            throwInvalidParam();
           }
           s = n * d;
           break;
@@ -217,7 +217,7 @@
           /* Fall through on error */
         }
         default:
-          thorwInvalidParam();
+          throwInvalidParam();
       }
 
     if (d === 0) {
