@@ -9,7 +9,7 @@
 
 /**
  *
- * This class offers the possebility to calculate fractions.
+ * This class offers the possibility to calculate fractions.
  * You can pass a fraction in different formats. Either as array, as double, as string or as an integer.
  *
  * Array/Object form
@@ -24,7 +24,7 @@
  *
  * String form
  * 123.456 - a simple double
- * 123/456 - A string fraction
+ * 123/456 - a string fraction
  * 123.'456' - a double with repeating decimal places
  * 123.(456) - synonym
  * 123.45'6' - a double with repeating last place
@@ -56,12 +56,12 @@
   function assign(n, s) {
 
     if (isNaN(n = parseInt(n, 10))) {
-      thorwInvalidParam();
+      throwInvalidParam();
     }
     return n * s;
   }
 
-  function thorwInvalidParam() {
+  function throwInvalidParam() {
     throw "Invalid Param";
   }
 
@@ -97,7 +97,7 @@
             if (1 in p1)
               d = p1[1];
           } else {
-            thorwInvalidParam();
+            throwInvalidParam();
           }
           s = n * d;
           break;
@@ -217,7 +217,7 @@
           /* Fall through on error */
         }
         default:
-          thorwInvalidParam();
+          throwInvalidParam();
       }
 
     if (d === 0) {
@@ -427,7 +427,7 @@
      **/
     "mod": function(a, b) {
 
-      if (isNaN(this['n']) || isNaN(this['d'])) {
+      if (isNaN(this['n']) || isNaN(this['d'])) {
         return new Fraction(NaN);
       }
 
