@@ -41,7 +41,7 @@
 
   "use strict";
 
-  // Maximum search depth for cyclic rational numbers. 2000 should be more than enough. 
+  // Maximum search depth for cyclic rational numbers. 2000 should be more than enough.
   // Example: 1/7 = 0.(142857) has 6 repeating decimal places.
   // If MAX_CYCLE_LEN gets reduced, long cycles will not be detected and toString() only gets the first 10 digits
   var MAX_CYCLE_LEN = 2000;
@@ -53,6 +53,24 @@
     "d": 1
   };
 
+  function createError(name) {
+      var errorConstructor = function() {
+        var temp = Error.apply(this, arguments);
+        temp.name = this.name = name;
+        this.stack = temp.stack;
+        this.message = temp.message;
+      }
+
+      var IntermediateInheritor = function() {};
+      IntermediateInheritor.prototype = Error.prototype;
+      errorConstructor.prototype = new IntermediateInheritor();
+
+      return errorConstructor;
+  }
+
+  var DivisionByZero = Fraction['DivisionByZero'] = createError('DivisionByZero');
+  var InvalidParameter = Fraction['InvalidParameter'] = createError('InvalidParameter');
+
   function assign(n, s) {
 
     if (isNaN(n = parseInt(n, 10))) {
@@ -62,7 +80,7 @@
   }
 
   function throwInvalidParam() {
-    throw "Invalid Param";
+    throw new InvalidParameter();
   }
 
   var parse = function(p1, p2) {
@@ -221,7 +239,7 @@
       }
 
     if (d === 0) {
-      throw "DIV/0";
+      throw new DivisionByZero();
     }
 
     P["s"] = s < 0 ? -1 : 1;
@@ -253,7 +271,7 @@
 
     // If we would like to compute really large numbers quicker, we could make use of Fermat's little theorem:
     // 10^(d-1) % d == 1
-    // However, we don't need such large numbers and MAX_CYCLE_LEN should be the capstone, 
+    // However, we don't need such large numbers and MAX_CYCLE_LEN should be the capstone,
     // as we want to translate the numbers to strings.
 
     var rem = 10 % d;
@@ -437,7 +455,7 @@
 
       parse(a, b);
       if (0 === P["n"] && 0 === this["d"]) {
-        Fraction(0, 0); // Throw div/0
+        Fraction(0, 0); // Throw DivisionByZero
       }
 
       /*
@@ -669,7 +687,7 @@
 
     /**
      * Returns an array of continued fraction elements
-     * 
+     *
      * Ex: new Fraction("7/8").toContinued() => [0,1,7]
      */
     'toContinued': function() {
