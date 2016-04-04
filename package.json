@@ -8,6 +8,7 @@
     "keywords": ["math", "fraction", "rational", "rationals", "number", "parser", "rational numbers"],
     "author": "Robert Eisele <robert@xarg.org> (http://www.xarg.org/)",
     "main": "fraction",
+    "private": false,
     "readmeFilename": "README.md",
     "directories": {
         "example": "examples"
