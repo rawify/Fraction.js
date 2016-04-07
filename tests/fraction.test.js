@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var Fraction = require('../fraction.min');
+var Fraction = require('../fraction');
 
 var tests = [{
     set: "foo",
@@ -290,6 +290,12 @@ var tests = [{
     param: "-2",
     expect: "-1"
   }, {
+    label: "1 / 195312500",
+    set: '1',
+    fn: "div",
+    param: "195312500",
+    expect: "0.00000000512"
+  }, {
     label: "10 / 0",
     set: 10,
     fn: "div",
@@ -540,7 +546,7 @@ var tests = [{
     set: [17402216385200408, 5539306332998545],
     fn: "add",
     param: 0,
-    expect: "3.1415876535"
+    expect: "3.14158765358987"
   }, {
     label: "99+1",
     set: [99, 1],

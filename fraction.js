@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v3.3.0 09/09/2015
+ * @license Fraction.js v3.3.1 09/09/2015
  * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -723,7 +723,7 @@
       var n = 1; // str index
 
       // rough estimate to fill zeros
-      var length = 10 + cycLen + cycOff + p.length; // 10 = decimal places when no repitation
+      var length = 15 + cycLen + cycOff + p.length; // 15 = decimal places when no repitation
 
       for (var i = 0; i < length; i++, t*= 10) {
 
