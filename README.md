@@ -154,7 +154,7 @@ var a = -1;
 var b = 10.99;
 
 console.log(new Fraction(a)
-     .mod(b)); // Not correct, normal implementation
+     .mod(b)); // Not correct, usual Modulo
 
 console.log(new Fraction(a)
      .mod(b).add(b).mod(b)); // Correct! Mathematical Modulo
