@@ -446,21 +446,24 @@ npm install --save fraction.js
 
 Using Fraction.js with the browser
 ===
-    <script src="fraction.js"></script>
-    <script>
-        console.log(Fraction("123/456"));
-    </script>
-
+```html
+<script src="fraction.js"></script>
+<script>
+    console.log(Fraction("123/456"));
+</script>
+```
 
 Using Fraction.js with require.js
 ===
-    <script src="require.js"></script>
-    <script>
-    requirejs(['fraction.js'],
-    function(Fraction) {
-        console.log(Fraction("123/456"));
-    });
-    </script>
+```html
+<script src="require.js"></script>
+<script>
+requirejs(['fraction.js'],
+function(Fraction) {
+    console.log(Fraction("123/456"));
+});
+</script>
+```
 
 Coding Style
 ===
