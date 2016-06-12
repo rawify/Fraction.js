@@ -7,6 +7,11 @@
     "keywords": [
        "math", "fraction", "rational", "number", "parser", "rational numbers"
     ],
+    "moduleType": [
+      "amd",
+      "globals",
+      "node"
+    ],
     "authors": [
         "Robert Eisele <robert@xarg.org> (http://www.xarg.org/)"
     ],
