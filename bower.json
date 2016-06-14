@@ -2,7 +2,7 @@
     "name": "fraction.js",
     "main": "fraction.js",
     "version": "3.3.1",
-    "homepage": "http://www.xarg.org/2014/03/precise-calculations-in-javascript/",
+    "homepage": "http://www.xarg.org/2014/03/rational-numbers-in-javascript/",
     "description": "A rational number library",
     "keywords": [
        "math", "fraction", "rational", "number", "parser", "rational numbers"
