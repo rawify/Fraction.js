@@ -1,6 +1,6 @@
 /**
  * @license Fraction.js v2.4.1 01/06/2015
- * http://www.xarg.org/2014/03/precise-calculations-in-javascript/
+ * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
  * Dual licensed under the MIT or GPL Version 2 licenses.
