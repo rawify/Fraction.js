@@ -217,69 +217,69 @@ var tests = [{
     param: "-1",
     expect: "-99"
   }, {
-    set: "20/-5",
+    set: [20,-5],
     expect: "-4",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
-    set: "-10/-7",
+    set: [-10,-7],
     expect: "1 3/7",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
-    set: "21/-6",
+    set: [21,-6],
     expect: "-3 1/2",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
     set: "10/78",
     expect: "5/39",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
     set: "0/91",
     expect: "0",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
     set: "-0/287",
     expect: "0",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
     set: "-5/20",
     expect: "-1/4",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
     set: "42/9",
     expect: "4 2/3",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
     set: "71/23",
     expect: "3 2/23",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
     set: "6/3",
     expect: "2",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
     set: "28/4",
     expect: "7",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
     set: "105/35",
     expect: "3",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
     set: "4/6",
     expect: "2/3",
-    fn: "toString",
+    fn: "toFraction",
     param: true
   }, {
     label: "99.(9) + 66",
