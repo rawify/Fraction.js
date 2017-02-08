@@ -4,10 +4,10 @@ var Fraction = require('../fraction');
 
 var tests = [{
     set: "foo",
-    expect: "Invalid Param"
+    expectError: Fraction.InvalidParameter
   }, {
     set: " 123",
-    expect: "Invalid Param"
+    expectError: Fraction.InvalidParameter
   }, {
     set: 0,
     expect: 0
@@ -37,7 +37,7 @@ var tests = [{
     expect: "2.555"
   }, {
     set: " - ",
-    expect: "Invalid Param"
+    expectError: Fraction.InvalidParameter
   }, {
     set: ".5",
     expect: "0.5"
@@ -76,10 +76,10 @@ var tests = [{
     expect: "-123.(4)"
   }, {
     set: "0/0",
-    expect: "DIV/0"
+    expectError: Fraction.DivisionByZero
   }, {
     set: "9/0",
-    expect: "DIV/0"
+    expectError: Fraction.DivisionByZero
   }, {
     label: "0/1+0/1",
     set: "0/1",
@@ -104,7 +104,7 @@ var tests = [{
     expect: "-19.269(736842105263157894)"
   }, {
     set: "123.(22)123",
-    expect: "Invalid Param"
+    expectError: Fraction.InvalidParameter
   }, {
     set: "+33.3(3)",
     expect: "33.(3)"
@@ -113,13 +113,13 @@ var tests = [{
     expect: "3.(09009)"
   }, {
     set: "123.(((",
-    expect: "Invalid Param"
+    expectError: Fraction.InvalidParameter
   }, {
     set: "123.((",
-    expect: "Invalid Param"
+    expectError: Fraction.InvalidParameter
   }, {
     set: "123.()",
-    expect: "Invalid Param"
+    expectError: Fraction.InvalidParameter
   }, {
     set: null,
     expect: "0" // I would say it's just fine
@@ -365,7 +365,7 @@ var tests = [{
     set: 10,
     fn: "div",
     param: 0,
-    expect: "DIV/0"
+    expectError: Fraction.DivisionByZero
   }, {
     label: "-3 / 4",
     set: [-3, 4],
@@ -407,7 +407,7 @@ var tests = [{
     set: 0,
     fn: "inverse",
     param: null,
-    expect: "DIV/0"
+    expectError: Fraction.DivisionByZero
   }, {
     label: "abs(-100.25)",
     set: -100.25,
@@ -1166,31 +1166,28 @@ var tests = [{
 ];
 
 describe('Fraction', function() {
-
   for (var i = 0; i < tests.length; i++) {
 
     (function(i) {
+      var action;
 
       if (tests[i].fn) {
-
-        it(tests[i].label || tests[i].set, function() {
-          try {
-            assert.equal(new Fraction(tests[i].set)[tests[i].fn](tests[i].param).toString(), tests[i].expect);
-          } catch (e) {
-            assert.equal(e.toString(), tests[i].expect);
-          }
-        });
-
+        action = function() {
+          return new Fraction(tests[i].set)[tests[i].fn](tests[i].param).toString();
+        };
       } else {
-
-        it(tests[i].label || tests[i].set, function() {
-          try {
-            assert.equal(new Fraction(tests[i].set).toString(), tests[i].expect);
-          } catch (e) {
-            assert.equal(e.toString(), tests[i].expect);
-          }
-        });
+        action = function() {
+          return new Fraction(tests[i].set).toString();
+        };
       }
+
+      it(tests[i].label || tests[i].set, function() {
+        if(tests[i].expectError) {
+          assert.throws(action, tests[i].expectError);
+        } else {
+          assert.equal(action(), tests[i].expect);
+        }
+      });
 
     })(i);
   }
