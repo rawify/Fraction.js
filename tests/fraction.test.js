@@ -1181,12 +1181,12 @@ describe('Fraction', function() {
         };
       }
 
-      it(tests[i].label || tests[i].set, function() {
-        if(tests[i].expectError) {
-          assert.throws(action, tests[i].expectError);
-        } else {
-          assert.equal(action(), tests[i].expect);
-        }
+      it(String(tests[i].label || tests[i].set), function() {
+          if(tests[i].expectError) {
+              assert.throws(action, tests[i].expectError);
+          } else {
+              assert.equal(action(), tests[i].expect);
+          }
       });
 
     })(i);
