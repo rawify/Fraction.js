@@ -485,5 +485,5 @@ npm test
 
 Copyright and licensing
 ===
-Copyright (c) 2015, Robert Eisele (robert@xarg.org)
+Copyright (c) 2015, [Robert Eisele](http://www.xarg.org/)
 Dual licensed under the MIT or GPL Version 2 licenses.
