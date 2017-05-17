@@ -349,7 +349,7 @@ boolean equals(n)
 ---
 Check if two numbers are equal
 
-boolean compare(n)
+int compare(n)
 ---
 Compare two numbers.
 ```
