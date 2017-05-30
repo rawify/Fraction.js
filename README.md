@@ -142,7 +142,7 @@ Get the exact fractional part of a number
 ---
 ```javascript
 var f = new Fraction("-6.(3416)");
-console.log("" + f.mod(1).abs()); // Same as: Math.abs(f - parseInt(f, 10));
+console.log("" + f.mod(1).abs()); // Will print 0.(3416)
 ```
 
 Mathematical correct modulo
@@ -441,7 +441,7 @@ bower install fraction.js
 or
 
 ```
-npm install --save fraction.js
+npm install fraction.js
 ```
 
 Using Fraction.js with the browser
