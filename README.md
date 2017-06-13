@@ -1,10 +1,10 @@
 # Fraction.js - ℚ in JavaSript
 
-[![NPM Package](https://img.shields.io/npm/v/fraction.js.svg?style=flat)](https://npmjs.org/package/fraction.js "View this project on npm")
+[![NPM Package](https://nodei.co/npm-dl/fraction.js.png?months=6&height=1)](https://npmjs.org/package/fraction.js)
+
 [![Build Status](https://travis-ci.org/infusion/Fraction.js.svg?branch=master)](https://travis-ci.org/infusion/Fraction.js)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
-[![NPM Downloads](https://nodei.co/npm-dl/fraction.js.png?months=6&height=1)
 
 Tired of inprecise numbers represented by doubles, which have to store rational and irrational numbers like PI or sqrt(2) the same way? Obviously the following problem is preventable:
 
