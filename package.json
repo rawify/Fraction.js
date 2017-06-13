@@ -1,11 +1,19 @@
 {
     "name": "fraction.js",
     "title": "fraction.js",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "homepage": "http://www.xarg.org/2014/03/rational-numbers-in-javascript/",
     "bugs": "https://github.com/infusion/Fraction.js/issues",
     "description": "A rational number library",
-    "keywords": ["math", "fraction", "rational", "rationals", "number", "parser", "rational numbers"],
+    "keywords": [
+        "math",
+        "fraction",
+        "rational",
+        "rationals",
+        "number",
+        "parser",
+        "rational numbers"
+    ],
     "author": "Robert Eisele <robert@xarg.org> (http://www.xarg.org/)",
     "main": "fraction",
     "private": false,

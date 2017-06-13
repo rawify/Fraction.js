@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v4.0.0 09/09/2015
+ * @license Fraction.js v4.0.1 09/09/2015
  * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -728,59 +728,43 @@
         D/= g;
       }
 
-      var p = String(N).split(""); // Numerator chars
-      var t = 0; // Tmp var
-
-      var ret = [~this["s"] ? "" : "-", "", ""]; // Return array, [0] is zero sign, [1] before comma, [2] after
-      var zeros = ""; // Collection variable for zeros
+      var dec = 15; // 15 = decimal places when no repitation
 
       var cycLen = cycleLen(N, D); // Cycle length
       var cycOff = cycleStart(N, D, cycLen); // Cycle start
 
-      var j = -1;
-      var n = 1; // str index
+      var str = this['s'] === -1 ? "-" : "";
 
-      // rough estimate to fill zeros
-      var length = 15 + cycLen + cycOff + p.length; // 15 = decimal places when no repitation
+      str+= Math.floor(N / D);
 
-      for (var i = 0; i < length; i++, t*= 10) {
+      N%= D;
+      N*= 10;
 
-        if (i < p.length) {
-          t+= Number(p[i]);
-        } else {
-          n = 2;
-          j++; // Start now => after comma
+      if (N)
+        str+= ".";
+
+      if (cycLen) {
+
+        for (var i = cycOff; i--; ) {
+          str+= N / D | 0;
+          N%= D;
+          N*= 10;
         }
-
-        if (cycLen > 0) { // If we have a repeating part
-          if (j === cycOff) {
-            ret[n]+= zeros + "(";
-            zeros = "";
-          } else if (j === cycLen + cycOff) {
-            ret[n]+= zeros + ")";
-            break;
-          }
+        str+= "(";
+        for (var i = cycLen; i-- ; ) {
+          str+= N / D | 0;
+          N%= D;
+          N*= 10;
         }
-
-        if (t >= D) {
-          ret[n]+= zeros + ((t / D) | 0); // Flush zeros, Add current digit
-          zeros = "";
-          t = t % D;
-        } else if (n > 1) { // Add zeros to the zero buffer
-          zeros+= "0";
-        } else if (ret[n]) { // If before comma, add zero only if already something was added
-          ret[n]+= "0";
+        str+= ")";
+      } else {
+        for (var i = dec; N && i--; ) {
+          str+= N / D | 0;
+          N%= D;
+          N*= 10;
         }
       }
-
-      // If it's empty, it's a leading zero only
-      ret[0]+= ret[1] || "0";
-
-      // If there is something after the comma, add the comma sign
-      if (ret[2]) {
-        return ret[0] + "." + ret[2];
-      }
-      return ret[0];
+      return str;
     }
   };
 
