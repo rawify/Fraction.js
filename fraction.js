@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v4.0.2 09/09/2015
+ * @license Fraction.js v4.0.3 09/09/2015
  * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -183,6 +183,9 @@
         case "string":
         {
           B = p1.match(/\d+|./g);
+          
+          if (B === null)
+            throwInvalidParam();
 
           if (B[A] === '-') {// Check for minus sign at the beginning
             s = -1;
