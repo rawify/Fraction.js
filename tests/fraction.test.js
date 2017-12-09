@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var Fraction = require('../fraction');
+var Fraction = require('../fraction.min.js');
 
 var tests = [{
     set: "",

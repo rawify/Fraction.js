@@ -56,11 +56,16 @@
   function createError(name) {
     var errorConstructor = function () {
       var temp = Error.apply(this, arguments);
-      temp.name = this.name = name;
-      this.stack = temp.stack;
-      this.message = temp.message;
+      temp['name'] = this['name'] = name;
+      this['stack'] = temp['stack'];
+      this['message'] = temp['message'];
     };
 
+    /**
+     * Error constructor
+     *
+     * @constructor
+     */
     var IntermediateInheritor = function () {};
     IntermediateInheritor.prototype = Error.prototype;
     errorConstructor.prototype = new IntermediateInheritor();
@@ -183,7 +188,7 @@
         case "string":
         {
           B = p1.match(/\d+|./g);
-          
+
           if (B === null)
             throwInvalidParam();
 
@@ -322,7 +327,7 @@
    * Module constructor
    *
    * @constructor
-   * @param {number|Fraction} a
+   * @param {number|Fraction=} a
    * @param {number=} b
    */
   function Fraction(a, b) {
@@ -492,7 +497,7 @@
 
       // gcd(a / b, c / d) = gcd(a, c) / lcm(b, d)
 
-      return new Fraction(gcd(P["n"], this["n"]), P["d"] * this["d"] / gcd(P["d"], this["d"]));
+      return new Fraction(gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]), P["d"] * this["d"]);
     },
 
     /**
@@ -509,7 +514,7 @@
       if (P["n"] === 0 && this["n"] === 0) {
         return new Fraction;
       }
-      return new Fraction(P["n"] * this["n"] / gcd(P["n"], this["n"]), gcd(P["d"], this["d"]));
+      return new Fraction(P["n"] * this["n"], gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]));
     },
 
     /**
