@@ -156,10 +156,10 @@ var a = -1;
 var b = 10.99;
 
 console.log(new Fraction(a)
-     .mod(b)); // Not correct, usual Modulo
+  .mod(b)); // Not correct, usual Modulo
 
 console.log(new Fraction(a)
-     .mod(b).add(b).mod(b)); // Correct! Mathematical Modulo
+  .mod(b).add(b).mod(b)); // Correct! Mathematical Modulo
 ```
 
 fmod() impreciseness circumvented
@@ -236,37 +236,37 @@ To automatically make a number like "0.123123123" to something more Fraction.js 
 ```javascript
 function formatDecimal(str) {
 
-    var comma, pre, offset, pad, times, repeat;
+  var comma, pre, offset, pad, times, repeat;
 
-    if (-1 === (comma = str.indexOf(".")))
-        return str;
+  if (-1 === (comma = str.indexOf(".")))
+    return str;
 
-    pre = str.substr(0, comma + 1);
-    str = str.substr(comma + 1);
+  pre = str.substr(0, comma + 1);
+  str = str.substr(comma + 1);
 
-    for (var i = 0; i < str.length; i++) {
+  for (var i = 0; i < str.length; i++) {
 
-        offset = str.substr(0, i);
+    offset = str.substr(0, i);
 
-        for (var j = 0; j < 5; j++) {
+    for (var j = 0; j < 5; j++) {
 
-            pad = str.substr(i, j + 1);
+      pad = str.substr(i, j + 1);
 
-            times = Math.ceil((str.length - offset.length) / pad.length);
+      times = Math.ceil((str.length - offset.length) / pad.length);
 
-            repeat = new Array(times + 1).join(pad); // Silly String.repeat hack
+      repeat = new Array(times + 1).join(pad); // Silly String.repeat hack
 
-            if (0 === (offset + repeat).indexOf(str)) {
-                return pre + offset + "(" + pad + ")";
-            }
-        }
+      if (0 === (offset + repeat).indexOf(str)) {
+        return pre + offset + "(" + pad + ")";
+      }
     }
-    return null;
+  }
+  return null;
 }
 
 var f, x = formatDecimal("13.0123123123"); // = 13.0(123)
 if (x !== null) {
-   f = new Fraction(x);
+  f = new Fraction(x);
 }
 ```
 
