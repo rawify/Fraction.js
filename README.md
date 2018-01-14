@@ -102,18 +102,18 @@ var a = new Fraction(0),
     b = new Fraction(1);
 for (var n = 0; n <= 10; n++) {
 
-    var c = new Fraction(a).add(b).div(2);
+  var c = new Fraction(a).add(b).div(2);
 
-    console.log(n + "\t" + a.n + "/" + a.d + "\t" + b.n + "/" + b.d + "\t" + c.n + "/" + c.d + "\t" + x);
+  console.log(n + "\t" + a.n + "/" + a.d + "\t" + b.n + "/" + b.d + "\t" + c.n + "/" + c.d + "\t" + x);
 
-    if (c.add(2).pow(2) < 5) {
-        a = c;
-        x = "1";
-    } else {
-        b = c;
-        x = "0";
-    }
-    s+= x;
+  if (c.add(2).pow(2) < 5) {
+    a = c;
+    x = "1";
+  } else {
+    b = c;
+    x = "0";
+  }
+  s+= x;
 }
 console.log(s)
 ```
