@@ -492,7 +492,7 @@
        * => (b2 * a1 % a2 * b1) / (b1 * b2)
        */
       return new Fraction(
-              (this["s"] * P["d"] * this["n"]) % (P["n"] * this["d"]),
+              this["s"] * (P["d"] * this["n"]) % (P["n"] * this["d"]),
               P["d"] * this["d"]
               );
     },
