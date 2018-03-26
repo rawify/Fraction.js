@@ -624,7 +624,7 @@
       
       // First naive implementation, needs improvement
       
-      var cont = this['toContinued']();
+      var cont = this['abs']()['toContinued']();
       
       eps = eps || 0.001;
       
@@ -636,8 +636,8 @@
       
       for (var i = 0; i < cont.length; i++) {
         var tmp = rec(cont.slice(0, i + 1));
-        if (tmp['sub'](this)['abs']().valueOf() < eps) {
-          return tmp;
+        if (tmp['sub'](this['abs']())['abs']().valueOf() < eps) {
+          return tmp['mul'](this['s']);
         }
       }
       return this;
