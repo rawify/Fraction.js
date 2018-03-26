@@ -347,6 +347,10 @@ Fraction inverse()
 ---
 Returns the multiplicative inverse of the actual number (n / d becomes d / n) in order to get the reciprocal
 
+Fraction simplify([eps=0.001])
+---
+Simplifies the rational number under a certain error threshold. Ex. `0.333` will be `1/3` with `eps=0.001`
+
 boolean equals(n)
 ---
 Check if two numbers are equal
