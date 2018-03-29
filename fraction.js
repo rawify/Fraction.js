@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v4.0.6 09/09/2015
+ * @license Fraction.js v4.0.7 09/09/2015
  * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -825,7 +825,7 @@
   } else if (typeof exports === "object") {
     Object.defineProperty(exports, "__esModule", {'value': true});
     Fraction['default'] = Fraction;
-    Fraction['Complex'] = Fraction;
+    Fraction['Fraction'] = Fraction;
     module['exports'] = Fraction;
   } else {
     root['Fraction'] = Fraction;
