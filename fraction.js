@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v4.0.4 09/09/2015
+ * @license Fraction.js v4.0.5 09/09/2015
  * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -624,12 +624,16 @@
       
       // First naive implementation, needs improvement
       
+      if (isNaN(this['n']) || isNaN(this['d'])) {
+        return this;
+      }
+
       var cont = this['abs']()['toContinued']();
       
       eps = eps || 0.001;
       
       function rec(a) {
-        if (a.length == 1)
+        if (a.length === 1)
           return new Fraction(a[0]);
         return rec(a.slice(1))['inverse']()['add'](a[0]);
       }
@@ -739,6 +743,10 @@
       let b = this['d'];
       const res = [];
 
+      if (isNaN(this['n']) || isNaN(this['d'])) {
+        return res;
+      }
+
       do {
         res.push(Math.floor(a / b));
         t = a % b;
@@ -815,7 +823,10 @@
       return Fraction;
     });
   } else if (typeof exports === "object") {
-    module["exports"] = Fraction;
+    Object.defineProperty(exports, "__esModule", {'value': true});
+    module['exports'] = Fraction;
+    exports['Angles'] = Fraction;
+    exports['default'] = Fraction;
   } else {
     root['Fraction'] = Fraction;
   }

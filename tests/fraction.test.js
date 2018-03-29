@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var Fraction = require('../fraction.min.js');
+var Fraction = require('../fraction.js');
 
 var tests = [{
     set: "",
@@ -1438,6 +1438,13 @@ describe('Fraction NaN', function() {
               var x = Fraction(NaN)[i]();
 
               assert.equal('NaN', x);
+            });
+            break;
+          case 'simplify':
+            it("Should pass " + i, function() {
+              var x = Fraction(NaN)[i]();
+
+              assert.equal('NaN', x.toString());
             });
             break;
           case 'add':
