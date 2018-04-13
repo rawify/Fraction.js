@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v4.0.7 09/09/2015
+ * @license Fraction.js v4.0.8 09/09/2015
  * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -32,7 +32,7 @@
  *
  * Example:
  *
- * const f = new Fraction("9.4'31'");
+ * var f = new Fraction("9.4'31'");
  * f.mul([-4, 3]).div(4.9);
  *
  */
@@ -44,10 +44,10 @@
   // Maximum search depth for cyclic rational numbers. 2000 should be more than enough.
   // Example: 1/7 = 0.(142857) has 6 repeating decimal places.
   // If MAX_CYCLE_LEN gets reduced, long cycles will not be detected and toString() only gets the first 10 digits
-  const MAX_CYCLE_LEN = 2000;
+  var MAX_CYCLE_LEN = 2000;
 
   // Parsed data to avoid calling "new" all the time
-  let P = {
+  var P = {
     "s": 1,
     "n": 0,
     "d": 1
@@ -56,7 +56,7 @@
   function createError(name) {
 
     function errorConstructor() {
-      const temp = Error.apply(this, arguments);
+      var temp = Error.apply(this, arguments);
       temp['name'] = this['name'] = name;
       this['stack'] = temp['stack'];
       this['message'] = temp['message'];
@@ -74,8 +74,8 @@
     return errorConstructor;
   }
 
-  const DivisionByZero = Fraction['DivisionByZero'] = createError('DivisionByZero');
-  const InvalidParameter = Fraction['InvalidParameter'] = createError('InvalidParameter');
+  var DivisionByZero = Fraction['DivisionByZero'] = createError('DivisionByZero');
+  var InvalidParameter = Fraction['InvalidParameter'] = createError('InvalidParameter');
 
   function assign(n, s) {
 
@@ -89,16 +89,16 @@
     throw new InvalidParameter();
   }
 
-  const parse = function(p1, p2) {
+  var parse = function(p1, p2) {
 
-    let n = 0, d = 1, s = 1;
-    let v = 0, w = 0, x = 0, y = 1, z = 1;
+    var n = 0, d = 1, s = 1;
+    var v = 0, w = 0, x = 0, y = 1, z = 1;
 
-    let A = 0, B = 1;
-    let C = 1, D = 1;
+    var A = 0, B = 1;
+    var C = 1, D = 1;
 
-    let N = 10000000;
-    let M;
+    var N = 10000000;
+    var M;
 
     if (p1 === undefined || p1 === null) {
       /* void */
@@ -258,7 +258,7 @@
 
   function modpow(b, e, m) {
 
-    let r = 1;
+    var r = 1;
     for (; e > 0; b = (b * b) % m, e >>= 1) {
 
       if (e & 1) {
@@ -287,8 +287,8 @@
     // However, we don't need such large numbers and MAX_CYCLE_LEN should be the capstone,
     // as we want to translate the numbers to strings.
 
-    let rem = 10 % d;
-    let t = 1;
+    var rem = 10 % d;
+    var t = 1;
 
     for (; rem !== 1; t++) {
       rem = rem * 10 % d;
@@ -302,10 +302,10 @@
 
      function cycleStart(n, d, len) {
 
-    let rem1 = 1;
-    let rem2 = modpow(10, len, d);
+    var rem1 = 1;
+    var rem2 = modpow(10, len, d);
 
-    for (let t = 0; t < 300; t++) { // s < ~log10(Number.MAX_VALUE)
+    for (var t = 0; t < 300; t++) { // s < ~log10(Number.MAX_VALUE)
       // Solve 10^s == 10^(s+t) (mod d)
 
       if (rem1 === rem2)
@@ -616,7 +616,7 @@
     "compare": function(a, b) {
 
       parse(a, b);
-      const t = (this["s"] * this["n"] * P["d"] - P["s"] * P["n"] * this["d"]);
+      var t = (this["s"] * this["n"] * P["d"] - P["s"] * P["n"] * this["d"]);
       return (0 < t) - (t < 0);
     },
     
@@ -675,9 +675,9 @@
      **/
     'toFraction': function(excludeWhole) {
 
-      let whole, str = "";
-      let n = this["n"];
-      let d = this["d"];
+      var whole, str = "";
+      var n = this["n"];
+      var d = this["d"];
       if (this["s"] < 0) {
         str += '-';
       }
@@ -706,9 +706,9 @@
      **/
     'toLatex': function(excludeWhole) {
 
-      let whole, str = "";
-      let n = this["n"];
-      let d = this["d"];
+      var whole, str = "";
+      var n = this["n"];
+      var d = this["d"];
       if (this["s"] < 0) {
         str += '-';
       }
@@ -738,10 +738,10 @@
      */
     'toContinued': function() {
 
-      let t;
-      let a = this['n'];
-      let b = this['d'];
-      const res = [];
+      var t;
+      var a = this['n'];
+      var b = this['d'];
+      var res = [];
 
       if (isNaN(this['n']) || isNaN(this['d'])) {
         return res;
@@ -764,9 +764,9 @@
      **/
     'toString': function() {
 
-      let g;
-      let N = this["n"];
-      let D = this["d"];
+      var g;
+      var N = this["n"];
+      var D = this["d"];
 
       if (isNaN(N) || isNaN(D)) {
         return "NaN";
@@ -778,12 +778,12 @@
         D /= g;
       }
 
-      let dec = 15; // 15 = decimal places when no repitation
+      var dec = 15; // 15 = decimal places when no repitation
 
-      let cycLen = cycleLen(N, D); // Cycle length
-      let cycOff = cycleStart(N, D, cycLen); // Cycle start
+      var cycLen = cycleLen(N, D); // Cycle length
+      var cycOff = cycleStart(N, D, cycLen); // Cycle start
 
-      let str = this['s'] === -1 ? "-" : "";
+      var str = this['s'] === -1 ? "-" : "";
 
       str += N / D | 0;
 
@@ -795,20 +795,20 @@
 
       if (cycLen) {
 
-        for (let i = cycOff; i--; ) {
+        for (var i = cycOff; i--; ) {
           str += N / D | 0;
           N %= D;
           N *= 10;
         }
         str += "(";
-        for (let i = cycLen; i--; ) {
+        for (var i = cycLen; i--; ) {
           str += N / D | 0;
           N %= D;
           N *= 10;
         }
         str += ")";
       } else {
-        for (let i = dec; N && i--; ) {
+        for (var i = dec; N && i--; ) {
           str += N / D | 0;
           N %= D;
           N *= 10;
