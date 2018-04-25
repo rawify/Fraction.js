@@ -104,7 +104,7 @@ for (var n = 0; n <= 10; n++) {
 
   var c = new Fraction(a).add(b).div(2);
 
-  console.log(n + "\t" + a.n + "/" + a.d + "\t" + b.n + "/" + b.d + "\t" + c.n + "/" + c.d + "\t" + x);
+  console.log(n + "\t" + a + "\t" + b + "\t" + c + "\t" + x);
 
   if (c.add(2).pow(2) < 5) {
     a = c;
