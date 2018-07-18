@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v4.0.8 09/09/2015
+ * @license Fraction.js v4.0.9 09/09/2015
  * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -762,7 +762,7 @@
      *
      * Ex: new Fraction("100.'91823'").toString() => "100.(91823)"
      **/
-    'toString': function() {
+    'toString': function(dec) {
 
       var g;
       var N = this["n"];
@@ -778,7 +778,7 @@
         D /= g;
       }
 
-      var dec = 15; // 15 = decimal places when no repitation
+      dec = dec || 15; // 15 = decimal places when no repitation
 
       var cycLen = cycleLen(N, D); // Cycle length
       var cycOff = cycleStart(N, D, cycLen); // Cycle start

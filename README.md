@@ -372,9 +372,9 @@ double valueOf()
 ---
 Returns a decimal representation of the fraction
 
-String toString()
+String toString([significantPlaces=15])
 ---
-Generates an exact string representation of the actual object, including repeating decimal places of any length.
+Generates an exact string representation of the actual object. For repeated decimal places all digits are collected within brackets, like `1/3 = "0.(3)"`. For all other numbers, up to `decimalPlaces` significant digits are collected - which includes trailing zeros if the number is getting truncated. `1/2 = "0.5" of course.
 
 **Note:** As `valueOf()` and `toString()` are provided, `toString()` is only called implicitly in a real string context. Using the plus-operator like `"123" + new Fraction` will call valueOf(), because JavaScript tries to combine two primitives first and concatenates them later, as string will be the more dominant type. `alert(new Fraction)` or `String(new Fraction)` on the other hand will do what you expect. If you really want to have control, you should call `toString()` or `valueOf()` explicitly!
 
