@@ -372,7 +372,7 @@ double valueOf()
 ---
 Returns a decimal representation of the fraction
 
-String toString([significantPlaces=15])
+String toString([decimalPlaces=15])
 ---
 Generates an exact string representation of the actual object. For repeated decimal places all digits are collected within brackets, like `1/3 = "0.(3)"`. For all other numbers, up to `decimalPlaces` significant digits are collected - which includes trailing zeros if the number is getting truncated. `1/2 = "0.5" of course.
 
