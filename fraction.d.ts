@@ -11,6 +11,10 @@ export default class Fraction {
   constructor (numbers: (number | string)[]);
   constructor (fraction: NumeratorDenominator);
 
+  s: number;
+  n: number;
+  d: number;
+
   abs(): Fraction;
   neg(): Fraction;
 
