@@ -1,20 +1,15 @@
-declare module 'Fraction';
+declare module 'fraction.js';
 
-declare function Fraction(num: number | string): Fraction;
-declare function Fraction(numerator: number, denominator: number): Fraction;
-declare function Fraction(numbers: (number | string)[]): Fraction;
-declare function Fraction(fraction: NumeratorDenominator): Fraction;
-
-declare interface NumeratorDenominator {
+export interface NumeratorDenominator {
   numerator: number;
   denominator: number;
 }
 
-interface Fraction extends Object {
-  // constructor (num: number | string);
-  // constructor (numerator: number, denominator: number);
-  // constructor (numbers: (number | string)[]);
-  // constructor (fraction: NumeratorDenominator);
+export default class Fraction {
+  constructor (num: number | string);
+  constructor (numerator: number, denominator: number);
+  constructor (numbers: (number | string)[]);
+  constructor (fraction: NumeratorDenominator);
 
   abs(): Fraction;
   neg(): Fraction;
@@ -47,5 +42,3 @@ interface Fraction extends Object {
   toContinued(): number[];
   clone(): Fraction;
 }
-
-//export = Fraction;
