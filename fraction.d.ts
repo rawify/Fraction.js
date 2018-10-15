@@ -1,11 +1,20 @@
-declare module 'fraction.js';
+declare module 'Fraction';
 
 export interface NumeratorDenominator {
   numerator: number;
   denominator: number;
 }
 
+type FractionConstructor = {
+  (fraction: Fraction): Fraction;
+  (num: number | string): Fraction;
+  (numerator: number, denominator: number): Fraction;
+  (numbers: (number | string)[]): Fraction;
+  (fraction: NumeratorDenominator): Fraction;
+};
+
 export default class Fraction {
+  constructor (fraction: Fraction);
   constructor (num: number | string);
   constructor (numerator: number, denominator: number);
   constructor (numbers: (number | string)[]);
@@ -18,14 +27,15 @@ export default class Fraction {
   abs(): Fraction;
   neg(): Fraction;
 
-  add(n: number | string | Fraction): Fraction;
-  sub(n: number | string | Fraction): Fraction;
-  mul(n: number | string | Fraction): Fraction;
-  div(n: number | string | Fraction): Fraction;
-  pow(n: number | string | Fraction): Fraction;
+  add: FractionConstructor;
+  sub: FractionConstructor;
+  mul: FractionConstructor;
+  div: FractionConstructor;
+  pow: FractionConstructor;
+  gcd: FractionConstructor;
+  lcm: FractionConstructor;
+  
   mod(n?: number | string | Fraction): Fraction;
-  gcd(n: number | string | Fraction): Fraction;
-  lcm(n: number | string | Fraction): Fraction;
 
   ceil(places?: number): Fraction;
   floor(places?: number): Fraction;
