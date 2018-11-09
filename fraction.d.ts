@@ -43,7 +43,7 @@ export default class Fraction {
 
   inverse(): Fraction;
   
-  simmplify(eps?: number): Fraction;
+  simplify(eps?: number): Fraction;
   
   equals(n: number | string | Fraction): boolean;
   compare(n: number | string | Fraction): number;
