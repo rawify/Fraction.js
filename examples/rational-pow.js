@@ -36,6 +36,6 @@ f(x) = x^d - (a/b)^c
 f'(x) = dx^(d-1)
 
 Newton method:
-xp = xn - f(x) / f'(x)
+xp = xn - f(xn) / f'(xn)
 
 */
