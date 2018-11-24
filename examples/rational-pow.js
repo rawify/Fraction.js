@@ -11,10 +11,10 @@ function root(a, b, c, d) {
 
   // Initial estimate
   var xn = Fraction(Math.floor(Math.pow(a / b, c / d)));
-  var ab = Fraction(a, b);
+  var abc = Fraction(a, b).pow(c);
 
   for (var i = 0; i < 30; i++) {
-    var xp = xn.sub(xn.pow(d).sub(ab.pow(c)).div(xn.pow(d - 1).mul(d)));
+    var xp = xn.sub(xn.pow(d).sub(abc).div(xn.pow(d - 1).mul(d)));
 
     if (xp.n === xn.n && xp.d === xn.d) {
       return xp;
