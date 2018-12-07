@@ -32,7 +32,7 @@
  *
  * Example:
  *
- * var f = new Fraction("9.4'31'");
+ * let f = new Fraction("9.4'31'");
  * f.mul([-4, 3]).div(4.9);
  *
  */
@@ -40,23 +40,32 @@
 (function(root) {
 
   "use strict";
+  
+  const C_ONE = BigInt ? BigInt(1) : 1;
+  const C_ZERO = BigInt ? BigInt(0) : 0;
+  const C_TEN = BigInt ? BigInt(10) : 10;
+  const C_TWO = BigInt ? BigInt(2) : 2;
+  const C_FIVE = BigInt ? BigInt(5) : 5;
+  
+  // Set Identity function to downgrade BigInt to Number if needed
+  if (!BigInt) BigInt = function(n) {return n;};
 
   // Maximum search depth for cyclic rational numbers. 2000 should be more than enough.
   // Example: 1/7 = 0.(142857) has 6 repeating decimal places.
   // If MAX_CYCLE_LEN gets reduced, long cycles will not be detected and toString() only gets the first 10 digits
-  var MAX_CYCLE_LEN = 2000n;
+  const MAX_CYCLE_LEN = BigInt ? BigInt(2000) : 2000;
 
   // Parsed data to avoid calling "new" all the time
-  var P = {
-    "s": 1n,
-    "n": 0n,
-    "d": 1n
+  const P = {
+    "s": C_ONE,
+    "n": C_ZERO,
+    "d": C_ONE
   };
 
   function createError(name) {
 
     function errorConstructor() {
-      var temp = Error.apply(this, arguments);
+      const temp = Error.apply(this, arguments);
       temp['name'] = this['name'] = name;
       this['stack'] = temp['stack'];
       this['message'] = temp['message'];
@@ -74,8 +83,8 @@
     return errorConstructor;
   }
 
-  var DivisionByZero = Fraction['DivisionByZero'] = createError('DivisionByZero');
-  var InvalidParameter = Fraction['InvalidParameter'] = createError('InvalidParameter');
+  const DivisionByZero = Fraction['DivisionByZero'] = createError('DivisionByZero');
+  const InvalidParameter = Fraction['InvalidParameter'] = createError('InvalidParameter');
 
   function assign(n, s) {
     
@@ -88,9 +97,9 @@
     return n * s;
   }
 
-  var parse = function(p1, p2) {
+  const parse = function(p1, p2) {
 
-    let n = 0n, d = 1n, s = 1n;
+    let n = C_ZERO, d = C_ONE, s = C_ONE;
 
     if (p1 === undefined || p1 === null) {
       /* void */
@@ -121,7 +130,7 @@
       }
 
       if (p1 < 0) {
-        s = -1n;
+        s = -C_ONE;
         p1 = -p1;
       }
 
@@ -189,7 +198,7 @@
       
       let ndx = 0;
 
-      let v = 0n, w = 0n, x = 0n, y = 1n, z = 1n;
+      let v = C_ZERO, w = C_ZERO, x = C_ZERO, y = C_ONE, z = C_ONE;
 
       let match = p1.match(/\d+|./g);
 
@@ -197,7 +206,7 @@
        throw new InvalidParameter()
 
       if (match[ndx] === '-') {// Check for minus sign at the beginning
-        s = -1n;
+        s = -C_ONE;
         ndx++;
       } else if (match[ndx] === '+') {// Check for plus sign at the beginning
         ndx++;
@@ -215,25 +224,25 @@
         // Check for decimal places
         if (ndx + 1 === match.length || match[ndx + 1] === '(' && match[ndx + 3] === ')' || match[ndx + 1] === "'" && match[ndx + 3] === "'") {
           w = assign(match[ndx], s);
-          y = 10n ** BigInt(match[ndx].length);
+          y = C_TEN ** BigInt(match[ndx].length);
           ndx++;
         }
 
         // Check for repeating places
         if (match[ndx] === '(' && match[ndx + 2] === ')' || match[ndx] === "'" && match[ndx + 2] === "'") {
           x = assign(match[ndx + 1], s);
-          z = 10n ** BigInt(match[ndx + 1].length) - 1n;
+          z = C_TEN ** BigInt(match[ndx + 1].length) - C_ONE;
           ndx += 3;
         }
 
       } else if (match[ndx + 1] === '/' || match[ndx + 1] === ':') { // Check for a simple fraction "123/456" or "123:456"
         w = assign(match[ndx], s);
-        y = assign(match[ndx + 2], 1n);
+        y = assign(match[ndx + 2], C_ONE);
         ndx += 3;
       } else if (match[ndx + 3] === '/' && match[ndx + 1] === ' ') { // Check for a complex fraction "123 1/2"
         v = assign(match[ndx], s);
         w = assign(match[ndx + 2], s);
-        y = assign(match[ndx + 4], 1n);
+        y = assign(match[ndx + 4], C_ONE);
         ndx += 5;
       }
 
@@ -249,22 +258,22 @@
       throw new InvalidParameter();
     }
 
-    if (d === 0n) {
+    if (d === C_ZERO) {
       throw new DivisionByZero();
     }
 
-    P["s"] = s < 0n ? -1n : 1n;
-    P["n"] = n < 0n ? -n : n;
-    P["d"] = d < 0n ? -d : d;
+    P["s"] = s < C_ZERO ? -C_ONE : C_ONE;
+    P["n"] = n < C_ZERO ? -n : n;
+    P["d"] = d < C_ZERO ? -d : d;
 
   };
 
   function modpow(b, e, m) {
 
-    let r = 1n;
-    for (; e > 0n; b = (b * b) % m, e >>= 1n) {
+    let r = C_ONE;
+    for (; e > C_ZERO; b = (b * b) % m, e >>= C_ONE) {
 
-      if (e & 1n) {
+      if (e & C_ONE) {
         r = (r * b) % m;
       }
     }
@@ -273,38 +282,38 @@
 
   function cycleLen(n, d) {
 
-    for (; d % 2n === 0n;
-            d /= 2n) {
+    for (; d % C_TWO === C_ZERO;
+            d /= C_TWO) {
     }
 
-    for (; d % 5n === 0n;
-            d /= 5n) {
+    for (; d % C_FIVE === C_ZERO;
+            d /= C_FIVE) {
     }
 
-    if (d === 1n) // Catch non-cyclic numbers
-      return 0n;
+    if (d === C_ONE) // Catch non-cyclic numbers
+      return C_ZERO;
 
     // If we would like to compute really large numbers quicker, we could make use of Fermat's little theorem:
     // 10^(d-1) % d == 1
     // However, we don't need such large numbers and MAX_CYCLE_LEN should be the capstone,
     // as we want to translate the numbers to strings.
 
-    let rem = 10n % d;
-    let t = 1n;
+    let rem = C_TEN % d;
+    let t = C_ONE;
 
-    for (; rem !== 1n; t++) {
-      rem = rem * 10n % d;
+    for (; rem !== C_ONE; t++) {
+      rem = rem * C_TEN % d;
 
       if (t > MAX_CYCLE_LEN)
-        return 0n; // Returning 0 here means that we don't print it as a cyclic number. It's likely that the answer is `d-1`
+        return C_ZERO; // Returning 0 here means that we don't print it as a cyclic number. It's likely that the answer is `d-1`
     }
     return t;
   }
   
   function cycleStart(n, d, len) {
 
-    let rem1 = 1n;
-    let rem2 = modpow(10n, len, d);
+    let rem1 = C_ONE;
+    let rem2 = modpow(C_TEN, len, d);
 
     for (let t = 0; t < 300; t++) { // s < ~log10(Number.MAX_VALUE)
       // Solve 10^s == 10^(s+t) (mod d)
@@ -312,8 +321,8 @@
       if (rem1 === rem2)
         return BigInt(t);
 
-      rem1 = rem1 * 10n % d;
-      rem2 = rem2 * 10n % d;
+      rem1 = rem1 * C_TEN % d;
+      rem2 = rem2 * C_TEN % d;
     }
     return 0;
   }
@@ -353,15 +362,15 @@
     a = gcd(P["d"], P["n"]); // Abuse a
 
     this["s"] = P["s"];
-    this["n"] = P["n"] / a;
-    this["d"] = P["d"] / a;
+    this["n"] = P["n"] / a | C_ZERO;
+    this["d"] = P["d"] / a | C_ZERO;
   }
   
   Fraction.prototype = {
 
-    "s": 1n,
-    "n": 0n,
-    "d": 1n,
+    "s": C_ONE,
+    "n": C_ZERO,
+    "d": C_ONE,
 
     /**
      * Calculates the absolute value
@@ -509,7 +518,7 @@
 
       // lcm(a / b, c / d) = lcm(a, c) / gcd(b, d)
 
-      if (P["n"] === 0n && this["n"] === 0n) {
+      if (P["n"] === C_ZERO && this["n"] === C_ZERO) {
         return new Fraction;
       }
       return new Fraction(P["n"] * this["n"], gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]));
@@ -560,7 +569,7 @@
       parse(a, b);
       let t = (this["s"] * this["n"] * P["d"] - P["s"] * P["n"] * this["d"]);
       
-      return (0n < t) - (t < 0n);
+      return (C_ZERO < t) - (t < C_ZERO);
     },
 
     /**
@@ -636,13 +645,13 @@
       let cycLen = cycleLen(N, D); // Cycle length
       let cycOff = cycleStart(N, D, cycLen); // Cycle start
 
-      let str = this['s'] < 0n ? "-" : "";
+      let str = this['s'] < C_ZERO ? "-" : "";
 
       // Append integer part
-      str += N / D;
+      str += N / D | C_ZERO;
 
       N %= D;
-      N *= 10n;
+      N *= C_TEN;
 
       if (N)
         str += ".";
@@ -650,22 +659,22 @@
       if (cycLen) {
 
         for (let i = cycOff; i--; ) {
-          str += N / D;
+          str += N / D | C_ZERO;
           N %= D;
-          N *= 10n;
+          N *= C_TEN;
         }
         str += "(";
         for (let i = cycLen; i--; ) {
-          str += N / D;
+          str += N / D | C_ZERO;
           N %= D;
-          N *= 10n;
+          N *= C_TEN;
         }
         str += ")";
       } else {
         for (let i = dec; N && i--; ) {
-          str += N / D;
+          str += N / D | C_ZERO;
           N %= D;
-          N *= 10n;
+          N *= C_TEN;
         }
       }
       return str;
@@ -680,13 +689,13 @@
 
       let n = this["n"];
       let d = this["d"];
-      let str = this['s'] < 0n ? "-" : "";
+      let str = this['s'] < C_ZERO ? "-" : "";
 
-      if (d === 1n) {
+      if (d === C_ONE) {
         str += n;
       } else {
-        let whole = n / d;
-        if (excludeWhole && whole > 0n) {
+        let whole = n / d | C_ZERO;
+        if (excludeWhole && whole > C_ZERO) {
           str += whole;
           str += " ";
           n %= d;
@@ -708,13 +717,13 @@
 
       let n = this["n"];
       let d = this["d"];
-      let str = this['s'] < 0n ? "-" : "";
+      let str = this['s'] < C_ZERO ? "-" : "";
 
-      if (d === 1n) {
+      if (d === C_ONE) {
         str += n;
       } else {
-        let whole = n / d;
-        if (excludeWhole && whole > 0n) {
+        let whole = n / d | C_ZERO;
+        if (excludeWhole && whole > C_ZERO) {
           str += whole;
           n %= d;
         }
@@ -740,11 +749,11 @@
       let res = [];
 
       do {
-        res.push(a / b);
+        res.push(a / b | C_ZERO);
         let t = a % b;
         a = b;
         b = t;
-      } while (a !== 1n);
+      } while (a !== C_ONE);
 
       return res;
     },
@@ -763,8 +772,8 @@
         return rec(a.slice(1))['inverse']()['add'](a[0]);
       }
 
-      for (var i = 0; i < cont.length; i++) {
-        var tmp = rec(cont.slice(0, i + 1));
+      for (let i = 0; i < cont.length; i++) {
+        let tmp = rec(cont.slice(0, i + 1));
         if (tmp['sub'](this['abs']())['abs']().valueOf() < eps) {
           return tmp['mul'](this['s']);
         }
