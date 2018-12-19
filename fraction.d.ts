@@ -1,8 +1,8 @@
 declare module 'Fraction';
 
 export interface NumeratorDenominator {
-  numerator: number;
-  denominator: number;
+  n: number;
+  d: number;
 }
 
 type FractionConstructor = {
