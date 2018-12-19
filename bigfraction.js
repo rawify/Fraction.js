@@ -41,19 +41,19 @@
 
   "use strict";
   
-  const C_ONE = BigInt ? BigInt(1) : 1;
-  const C_ZERO = BigInt ? BigInt(0) : 0;
-  const C_TEN = BigInt ? BigInt(10) : 10;
-  const C_TWO = BigInt ? BigInt(2) : 2;
-  const C_FIVE = BigInt ? BigInt(5) : 5;
-  
   // Set Identity function to downgrade BigInt to Number if needed
   if (!BigInt) BigInt = function(n) {return n;};
+  
+  const C_ONE = BigInt(1);
+  const C_ZERO = BigInt(0);
+  const C_TEN = BigInt(10);
+  const C_TWO = BigInt(2);
+  const C_FIVE = BigInt(5);
 
   // Maximum search depth for cyclic rational numbers. 2000 should be more than enough.
   // Example: 1/7 = 0.(142857) has 6 repeating decimal places.
   // If MAX_CYCLE_LEN gets reduced, long cycles will not be detected and toString() only gets the first 10 digits
-  const MAX_CYCLE_LEN = BigInt ? BigInt(2000) : 2000;
+  const MAX_CYCLE_LEN = BigInt(2000);
 
   // Parsed data to avoid calling "new" all the time
   const P = {
