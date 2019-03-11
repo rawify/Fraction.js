@@ -1,4 +1,4 @@
-# Fraction.js - ℚ in JavaSript
+# Fraction.js - ℚ in JavaScript
 
 [![NPM Package](https://nodei.co/npm-dl/fraction.js.png?months=6&height=1)](https://npmjs.org/package/fraction.js)
 
