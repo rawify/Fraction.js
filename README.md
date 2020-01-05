@@ -331,17 +331,17 @@ Fraction lcm(n)
 ---
 Returns the fractional least common multiple
 
-Fraction ceil([places=0])
+Fraction ceil([places=0-16])
 ---
-Returns the ceiling of a rational number (rounded up)
+Returns the ceiling of a rational number with Math.ceil
 
-Fraction floor([places=0])
+Fraction floor([places=0-16])
 ---
-Returns the floor of a rational number (rounded down)
+Returns the floor of a rational number with Math.floor
 
-Fraction round([places=0])
+Fraction round([places=0-16])
 ---
-Returns the rational number rounded (normal round)
+Returns the rational number rounded with Math.round
 
 Fraction inverse()
 ---
