@@ -574,7 +574,7 @@
     },
 
     /**
-     * Gets the inverse of the fraction, means numerator and denumerator are exchanged
+     * Gets the inverse of the fraction, means numerator and denominator are exchanged
      *
      * Ex: new Fraction([-3, 4]).inverse() => -4 / 3
      **/
