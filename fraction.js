@@ -67,7 +67,7 @@
      *
      * @constructor
      */
-    function IntermediateInheritor() {}
+    function IntermediateInheritor() { }
     IntermediateInheritor.prototype = Error.prototype;
     errorConstructor.prototype = new IntermediateInheritor();
 
@@ -110,139 +110,139 @@
       switch (typeof p1) {
 
         case "object":
-        {
-          if ("d" in p1 && "n" in p1) {
-            n = p1["n"];
-            d = p1["d"];
-            if ("s" in p1)
-              n *= p1["s"];
-          } else if (0 in p1) {
-            n = p1[0];
-            if (1 in p1)
-              d = p1[1];
-          } else {
-            throwInvalidParam();
+          {
+            if ("d" in p1 && "n" in p1) {
+              n = p1["n"];
+              d = p1["d"];
+              if ("s" in p1)
+                n *= p1["s"];
+            } else if (0 in p1) {
+              n = p1[0];
+              if (1 in p1)
+                d = p1[1];
+            } else {
+              throwInvalidParam();
+            }
+            s = n * d;
+            break;
           }
-          s = n * d;
-          break;
-        }
         case "number":
-        {
-          if (p1 < 0) {
-            s = p1;
-            p1 = -p1;
-          }
-
-          if (p1 % 1 === 0) {
-            n = p1;
-          } else if (p1 > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
-
-            if (p1 >= 1) {
-              z = Math.pow(10, Math.floor(1 + Math.log(p1) / Math.LN10));
-              p1 /= z;
+          {
+            if (p1 < 0) {
+              s = p1;
+              p1 = -p1;
             }
 
-            // Using Farey Sequences
-            // http://www.johndcook.com/blog/2010/10/20/best-rational-approximation/
+            if (p1 % 1 === 0) {
+              n = p1;
+            } else if (p1 > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
 
-            while (B <= N && D <= N) {
-              M = (A + C) / (B + D);
+              if (p1 >= 1) {
+                z = Math.pow(10, Math.floor(1 + Math.log(p1) / Math.LN10));
+                p1 /= z;
+              }
 
-              if (p1 === M) {
-                if (B + D <= N) {
-                  n = A + C;
-                  d = B + D;
-                } else if (D > B) {
-                  n = C;
-                  d = D;
+              // Using Farey Sequences
+              // http://www.johndcook.com/blog/2010/10/20/best-rational-approximation/
+
+              while (B <= N && D <= N) {
+                M = (A + C) / (B + D);
+
+                if (p1 === M) {
+                  if (B + D <= N) {
+                    n = A + C;
+                    d = B + D;
+                  } else if (D > B) {
+                    n = C;
+                    d = D;
+                  } else {
+                    n = A;
+                    d = B;
+                  }
+                  break;
+
                 } else {
-                  n = A;
-                  d = B;
-                }
-                break;
 
-              } else {
+                  if (p1 > M) {
+                    A += C;
+                    B += D;
+                  } else {
+                    C += A;
+                    D += B;
+                  }
 
-                if (p1 > M) {
-                  A += C;
-                  B += D;
-                } else {
-                  C += A;
-                  D += B;
-                }
-
-                if (B > N) {
-                  n = C;
-                  d = D;
-                } else {
-                  n = A;
-                  d = B;
+                  if (B > N) {
+                    n = C;
+                    d = D;
+                  } else {
+                    n = A;
+                    d = B;
+                  }
                 }
               }
+              n *= z;
+            } else if (isNaN(p1) || isNaN(p2)) {
+              d = n = NaN;
             }
-            n *= z;
-          } else if (isNaN(p1) || isNaN(p2)) {
-            d = n = NaN;
+            break;
           }
-          break;
-        }
         case "string":
-        {
-          B = p1.match(/\d+|./g);
+          {
+            B = p1.match(/\d+|./g);
 
-          if (B === null)
-            throwInvalidParam();
+            if (B === null)
+              throwInvalidParam();
 
-          if (B[A] === '-') {// Check for minus sign at the beginning
-            s = -1;
-            A++;
-          } else if (B[A] === '+') {// Check for plus sign at the beginning
-            A++;
-          }
-
-          if (B.length === A + 1) { // Check if it's just a simple number "1234"
-            w = assign(B[A++], s);
-          } else if (B[A + 1] === '.' || B[A] === '.') { // Check if it's a decimal number
-
-            if (B[A] !== '.') { // Handle 0.5 and .5
-              v = assign(B[A++], s);
-            }
-            A++;
-
-            // Check for decimal places
-            if (A + 1 === B.length || B[A + 1] === '(' && B[A + 3] === ')' || B[A + 1] === "'" && B[A + 3] === "'") {
-              w = assign(B[A], s);
-              y = Math.pow(10, B[A].length);
+            if (B[A] === '-') {// Check for minus sign at the beginning
+              s = -1;
+              A++;
+            } else if (B[A] === '+') {// Check for plus sign at the beginning
               A++;
             }
 
-            // Check for repeating places
-            if (B[A] === '(' && B[A + 2] === ')' || B[A] === "'" && B[A + 2] === "'") {
-              x = assign(B[A + 1], s);
-              z = Math.pow(10, B[A + 1].length) - 1;
+            if (B.length === A + 1) { // Check if it's just a simple number "1234"
+              w = assign(B[A++], s);
+            } else if (B[A + 1] === '.' || B[A] === '.') { // Check if it's a decimal number
+
+              if (B[A] !== '.') { // Handle 0.5 and .5
+                v = assign(B[A++], s);
+              }
+              A++;
+
+              // Check for decimal places
+              if (A + 1 === B.length || B[A + 1] === '(' && B[A + 3] === ')' || B[A + 1] === "'" && B[A + 3] === "'") {
+                w = assign(B[A], s);
+                y = Math.pow(10, B[A].length);
+                A++;
+              }
+
+              // Check for repeating places
+              if (B[A] === '(' && B[A + 2] === ')' || B[A] === "'" && B[A + 2] === "'") {
+                x = assign(B[A + 1], s);
+                z = Math.pow(10, B[A + 1].length) - 1;
+                A += 3;
+              }
+
+            } else if (B[A + 1] === '/' || B[A + 1] === ':') { // Check for a simple fraction "123/456" or "123:456"
+              w = assign(B[A], s);
+              y = assign(B[A + 2], 1);
               A += 3;
+            } else if (B[A + 3] === '/' && B[A + 1] === ' ') { // Check for a complex fraction "123 1/2"
+              v = assign(B[A], s);
+              w = assign(B[A + 2], s);
+              y = assign(B[A + 4], 1);
+              A += 5;
             }
 
-          } else if (B[A + 1] === '/' || B[A + 1] === ':') { // Check for a simple fraction "123/456" or "123:456"
-            w = assign(B[A], s);
-            y = assign(B[A + 2], 1);
-            A += 3;
-          } else if (B[A + 3] === '/' && B[A + 1] === ' ') { // Check for a complex fraction "123 1/2"
-            v = assign(B[A], s);
-            w = assign(B[A + 2], s);
-            y = assign(B[A + 4], 1);
-            A += 5;
-          }
+            if (B.length <= A) { // Check for more tokens on the stack
+              d = y * z;
+              s = /* void */
+              n = x + d * v + z * w;
+              break;
+            }
 
-          if (B.length <= A) { // Check for more tokens on the stack
-            d = y * z;
-            s = /* void */
-                    n = x + d * v + z * w;
-            break;
+            /* Fall through on error */
           }
-
-          /* Fall through on error */
-        }
         default:
           throwInvalidParam();
       }
@@ -272,11 +272,11 @@
   function cycleLen(n, d) {
 
     for (; d % 2 === 0;
-            d /= 2) {
+      d /= 2) {
     }
 
     for (; d % 5 === 0;
-            d /= 5) {
+      d /= 5) {
     }
 
     if (d === 1) // Catch non-cyclic numbers
@@ -300,7 +300,7 @@
   }
 
 
-     function cycleStart(n, d, len) {
+  function cycleStart(n, d, len) {
 
     var rem1 = 1;
     var rem2 = modpow(10, len, d);
@@ -401,9 +401,9 @@
 
       parse(a, b);
       return new Fraction(
-              this["s"] * this["n"] * P["d"] + P["s"] * this["d"] * P["n"],
-              this["d"] * P["d"]
-              );
+        this["s"] * this["n"] * P["d"] + P["s"] * this["d"] * P["n"],
+        this["d"] * P["d"]
+      );
     },
 
     /**
@@ -415,9 +415,9 @@
 
       parse(a, b);
       return new Fraction(
-              this["s"] * this["n"] * P["d"] - P["s"] * this["d"] * P["n"],
-              this["d"] * P["d"]
-              );
+        this["s"] * this["n"] * P["d"] - P["s"] * this["d"] * P["n"],
+        this["d"] * P["d"]
+      );
     },
 
     /**
@@ -429,9 +429,9 @@
 
       parse(a, b);
       return new Fraction(
-              this["s"] * P["s"] * this["n"] * P["n"],
-              this["d"] * P["d"]
-              );
+        this["s"] * P["s"] * this["n"] * P["n"],
+        this["d"] * P["d"]
+      );
     },
 
     /**
@@ -443,9 +443,9 @@
 
       parse(a, b);
       return new Fraction(
-              this["s"] * P["s"] * this["n"] * P["d"],
-              this["d"] * P["n"]
-              );
+        this["s"] * P["s"] * this["n"] * P["d"],
+        this["d"] * P["n"]
+      );
     },
 
     /**
@@ -492,9 +492,9 @@
        * => (b2 * a1 % a2 * b1) / (b1 * b2)
        */
       return new Fraction(
-              this["s"] * (P["d"] * this["n"]) % (P["n"] * this["d"]),
-              P["d"] * this["d"]
-              );
+        this["s"] * (P["d"] * this["n"]) % (P["n"] * this["d"]),
+        P["d"] * this["d"]
+      );
     },
 
     /**
@@ -743,7 +743,7 @@
       var b = this['d'];
       var res = [];
 
-      if (isNaN(this['n']) || isNaN(this['d'])) {
+      if (isNaN(a) || isNaN(b)) {
         return res;
       }
 
@@ -795,20 +795,20 @@
 
       if (cycLen) {
 
-        for (var i = cycOff; i--; ) {
+        for (var i = cycOff; i--;) {
           str += N / D | 0;
           N %= D;
           N *= 10;
         }
         str += "(";
-        for (var i = cycLen; i--; ) {
+        for (var i = cycLen; i--;) {
           str += N / D | 0;
           N %= D;
           N *= 10;
         }
         str += ")";
       } else {
-        for (var i = dec; N && i--; ) {
+        for (var i = dec; N && i--;) {
           str += N / D | 0;
           N %= D;
           N *= 10;
@@ -823,7 +823,7 @@
       return Fraction;
     });
   } else if (typeof exports === "object") {
-    Object.defineProperty(exports, "__esModule", {'value': true});
+    Object.defineProperty(exports, "__esModule", { 'value': true });
     Fraction['default'] = Fraction;
     Fraction['Fraction'] = Fraction;
     module['exports'] = Fraction;

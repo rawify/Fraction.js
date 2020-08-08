@@ -1407,7 +1407,7 @@ describe('Fraction Output', function() {
   });
 });
 
-describe('Fraction toContined', function() {
+describe('Fraction toContinued', function() {
 
   it("Should pass 415/93", function() {
 
@@ -1449,6 +1449,19 @@ describe('Fraction toContined', function() {
 
     var tmp = new Fraction('7/8');
     assert.equal('0,1,7', tmp.toContinued().toString());
+  });
+
+});
+
+
+describe('Fraction simplify', function() {
+
+  it("Should pass 415/93", function() {
+
+    var tmp = new Fraction(415, 93);
+    assert.equal('9/2', tmp.simplify(0.1).toFraction());
+    assert.equal('58/13', tmp.simplify(0.01).toFraction());
+    assert.equal('415/93', tmp.simplify(0.0001).toFraction());
   });
 
 });

@@ -40,10 +40,10 @@
 (function(root) {
 
   "use strict";
-  
+
   // Set Identity function to downgrade BigInt to Number if needed
-  if (!BigInt) BigInt = function(n) {return n;};
-  
+  if (!BigInt) BigInt = function(n) { return n; };
+
   const C_ONE = BigInt(1);
   const C_ZERO = BigInt(0);
   const C_TEN = BigInt(10);
@@ -76,7 +76,7 @@
      *
      * @constructor
      */
-    function IntermediateInheritor() {}
+    function IntermediateInheritor() { }
     IntermediateInheritor.prototype = Error.prototype;
     errorConstructor.prototype = new IntermediateInheritor();
 
@@ -87,7 +87,7 @@
   const InvalidParameter = Fraction['InvalidParameter'] = createError('InvalidParameter');
 
   function assign(n, s) {
-    
+
     try {
       n = BigInt(n);
     } catch (e) {
@@ -123,8 +123,12 @@
         throw new InvalidParameter();
       }
       s = n * d;
+    } else if (typeof p1 === "bigint") {
+      n = p1;
+      s = p1;
+      d = BigInt(1);
     } else if (typeof p1 === "number") {
-      
+
       if (isNaN(p1)) {
         throw new InvalidParameter();
       }
@@ -151,7 +155,7 @@
         }
 
         // Using Farey Sequences
-        
+
         while (B <= N && D <= N) {
           let M = (A + C) / (B + D);
 
@@ -193,9 +197,9 @@
       } else if (isNaN(p1)) {
         d = n = NaN;
       }
-      
+
     } else if (typeof p1 === "string") {
-      
+
       let ndx = 0;
 
       let v = C_ZERO, w = C_ZERO, x = C_ZERO, y = C_ONE, z = C_ONE;
@@ -203,7 +207,7 @@
       let match = p1.match(/\d+|./g);
 
       if (match === null)
-       throw new InvalidParameter()
+        throw new InvalidParameter()
 
       if (match[ndx] === '-') {// Check for minus sign at the beginning
         s = -C_ONE;
@@ -283,11 +287,11 @@
   function cycleLen(n, d) {
 
     for (; d % C_TWO === C_ZERO;
-            d /= C_TWO) {
+      d /= C_TWO) {
     }
 
     for (; d % C_FIVE === C_ZERO;
-            d /= C_FIVE) {
+      d /= C_FIVE) {
     }
 
     if (d === C_ONE) // Catch non-cyclic numbers
@@ -309,7 +313,7 @@
     }
     return t;
   }
-  
+
   function cycleStart(n, d, len) {
 
     let rem1 = C_ONE;
@@ -326,7 +330,7 @@
     }
     return 0;
   }
-  
+
   function gcd(a, b) {
 
     if (!a)
@@ -365,7 +369,7 @@
     this["n"] = P["n"] / a | C_ZERO;
     this["d"] = P["d"] / a | C_ZERO;
   }
-  
+
   Fraction.prototype = {
 
     "s": C_ONE,
@@ -381,7 +385,7 @@
 
       return new Fraction(this["n"], this["d"]);
     },
-  
+
     /**
      * Inverts the sign of the current fraction
      *
@@ -391,7 +395,7 @@
 
       return new Fraction(-this["s"] * this["n"], this["d"]);
     },
-  
+
     /**
      * Adds two rational numbers
      *
@@ -401,9 +405,9 @@
 
       parse(a, b);
       return new Fraction(
-              this["s"] * this["n"] * P["d"] + P["s"] * this["d"] * P["n"],
-              this["d"] * P["d"]
-              );
+        this["s"] * this["n"] * P["d"] + P["s"] * this["d"] * P["n"],
+        this["d"] * P["d"]
+      );
     },
 
     /**
@@ -415,9 +419,9 @@
 
       parse(a, b);
       return new Fraction(
-              this["s"] * this["n"] * P["d"] - P["s"] * this["d"] * P["n"],
-              this["d"] * P["d"]
-              );
+        this["s"] * this["n"] * P["d"] - P["s"] * this["d"] * P["n"],
+        this["d"] * P["d"]
+      );
     },
 
     /**
@@ -429,9 +433,9 @@
 
       parse(a, b);
       return new Fraction(
-              this["s"] * P["s"] * this["n"] * P["n"],
-              this["d"] * P["d"]
-              );
+        this["s"] * P["s"] * this["n"] * P["n"],
+        this["d"] * P["d"]
+      );
     },
 
     /**
@@ -443,9 +447,9 @@
 
       parse(a, b);
       return new Fraction(
-              this["s"] * P["s"] * this["n"] * P["d"],
-              this["d"] * P["n"]
-              );
+        this["s"] * P["s"] * this["n"] * P["d"],
+        this["d"] * P["n"]
+      );
     },
 
     /**
@@ -456,7 +460,7 @@
     "clone": function() {
       return new Fraction(this);
     },
-  
+
     /**
      * Calculates the modulo of two rational numbers - a more precise fmod
      *
@@ -488,11 +492,11 @@
        * => (b2 * a1 % a2 * b1) / (b1 * b2)
        */
       return new Fraction(
-              this["s"] * (P["d"] * this["n"]) % (P["n"] * this["d"]),
-              P["d"] * this["d"]
-              );
+        this["s"] * (P["d"] * this["n"]) % (P["n"] * this["d"]),
+        P["d"] * this["d"]
+      );
     },
-  
+
     /**
      * Calculates the fractional gcd of two rational numbers
      *
@@ -523,7 +527,7 @@
       }
       return new Fraction(P["n"] * this["n"], gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]));
     },
-  
+
     /**
      * Gets the inverse of the fraction, means numerator and denominator are exchanged
      *
@@ -533,7 +537,7 @@
 
       return new Fraction(this["s"] * this["d"], this["n"]);
     },
-    
+
     /**
      * Calculates the fraction to some integer exponent
      *
@@ -568,7 +572,7 @@
 
       parse(a, b);
       let t = (this["s"] * this["n"] * P["d"] - P["s"] * P["n"] * this["d"]);
-      
+
       return (C_ZERO < t) - (t < C_ZERO);
     },
 
@@ -658,20 +662,20 @@
 
       if (cycLen) {
 
-        for (let i = cycOff; i--; ) {
-          str += N / D | C_ZERO;
+        for (let i = cycOff; i--;) {
+          str += N / D | C_ZERO;
           N %= D;
           N *= C_TEN;
         }
         str += "(";
-        for (let i = cycLen; i--; ) {
+        for (let i = cycLen; i--;) {
           str += N / D | C_ZERO;
           N %= D;
           N *= C_TEN;
         }
         str += ")";
       } else {
-        for (let i = dec; N && i--; ) {
+        for (let i = dec; N && i--;) {
           str += N / D | C_ZERO;
           N %= D;
           N *= C_TEN;
@@ -679,7 +683,7 @@
       }
       return str;
     },
-    
+
     /**
      * Returns a string-fraction representation of a Fraction object
      *
@@ -736,7 +740,7 @@
       }
       return str;
     },
-    
+
     /**
      * Returns an array of continued fraction elements
      *
@@ -757,7 +761,7 @@
 
       return res;
     },
-    
+
     "simplify": function(eps) {
 
       // First naive implementation, needs improvement
@@ -781,13 +785,13 @@
       return this;
     }
   };
-  
+
   if (typeof define === "function" && define["amd"]) {
     define([], function() {
       return Fraction;
     });
   } else if (typeof exports === "object") {
-    Object.defineProperty(exports, "__esModule", {'value': true});
+    Object.defineProperty(exports, "__esModule", { 'value': true });
     Fraction['default'] = Fraction;
     Fraction['Fraction'] = Fraction;
     module['exports'] = Fraction;
