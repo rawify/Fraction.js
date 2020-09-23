@@ -823,7 +823,7 @@
       return Fraction;
     });
   } else if (typeof exports === "object") {
-    Object.defineProperty(exports, "__esModule", { 'value': true });
+    Object.defineProperty(Fraction, "__esModule", { 'value': true });
     Fraction['default'] = Fraction;
     Fraction['Fraction'] = Fraction;
     module['exports'] = Fraction;
