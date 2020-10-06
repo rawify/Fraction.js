@@ -273,7 +273,7 @@ if (x !== null) {
 Attributes
 ===
 
-The Fraction object allows direct access to the numerator, denominator and sign attributes. It is ensured that only the sign-attribute holds sign information so that a sign comparision is only necessary against this attribute.
+The Fraction object allows direct access to the numerator, denominator and sign attributes. It is ensured that only the sign-attribute holds sign information so that a sign comparison is only necessary against this attribute.
 
 ```javascript
 var f = new Fraction('-1/2');
