@@ -478,7 +478,7 @@ As every library I publish, fraction.js is also built to be as small as possible
 
 Precision
 ===
-Fraction.js tries to circumvent floating point errors, by having an internal representation of numerator and denominator. As it relies on JavaScript, there is also a limit. The biggest number representable is `|Number.MAX_SAFE_INTEGER / 1|` and the smallest is `|1 / Number.MAX_SAFE_INTEGER|`, with `Number.MAX_SAFE_INTEGER=9007199254740991`.
+Fraction.js tries to circumvent floating point errors, by having an internal representation of numerator and denominator. As it relies on JavaScript, there is also a limit. The biggest number representable is `Number.MAX_SAFE_INTEGER / 1` and the smallest is `-1 / Number.MAX_SAFE_INTEGER`, with `Number.MAX_SAFE_INTEGER=9007199254740991`. If this is not enough, there is `bigfraction.js` shipped experimentally, which relies on `BigInt` and should become the new Fraction.js eventually. 
 
 Testing
 ===
