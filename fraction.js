@@ -778,7 +778,7 @@
         D /= g;
       }
 
-      dec = dec || 15; // 15 = decimal places when no repitation
+      dec = dec || 15; // 15 = decimal places when no repetition
 
       var cycLen = cycleLen(N, D); // Cycle length
       var cycOff = cycleStart(N, D, cycLen); // Cycle start

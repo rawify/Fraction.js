@@ -644,7 +644,7 @@
       let N = this["n"];
       let D = this["d"];
 
-      dec = dec || 15; // 15 = decimal places when no repitation
+      dec = dec || 15; // 15 = decimal places when no repitition
 
       let cycLen = cycleLen(N, D); // Cycle length
       let cycOff = cycleStart(N, D, cycLen); // Cycle start
