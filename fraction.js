@@ -1,6 +1,6 @@
 /**
  * @license Fraction.js v4.0.12 09/09/2015
- * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
+ * https://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -778,7 +778,7 @@
         D /= g;
       }
 
-      dec = dec || 15; // 15 = decimal places when no repitation
+      dec = dec || 15; // 15 = decimal places when no repetation
 
       var cycLen = cycleLen(N, D); // Cycle length
       var cycOff = cycleStart(N, D, cycLen); // Cycle start
