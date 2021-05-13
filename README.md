@@ -312,8 +312,7 @@ Returns the quotient of the actual number and the parameter n
 
 Fraction pow(exp)
 ---
-Returns the power of the actual number, raised to an integer exponent.
-*Note:* Rational exponents are planned, but would slow down the function a lot, because of a kinda slow root finding algorithm, whether the result will become irrational. So for now, only integer exponents are implemented.
+Returns the power of the actual number, raised to an possible rational exponent. If the result becomes non-rational the function returns `null`.
 
 Fraction mod(n)
 ---

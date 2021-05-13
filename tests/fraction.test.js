@@ -920,6 +920,30 @@ var tests = [{
     param: -4.3,
     expect: "1"
   }, {
+    label: "2^0.5",
+    set: 2,
+    fn: "pow",
+    param: 0.5,
+    expect: "null"
+  }, {
+    label: "sqrt(0)",
+    set: 0,
+    fn: "pow",
+    param: 0.5,
+    expect: "0"
+  }, {
+    label: "27^(2/3)",
+    set: 27,
+    fn: "pow",
+    param: "2/3",
+    expect: "9"
+  }, {
+    label: "(243/1024)^(2/5)",
+    set: "243/1024",
+    fn: "pow",
+    param: "2/5",
+    expect: "0.5625"
+  }, {
     label: "-0.5^-3",
     set: -0.5,
     fn: "pow",
@@ -1230,11 +1254,15 @@ describe('Fraction', function() {
 
       if (tests[i].fn) {
         action = function() {
-          return new Fraction(tests[i].set)[tests[i].fn](tests[i].param).toString();
+          var x = new Fraction(tests[i].set)[tests[i].fn](tests[i].param);
+          if (x === null) return "null";
+          return x.toString();
         };
       } else {
         action = function() {
-          return new Fraction(tests[i].set).toString();
+          var x = new Fraction(tests[i].set);
+          if (x === null) return "null";
+          return x.toString();
         };
       }
 

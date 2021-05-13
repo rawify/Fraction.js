@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v4.0.12 09/09/2015
+ * @license Fraction.js v4.0.14 09/09/2015
  * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
@@ -95,6 +95,32 @@
     }
 
     return n * s;
+  }
+
+  function factorize(num) {
+
+    var factors = {};
+
+    var n = num;
+    var i = C_TWO;
+    var s = C_FIVE - C_ONE;
+
+    while (s <= n) {
+
+      while (n % i === C_ZERO) {
+        n /= i;
+        factors[i] = (factors[i] || C_ZERO) + C_ONE;
+      }
+      s += C_ONE + C_TWO * i++;
+    }
+
+    if (n !== num) {
+      if (n > 1)
+      factors[n] = (factors[n] || C_ZERO) + C_ONE;
+    } else {
+      factors[num] = (factors[num] || C_ZERO) + C_ONE;
+    }
+    return factors;
   }
 
   const parse = function(p1, p2) {
@@ -543,13 +569,59 @@
      *
      * Ex: new Fraction(-1,2).pow(-3) => -8
      */
-    "pow": function(m) {
+    "pow": function(a, b) {
 
-      if (m < 0) {
-        return new Fraction((this['s'] * this["d"]) ** BigInt(-m), this["n"] ** BigInt(-m));
-      } else {
-        return new Fraction((this['s'] * this["n"]) ** BigInt(+m), this["d"] ** BigInt(+m));
+      parse(a, b);
+
+      // Trivial case when exp is an integer
+
+      if (P['d'] === C_ONE) {
+
+        if (P['s'] < C_ZERO) {
+          return new Fraction((this['s'] * this["d"]) ** P['n'], this["n"] ** P['n']);
+        } else {
+          return new Fraction((this['s'] * this["n"]) ** P['n'], this["d"] ** P['n']);
+        }
       }
+
+      // Negative roots become complex
+      if (this['s'] < C_ZERO) return null;
+
+      // Now prime factor n and d
+      var N = factorize(this['n']);
+      var D = factorize(this['d']);
+
+      // Exponentiate and take root for n and d individually
+      var n = this['s'];
+      var d = C_ONE;
+      for (var k in N) {
+        if (k === '1') continue;
+        if (k === '0') {
+          n = C_ZERO;
+          break;
+        }
+        N[k]*= P['n'];
+
+        if (N[k] % P['d'] === C_ZERO) {
+          N[k]/= P['d'];
+        } else return null;
+        n*= BigInt(k) ** N[k];
+      }
+
+      for (var k in D) {
+        if (k === '1') continue;
+        D[k]*= P['n'];
+
+        if (D[k] % P['d'] === C_ZERO) {
+          D[k]/= P['d'];
+        } else return null;
+        d*= BigInt(k) ** D[k];
+      }
+
+      if (P['s'] < C_ZERO) {
+        return new Fraction(d, n);
+      }
+      return new Fraction(n, d);
     },
 
     /**
