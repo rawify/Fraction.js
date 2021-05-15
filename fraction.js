@@ -630,6 +630,11 @@
       }
 
       // Negative roots become complex
+      //     (-a/b)^(c/d) = x
+      // <=> (-1)^(c/d) * (a/b)^(c/d) = x
+      // <=> (cos(pi) + i*sin(pi))^(c/d) * (a/b)^(c/d) = x
+      // <=> (cos(c*pi/d) + i*sin(c*pi/d)) * (a/b)^(c/d) = x       # DeMoivre's formula
+      // From which follows that only for c=0 the root is non-complex
       if (this['s'] < 0) return null;
 
       // Now prime factor n and d
