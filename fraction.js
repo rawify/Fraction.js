@@ -642,7 +642,7 @@
       var D = factorize(this['d']);
 
       // Exponentiate and take root for n and d individually
-      var n = this['s'];
+      var n = 1;
       var d = 1;
       for (var k in N) {
         if (k === '1') continue;
