@@ -585,6 +585,11 @@
       }
 
       // Negative roots become complex
+      //     (-a/b)^(c/d) = x
+      // <=> (-1)^(c/d) * (a/b)^(c/d) = x
+      // <=> (cos(pi) + i*sin(pi))^(c/d) * (a/b)^(c/d) = x
+      // <=> (cos(c*pi/d) + i*sin(c*pi/d)) * (a/b)^(c/d) = x       # DeMoivre's formula
+      // From which follows that only for c=0 the root is non-complex
       if (this['s'] < C_ZERO) return null;
 
       // Now prime factor n and d
@@ -592,7 +597,7 @@
       var D = factorize(this['d']);
 
       // Exponentiate and take root for n and d individually
-      var n = this['s'];
+      var n = C_ONE;
       var d = C_ONE;
       for (var k in N) {
         if (k === '1') continue;
