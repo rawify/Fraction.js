@@ -22,7 +22,7 @@
     "directories": {
         "example": "examples"
     },
-    "license": "MIT OR GPL-2.0-or-later",
+    "license": "MIT",
     "repository": {
         "type": "git",
         "url": "git://github.com/infusion/Fraction.js.git"
