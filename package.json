@@ -28,7 +28,7 @@
         "url": "git://github.com/infusion/Fraction.js.git"
     },
     "funding": {
-        "type": "",
+        "type": "patreon",
         "url": "https://www.patreon.com/infusion"
     },
     "engines": {
