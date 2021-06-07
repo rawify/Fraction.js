@@ -176,7 +176,7 @@
         let N = 10000000;
 
         if (p1 >= 1) {
-          z = 10 ** Math.floor(1 + Math.log10(p1));
+          z = Math.pow(10, Math.floor(1 + Math.log10(p1)));
           p1 /= z;
         }
 
@@ -254,14 +254,14 @@
         // Check for decimal places
         if (ndx + 1 === match.length || match[ndx + 1] === '(' && match[ndx + 3] === ')' || match[ndx + 1] === "'" && match[ndx + 3] === "'") {
           w = assign(match[ndx], s);
-          y = C_TEN ** BigInt(match[ndx].length);
+          y = Math.pow(C_TEN, BigInt(match[ndx].length));
           ndx++;
         }
 
         // Check for repeating places
         if (match[ndx] === '(' && match[ndx + 2] === ')' || match[ndx] === "'" && match[ndx + 2] === "'") {
           x = assign(match[ndx + 1], s);
-          z = C_TEN ** BigInt(match[ndx + 1].length) - C_ONE;
+          z = Math.pow(C_TEN, BigInt(match[ndx + 1].length)) - C_ONE;
           ndx += 3;
         }
 
@@ -578,9 +578,9 @@
       if (P['d'] === C_ONE) {
 
         if (P['s'] < C_ZERO) {
-          return new Fraction((this['s'] * this["d"]) ** P['n'], this["n"] ** P['n']);
+          return new Fraction(Math.pow((this['s'] * this["d"]), P['n']), Math.pow(this["n"], P['n']));
         } else {
-          return new Fraction((this['s'] * this["n"]) ** P['n'], this["d"] ** P['n']);
+          return new Fraction(Math.pow((this['s'] * this["n"]), P['n']), Math.pow(this["d"], P['n']));
         }
       }
 
@@ -610,7 +610,7 @@
         if (N[k] % P['d'] === C_ZERO) {
           N[k]/= P['d'];
         } else return null;
-        n*= BigInt(k) ** N[k];
+        n*= Math.pow(BigInt(k), N[k]);
       }
 
       for (var k in D) {
@@ -620,7 +620,7 @@
         if (D[k] % P['d'] === C_ZERO) {
           D[k]/= P['d'];
         } else return null;
-        d*= BigInt(k) ** D[k];
+        d*= Math.pow(BigInt(k), D[k]);
       }
 
       if (P['s'] < C_ZERO) {
@@ -660,7 +660,7 @@
      **/
     "ceil": function(places) {
 
-      places = 10 ** Number(places || 0);
+      places = Math.pow(10, Number(places || 0));
 
       return new Fraction(Math.ceil(places * Number(this["s"] * this["n"]) / Number(this["d"])), places);
     },
@@ -672,7 +672,7 @@
      **/
     "floor": function(places) {
 
-      places = 10 ** Number(places || 0);
+      places = Math.pow(10, Number(places || 0));
 
       return new Fraction(Math.floor(places * Number(this["s"] * this["n"]) / Number(this["d"])), places);
     },
@@ -684,7 +684,7 @@
      **/
     "round": function(places) {
 
-      places = 10 ** Number(places || 0);
+      places = Math.pow(10, Number(places || 0));
 
       return new Fraction(Math.round(places * Number(this["s"] * this["n"]) / Number(this["d"])), places);
     },
