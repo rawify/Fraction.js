@@ -102,7 +102,7 @@ var a = new Fraction(0),
     b = new Fraction(1);
 for (var n = 0; n <= 10; n++) {
 
-  var c = new Fraction(a).add(b).div(2);
+  var c = a.add(b).div(2);
 
   console.log(n + "\t" + a + "\t" + b + "\t" + c + "\t" + x);
 
