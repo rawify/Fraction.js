@@ -88,6 +88,24 @@ var sec = 17; // 17 Seconds
 new Fraction(deg).add(min, 60).add(sec, 3600).toString() // -> 57.7547(2)
 ```
 
+Rounding a fraction to the closest tape measure value
+=== 
+
+A tape measure is usually divided in parts of `1/16`. Rounding a given fraction to the closest value on a tape measure can be determined by
+
+```
+function closestTapeMeasure(frac) {
+
+    /*
+    k/16 ≤ a/b < (k+1)/16
+    ⇔ k ≤ 16*a/b < (k+1)
+    ⇔ k = floor(16*a/b)
+    */
+    return new Fraction(Math.round(16 * Fraction(frac).valueOf()), 16);
+}
+// closestTapeMeasure("1/3") // 5/16
+```
+
 Rational approximation of irrational numbers
 ===
 
