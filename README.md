@@ -93,7 +93,7 @@ Rounding a fraction to the closest tape measure value
 
 A tape measure is usually divided in parts of `1/16`. Rounding a given fraction to the closest value on a tape measure can be determined by
 
-```
+```javascript
 function closestTapeMeasure(frac) {
 
     /*
