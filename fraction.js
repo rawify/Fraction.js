@@ -375,22 +375,12 @@
 
     parse(a, b);
 
-    if (Fraction['REDUCE']) {
-      a = gcd(P["d"], P["n"]); // Abuse a
-    } else {
-      a = 1;
-    }
+    a = gcd(P["d"], P["n"]); // Abuse variable a
 
     this["s"] = P["s"];
     this["n"] = P["n"] / a;
     this["d"] = P["d"] / a;
   }
-
-  /**
-   * Boolean global variable to be able to disable automatic reduction of the fraction
-   *
-   */
-  Fraction['REDUCE'] = 1;
 
   Fraction.prototype = {
 
@@ -847,12 +837,6 @@
 
       if (isNaN(N) || isNaN(D)) {
         return "NaN";
-      }
-
-      if (!Fraction['REDUCE']) {
-        g = gcd(N, D);
-        N /= g;
-        D /= g;
       }
 
       dec = dec || 15; // 15 = decimal places when no repetation
