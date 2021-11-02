@@ -9,16 +9,18 @@ type FractionConstructor = {
   (fraction: Fraction): Fraction;
   (num: number | string): Fraction;
   (numerator: number, denominator: number): Fraction;
-  (numbers: (number | string)[]): Fraction;
+  (numbers: [number | string, number | string]): Fraction;
   (fraction: NumeratorDenominator): Fraction;
+  (firstValue: Fraction | number | string | [number | string, number | string] | NumeratorDenominator, secondValue?: number): Fraction;
 };
 
 export default class Fraction {
   constructor (fraction: Fraction);
   constructor (num: number | string);
   constructor (numerator: number, denominator: number);
-  constructor (numbers: (number | string)[]);
+  constructor (numbers: [number | string, number | string]);
   constructor (fraction: NumeratorDenominator);
+  constructor (firstValue: Fraction | number | string | [number | string, number | string] | NumeratorDenominator, secondValue?: number);
 
   s: number;
   n: number;
