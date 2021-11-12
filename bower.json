@@ -1,7 +1,7 @@
 {
     "name": "fraction.js",
     "main": "fraction.js",
-    "version": "4.1.1",
+    "version": "4.1.2",
     "homepage": "http://www.xarg.org/2014/03/rational-numbers-in-javascript/",
     "description": "A rational number library",
     "keywords": [
