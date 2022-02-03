@@ -622,6 +622,18 @@ var tests = [{
   param: 3,
   expect: "10.543"
 }, {
+  label: "round(-10.543,3)",
+  set: -10.543,
+  fn: "round",
+  param: 3,
+  expect: "-10.543"
+}, {
+  label: "round(10.543,3)",
+  set: 10.543,
+  fn: "round",
+  param: 3,
+  expect: "10.543"
+}, {
   label: "round(10.4)",
   set: 10.4,
   fn: "round",

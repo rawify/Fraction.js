@@ -662,10 +662,9 @@
 
       places = BigInt(10 ** Number(places || 0));
 
-      if (this["s"] >= C_ZERO) {
-        return new Fraction(places * this["n"] / this["d"] + (places * this["n"] % this["d"] > C_ZERO ? C_ONE : C_ZERO), places);
-      }
-      return new Fraction(-places * this["n"] / this["d"], places);
+      return new Fraction(this["s"] * places * this["n"] / this["d"] + 
+        (places * this["n"] % this["d"] > C_ZERO && this["s"] >= C_ZERO ? C_ONE : C_ZERO), 
+          places);
     },
 
     /**
@@ -677,10 +676,9 @@
 
       places = BigInt(10 ** Number(places || 0));
 
-      if (this["s"] >= C_ZERO) {
-        return new Fraction(places * this["n"] / this["d"], places);
-      }
-      return new Fraction(-places * this["n"] / this["d"] - (places * this["n"] % this["d"] > C_ZERO ? C_ONE : C_ZERO), places);
+      return new Fraction(this["s"] * places * this["n"] / this["d"] - 
+        (places * this["n"] % this["d"] > C_ZERO && this["s"] < C_ZERO ? C_ONE : C_ZERO), 
+          places);
     },
 
     /**
@@ -692,10 +690,9 @@
 
       places = BigInt(10 ** Number(places || 0));
 
-      if (this["s"] >= C_ZERO) {
-        return new Fraction(this["s"] * places * this["n"] / this["d"] + this["s"] * (C_TWO * (places * this["n"] % this["d"]) >= this["d"] ? C_ONE : C_ZERO), places);
-      }
-      return new Fraction(this["s"] * places * this["n"] / this["d"] + this["s"] * (C_TWO * (places * this["n"] % this["d"]) > this["d"] ? C_ONE : C_ZERO), places);
+      return new Fraction(this["s"] * places * this["n"] / this["d"] + 
+        this["s"] * ((this["s"] >= C_ZERO ? C_ONE : C_ZERO) + C_TWO * (places * this["n"] % this["d"]) > this["d"] ? C_ONE : C_ZERO), 
+          places);
     },
 
     /**
