@@ -116,7 +116,7 @@
 
     if (n !== num) {
       if (n > 1)
-      factors[n] = (factors[n] || C_ZERO) + C_ONE;
+        factors[n] = (factors[n] || C_ZERO) + C_ONE;
     } else {
       factors[num] = (factors[num] || C_ZERO) + C_ONE;
     }
@@ -660,9 +660,12 @@
      **/
     "ceil": function(places) {
 
-      places = 10 ** Number(places || 0);
+      places = BigInt(10 ** Number(places || 0));
 
-      return new Fraction(Math.ceil(places * Number(this["s"] * this["n"]) / Number(this["d"])), places);
+      if (this["s"] >= C_ZERO) {
+        return new Fraction(places * this["n"] / this["d"] + (places * this["n"] % this["d"] > C_ZERO ? C_ONE : C_ZERO), places);
+      }
+      return new Fraction(-places * this["n"] / this["d"], places);
     },
 
     /**
@@ -672,9 +675,12 @@
      **/
     "floor": function(places) {
 
-      places = 10 ** Number(places || 0);
+      places = BigInt(10 ** Number(places || 0));
 
-      return new Fraction(Math.floor(places * Number(this["s"] * this["n"]) / Number(this["d"])), places);
+      if (this["s"] >= C_ZERO) {
+        return new Fraction(places * this["n"] / this["d"], places);
+      }
+      return new Fraction(-places * this["n"] / this["d"] - (places * this["n"] % this["d"] > C_ZERO ? C_ONE : C_ZERO), places);
     },
 
     /**
@@ -684,9 +690,12 @@
      **/
     "round": function(places) {
 
-      places = 10 ** Number(places || 0);
+      places = BigInt(10 ** Number(places || 0));
 
-      return new Fraction(Math.round(places * Number(this["s"] * this["n"]) / Number(this["d"])), places);
+      if (this["s"] >= C_ZERO) {
+        return new Fraction(this["s"] * places * this["n"] / this["d"] + this["s"] * (C_TWO * (places * this["n"] % this["d"]) >= this["d"] ? C_ONE : C_ZERO), places);
+      }
+      return new Fraction(this["s"] * places * this["n"] / this["d"] + this["s"] * (C_TWO * (places * this["n"] % this["d"]) > this["d"] ? C_ONE : C_ZERO), places);
     },
 
     /**
