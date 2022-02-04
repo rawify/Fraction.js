@@ -660,7 +660,7 @@
      **/
     "ceil": function(places) {
 
-      places = BigInt(10 ** Number(places || 0));
+      places = C_TEN ** BigInt(places || 0);
 
       return new Fraction(this["s"] * places * this["n"] / this["d"] + 
         (places * this["n"] % this["d"] > C_ZERO && this["s"] >= C_ZERO ? C_ONE : C_ZERO), 
@@ -674,7 +674,7 @@
      **/
     "floor": function(places) {
 
-      places = BigInt(10 ** Number(places || 0));
+      places = C_TEN ** BigInt(places || 0);
 
       return new Fraction(this["s"] * places * this["n"] / this["d"] - 
         (places * this["n"] % this["d"] > C_ZERO && this["s"] < C_ZERO ? C_ONE : C_ZERO), 
@@ -688,7 +688,22 @@
      **/
     "round": function(places) {
 
-      places = BigInt(10 ** Number(places || 0));
+      places = C_TEN ** BigInt(places || 0);
+
+      /* Derivation:
+
+      s >= 0:
+        round(n / d) = trunc(n / d) + (n % d) / d >= 0.5 ? 1 : 0
+                     = trunc(n / d) + 2(n % d) >= d ? 1 : 0
+      s < 0:
+        round(n / d) =-trunc(n / d) - (n % d) / d > 0.5 ? 1 : 0
+                     =-trunc(n / d) - 2(n % d) > d ? 1 : 0
+
+      =>:
+
+      round(s * n / d) = s * trunc(n / d) + s * (C + 2(n % d) > d ? 1 : 0)
+          where C = s >= 0 ? 1 : 0, to fix the >= for the positve case.
+      */
 
       return new Fraction(this["s"] * places * this["n"] / this["d"] + 
         this["s"] * ((this["s"] >= C_ZERO ? C_ONE : C_ZERO) + C_TWO * (places * this["n"] % this["d"]) > this["d"] ? C_ONE : C_ZERO), 
