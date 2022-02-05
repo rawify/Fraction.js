@@ -461,6 +461,13 @@ function(Fraction) {
 </script>
 ```
 
+Using Fraction.js with TypeScript
+===
+```js
+import Fraction from "fraction.js";
+console.log(Fraction("123/456"));
+```
+
 Coding Style
 ===
 As every library I publish, fraction.js is also built to be as small as possible after compressing it with Google Closure Compiler in advanced mode. Thus the coding style orientates a little on maxing-out the compression rate. Please make sure you keep this style if you plan to extend the library.
