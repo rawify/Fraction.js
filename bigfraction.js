@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v4.1.2 23/05/2021
+ * @license Fraction.js v4.1.3 23/05/2021
  * https://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2021, Robert Eisele (robert@xarg.org)
