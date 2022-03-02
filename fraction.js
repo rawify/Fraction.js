@@ -738,7 +738,7 @@
     /**
      * Returns a string-fraction representation of a Fraction object
      *
-     * Ex: new Fraction("1.'3'").toFraction() => "4 1/3"
+     * Ex: new Fraction("1.'3'").toFraction(true) => "4 1/3"
      **/
     'toFraction': function(excludeWhole) {
 
