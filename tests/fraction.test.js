@@ -1350,6 +1350,20 @@ var tests = [{
   fn: "toString",
   param: null,
   expectError: "foo"
+}, {
+  label: "12 / 4.3",
+  set: 12,
+  set2: 4.3,
+  fn: "toString",
+  param: null,
+  expectError: "foo"
+}, {
+  label: "12.5 / 4",
+  set: 12.5,
+  set2: 4,
+  fn: "toString",
+  param: null,
+  expectError: "foo"
 }
 ];
 
@@ -1361,13 +1375,13 @@ describe('Fraction', function () {
 
       if (tests[i].fn) {
         action = function () {
-          var x = new Fraction(tests[i].set)[tests[i].fn](tests[i].param);
+          var x = Fraction(tests[i].set, tests[i].set2)[tests[i].fn](tests[i].param);
           if (x === null) return "null";
           return x.toString();
         };
       } else {
         action = function () {
-          var x = new Fraction(tests[i].set);
+          var x = new Fraction(tests[i].set, tests[i].set2);
           if (x === null) return "null";
           return x.toString();
         };
