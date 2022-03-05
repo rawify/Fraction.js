@@ -393,6 +393,7 @@
 
   Fraction['DivisionByZero'] = new Error("Division by Zero");
   Fraction['InvalidParameter'] = new Error("Invalid argument");
+  Fraction['NonIntegerParameter'] = new Error("Parameters must be integer");
 
   Fraction.prototype = {
 
