@@ -712,26 +712,24 @@
 
     "simplify": function(eps) {
 
-      // First naive implementation, needs improvement
-
       if (isNaN(this['n']) || isNaN(this['d'])) {
         return this;
       }
 
-      var cont = this['abs']()['toContinued']();
-
       eps = eps || 0.001;
 
-      function rec(a) {
-        if (a.length === 1)
-          return newFraction(a[0], 1);
-        return rec(a.slice(1))['inverse']()['add'](a[0]);
-      }
+      var thisABS = this['abs']();
+      var cont = thisABS['toContinued']();
 
-      for (var i = 0; i < cont.length; i++) {
-        var tmp = rec(cont.slice(0, i + 1));
-        if (tmp['sub'](this['abs']())['abs']().valueOf() < eps) {
-          return tmp['mul'](this['s']);
+      for (var i = 1; i < cont.length; i++) {
+
+        var s = newFraction(cont[i - 1], 1);
+        for (var k = i - 2; k >= 0; k--) {
+          s = s['inverse']()['add'](cont[k]);
+        }
+
+        if (s['sub'](thisABS)['abs']().valueOf() < eps) {
+          return s['mul'](this['s']);
         }
       }
       return this;

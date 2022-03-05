@@ -879,22 +879,20 @@
 
     "simplify": function(eps) {
 
-      // First naive implementation, needs improvement
-
-      let cont = this['abs']()['toContinued']();
-
       eps = eps || 0.001;
 
-      function rec(a) {
-        if (a.length === 1)
-          return newFraction(a[0], C_ONE);
-        return rec(a.slice(1))['inverse']()['add'](a[0]);
-      }
+      const thisABS = this['abs']();
+      const cont = thisABS['toContinued']();
 
-      for (let i = 0; i < cont.length; i++) {
-        let tmp = rec(cont.slice(0, i + 1));
-        if (tmp['sub'](this['abs']())['abs']().valueOf() < eps) {
-          return tmp['mul'](this['s']);
+      for (let i = 1; i < cont.length; i++) {
+
+        let s = newFraction(cont[i - 1], C_ONE);
+        for (let k = i - 2; k >= 0; k--) {
+          s = s['inverse']()['add'](cont[k]);
+        }
+
+        if (s['sub'](thisABS)['abs']().valueOf() < eps) {
+          return s['mul'](this['s']);
         }
       }
       return this;
