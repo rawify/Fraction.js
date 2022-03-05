@@ -53,47 +53,19 @@
     "d": 1
   };
 
-  function createError(name) {
-
-    function errorConstructor() {
-      var temp = Error.apply(this, arguments);
-      temp['name'] = this['name'] = name;
-      this['stack'] = temp['stack'];
-      this['message'] = temp['message'];
-    }
-
-    /**
-     * Error constructor
-     *
-     * @constructor
-     */
-    function IntermediateInheritor() { }
-    IntermediateInheritor.prototype = Error.prototype;
-    errorConstructor.prototype = new IntermediateInheritor();
-
-    return errorConstructor;
-  }
-
-  var DivisionByZero = Fraction['DivisionByZero'] = createError('DivisionByZero');
-  var InvalidParameter = Fraction['InvalidParameter'] = createError('InvalidParameter');
-
   function assign(n, s) {
 
     if (isNaN(n = parseInt(n, 10))) {
-      throwInvalidParam();
+      throw Fraction['InvalidParameter'];
     }
     return n * s;
-  }
-
-  function throwInvalidParam() {
-    throw new InvalidParameter();
   }
 
   // Creates a new Fraction internally without the need of the bulky constructor
   function newFraction(n, d) {
 
     if (d === 0) {
-      throw new DivisionByZero();
+      throw Fraction['DivisionByZero'];
     }
 
     var f = Object.create(Fraction.prototype);
@@ -153,7 +125,7 @@
       s = n * d;
 
       if (n % 1 !== 0 || d % 1 !== 0) {
-        throwInvalidParam();
+        throw Fraction['NonIntegerParameter'];
       }
 
     } else
@@ -171,7 +143,7 @@
               if (1 in p1)
                 d = p1[1];
             } else {
-              throwInvalidParam();
+              throw Fraction['InvalidParameter'];
             }
             s = n * d;
             break;
@@ -241,7 +213,7 @@
             B = p1.match(/\d+|./g);
 
             if (B === null)
-              throwInvalidParam();
+              throw Fraction['InvalidParameter'];
 
             if (B[A] === '-') {// Check for minus sign at the beginning
               s = -1;
@@ -294,11 +266,11 @@
             /* Fall through on error */
           }
         default:
-          throwInvalidParam();
+          throw Fraction['InvalidParameter'];
       }
 
     if (d === 0) {
-      throw new DivisionByZero();
+      throw Fraction['DivisionByZero'];
     }
 
     P["s"] = s < 0 ? -1 : 1;
@@ -404,6 +376,10 @@
       return newFraction(P['s'] * P['n'], P['d']);
     }
   }
+
+  Fraction['DivisionByZero'] = new Error("Division by Zero");
+  Fraction['InvalidParameter'] = new Error("Invalid argument");
+  Fraction['NonIntegerParameter'] = new Error("Parameters must be integer");
 
   Fraction.prototype = {
 
@@ -513,7 +489,7 @@
 
       parse(a, b);
       if (0 === P["n"] && 0 === this["d"]) {
-        Fraction(0, 0); // Throw DivisionByZero
+        throw Fraction['DivisionByZero'];
       }
 
       /*

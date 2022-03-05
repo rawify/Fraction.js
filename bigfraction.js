@@ -62,36 +62,12 @@
     "d": C_ONE
   };
 
-  function createError(name) {
-
-    function errorConstructor() {
-      const temp = Error.apply(this, arguments);
-      temp['name'] = this['name'] = name;
-      this['stack'] = temp['stack'];
-      this['message'] = temp['message'];
-    }
-
-    /**
-     * Error constructor
-     *
-     * @constructor
-     */
-    function IntermediateInheritor() { }
-    IntermediateInheritor.prototype = Error.prototype;
-    errorConstructor.prototype = new IntermediateInheritor();
-
-    return errorConstructor;
-  }
-
-  const DivisionByZero = Fraction['DivisionByZero'] = createError('DivisionByZero');
-  const InvalidParameter = Fraction['InvalidParameter'] = createError('InvalidParameter');
-
   function assign(n, s) {
 
     try {
       n = BigInt(n);
     } catch (e) {
-      throw new InvalidParameter();
+      throw Fraction['InvalidParameter'];
     }
     return n * s;
   }
@@ -100,7 +76,7 @@
   function newFraction(n, d) {
 
     if (d === C_ZERO) {
-      throw new DivisionByZero();
+      throw Fraction['DivisionByZero'];
     }
 
     const f = Object.create(Fraction.prototype);
@@ -153,7 +129,7 @@
       s = n * d;
 
       if (n % C_ONE !== C_ZERO || d % C_ONE !== C_ZERO) {
-        throw new InvalidParameter();
+        throw Fraction['NonIntegerParameter'];
       }
 
     } else if (typeof p1 === "object") {
@@ -169,7 +145,7 @@
       } else if (p1 instanceof BigInt) {
         n = BigInt(p1);
       } else {
-        throw new InvalidParameter();
+        throw Fraction['InvalidParameter'];
       }
       s = n * d;
     } else if (typeof p1 === "bigint") {
@@ -179,7 +155,7 @@
     } else if (typeof p1 === "number") {
 
       if (isNaN(p1)) {
-        throw new InvalidParameter();
+        throw Fraction['InvalidParameter'];
       }
 
       if (p1 < 0) {
@@ -254,7 +230,7 @@
       let match = p1.match(/\d+|./g);
 
       if (match === null)
-        throw new InvalidParameter()
+        throw Fraction['InvalidParameter'];
 
       if (match[ndx] === '-') {// Check for minus sign at the beginning
         s = -C_ONE;
@@ -302,15 +278,15 @@
         s = /* void */
         n = x + d * v + z * w;
       } else {
-        throw new InvalidParameter();
+        throw Fraction['InvalidParameter'];
       }
 
     } else {
-      throw new InvalidParameter();
+      throw Fraction['InvalidParameter'];
     }
 
     if (d === C_ZERO) {
-      throw new DivisionByZero();
+      throw Fraction['DivisionByZero'];
     }
 
     P["s"] = s < C_ZERO ? -C_ONE : C_ONE;
@@ -415,6 +391,9 @@
     }
   }
 
+  Fraction['DivisionByZero'] = new Error("Division by Zero");
+  Fraction['InvalidParameter'] = new Error("Invalid argument");
+
   Fraction.prototype = {
 
     "s": C_ONE,
@@ -491,7 +470,7 @@
     "div": function(a, b) {
 
       parse(a, b);
-      return new Fraction(
+      return newFraction(
         this["s"] * P["s"] * this["n"] * P["d"],
         this["d"] * P["n"]
       );
@@ -519,7 +498,7 @@
 
       parse(a, b);
       if (0 === P["n"] && 0 === this["d"]) {
-        Fraction(0, 0); // Throw DivisionByZero
+        throw Fraction['DivisionByZero'];
       }
 
       /*
