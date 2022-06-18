@@ -13,14 +13,15 @@ var Fraction = require('../fraction.min.js');
 var tab = [];
 for (var d = 1; d <= 360; d++) {
 
-   var pi = Fraction(2, 360).mul(d);
-   var tau = Fraction(1, 360).mul(d);
-  
-   if (pi.d <= 6 && pi.d != 5)
+  var pi = Fraction(2, 360).mul(d);
+  var tau = Fraction(1, 360).mul(d);
+
+  if (pi.d <= 6 && pi.d != 5)
       tab.push([
         d,
         pi.toFraction() + "pi",
-        tau.toFraction() + "tau"]);
+        tau.toFraction() + "tau"
+      ]);
 }
 
 console.table(tab);

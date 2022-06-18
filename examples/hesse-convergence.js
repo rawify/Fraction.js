@@ -75,21 +75,21 @@ function run(V, j) {
   //console.log("H(X)");
   for (var i in t) {
 
-    //	console.log(t[i].toFraction());
+    //  console.log(t[i].toFraction());
   }
 
   var s = grad(V);
   //console.log("vf(X)");
   for (var i in s) {
 
-    //	console.log(s[i].toFraction());
+    //  console.log(s[i].toFraction());
   }
 
-  //console.log("multiplikation");
+  //console.log("multiplication");
   var r = matrMult(t, s);
   for (var i in r) {
 
-    //	console.log(r[i].toFraction());
+    //  console.log(r[i].toFraction());
   }
 
   var R = (vecSub(V, r));
