@@ -85,7 +85,7 @@ function run(V, j) {
     //	console.log(s[i].toFraction());
   }
 
-  //console.log("multiplikation");
+  //console.log("multiplication");
   var r = matrMult(t, s);
   for (var i in r) {
 
