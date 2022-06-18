@@ -10,11 +10,12 @@ Tired of inprecise numbers represented by doubles, which have to store rational 
 
 ```javascript
 1 / 98 * 98 // = 0.9999999999999999
+0.1 + 0.2 != 0.3 // true
 ```
 
 If you need more precision or just want a fraction as a result, have a look at *Fraction.js*:
 
-```javascript
+```js
 var Fraction = require('fraction.js');
 
 Fraction(1).div(98).mul(98) // = 1
@@ -25,7 +26,7 @@ Internally, numbers are represented as *numerator / denominator*, which adds jus
 Convert decimal to fraction
 ===
 The simplest job for fraction.js is to get a fraction out of a decimal:
-```javascript
+```js
 var x = new Fraction(1.88);
 var res = x.toFraction(true); // String "1 22/25"
 ```
@@ -34,23 +35,23 @@ Examples / Motivation
 ===
 A simple example might be
 
-```javascript
+```js
 var f = new Fraction("9.4'31'"); // 9.4313131313131...
 f.mul([-4, 3]).mod("4.'8'"); // 4.88888888888888...
 ```
 The result is
 
-```javascript
+```js
 console.log(f.toFraction()); // -4154 / 1485
 ```
 You could of course also access the sign (s), numerator (n) and denominator (d) on your own:
-```javascript
+```js
 f.s * f.n / f.d = -1 * 4154 / 1485 = -2.797306...
 ```
 
 If you would try to calculate it yourself, you would come up with something like:
 
-```javascript
+```js
 (9.4313131 * (-4 / 3)) % 4.888888 = -2.797308133...
 ```
 
@@ -62,17 +63,17 @@ Laplace Probability
 Simple example. What's the probability of throwing a 3, and 1 or 4, and 2 or 4 or 6 with a fair dice?
 
 P({3}):
-```javascript
+```js
 var p = new Fraction([3].length, 6).toString(); // 0.1(6)
 ```
 
 P({1, 4}):
-```javascript
+```js
 var p = new Fraction([1, 4].length, 6).toString(); // 0.(3)
 ```
 
 P({2, 4, 6}):
-```javascript
+```js
 var p = new Fraction([2, 4, 6].length, 6).toString(); // 0.5
 ```
 
@@ -80,7 +81,7 @@ Convert degrees/minutes/seconds to precise rational representation:
 ===
 
 57+45/60+17/3600
-```javascript
+```js
 var deg = 57; // 57°
 var min = 45; // 45 Minutes
 var sec = 17; // 17 Seconds
@@ -89,11 +90,11 @@ new Fraction(deg).add(min, 60).add(sec, 3600).toString() // -> 57.7547(2)
 ```
 
 Rounding a fraction to the closest tape measure value
-=== 
+===
 
 A tape measure is usually divided in parts of `1/16`. Rounding a given fraction to the closest value on a tape measure can be determined by
 
-```javascript
+```js
 function closestTapeMeasure(frac) {
 
     /*
@@ -113,7 +114,7 @@ Now it's getting messy ;d To approximate a number like *sqrt(5) - 2* with a nume
 
 Then the following algorithm will generate the rational number besides the binary representation.
 
-```javascript
+```js
 var x = "/", s = "";
 
 var a = new Fraction(0),
@@ -160,7 +161,7 @@ I published another example on how to approximate PI with fraction.js on my [blo
 
 Get the exact fractional part of a number
 ---
-```javascript
+```js
 var f = new Fraction("-6.(3416)");
 console.log("" + f.mod(1).abs()); // Will print 0.(3416)
 ```
@@ -169,7 +170,7 @@ Mathematical correct modulo
 ---
 The behaviour on negative congruences is different to most modulo implementations in computer science. Even the *mod()* function of Fraction.js behaves in the typical way. To solve the problem of having the mathematical correct modulo with Fraction.js you could come up with this:
 
-```javascript
+```js
 var a = -1;
 var b = 10.99;
 
@@ -196,7 +197,7 @@ You can pass either Arrays, Objects, Integers, Doubles or Strings.
 
 Arrays / Objects
 ---
-```javascript
+```js
 new Fraction(numerator, denominator);
 new Fraction([numerator, denominator]);
 new Fraction({n: numerator, d: denominator});
@@ -204,13 +205,13 @@ new Fraction({n: numerator, d: denominator});
 
 Integers
 ---
-```javascript
+```js
 new Fraction(123);
 ```
 
 Doubles
 ---
-```javascript
+```js
 new Fraction(55.4);
 ```
 
@@ -221,7 +222,7 @@ The method is really precise, but too large exact numbers, like 1234567.9991829 
 
 Strings
 ---
-```javascript
+```js
 new Fraction("123.45");
 new Fraction("123/45"); // A rational number represented as two decimals, separated by a slash
 new Fraction("123:45"); // A rational number represented as two decimals, separated by a colon
@@ -234,7 +235,7 @@ new Fraction("123.45(6)"); // Note the brackets, see below!
 
 Two arguments
 ---
-```javascript
+```js
 new Fraction(3, 2); // 3/2 = 1.5
 ```
 
@@ -244,14 +245,14 @@ Repeating decimal places
 
 Assume you want to divide 123.32 / 33.6(567). [WolframAlpha](http://www.wolframalpha.com/input/?i=123.32+%2F+%2812453%2F370%29) states that you'll get a period of 1776 digits. *Fraction.js* comes to the same result. Give it a try:
 
-```javascript
+```js
 var f = new Fraction("123.32");
 console.log("Bam: " + f.div("33.6(567)"));
 ```
 
 To automatically make a number like "0.123123123" to something more Fraction.js friendly like "0.(123)", I hacked this little brute force algorithm in a 10 minutes. Improvements are welcome...
 
-```javascript
+```js
 function formatDecimal(str) {
 
   var comma, pre, offset, pad, times, repeat;
@@ -293,7 +294,7 @@ Attributes
 
 The Fraction object allows direct access to the numerator, denominator and sign attributes. It is ensured that only the sign-attribute holds sign information so that a sign comparison is only necessary against this attribute.
 
-```javascript
+```js
 var f = new Fraction('-1/2');
 console.log(f.n); // Numerator: 1
 console.log(f.d); // Denominator: 2
@@ -411,7 +412,7 @@ Array toContinued()
 ---
 Gets an array of the fraction represented as a continued fraction. The first element always contains the whole part.
 
-```javascript
+```js
 var f = new Fraction('88/33');
 var c = f.toContinued(); // [2, 1, 2]
 ```
@@ -475,7 +476,7 @@ As every library I publish, fraction.js is also built to be as small as possible
 
 Precision
 ===
-Fraction.js tries to circumvent floating point errors, by having an internal representation of numerator and denominator. As it relies on JavaScript, there is also a limit. The biggest number representable is `Number.MAX_SAFE_INTEGER / 1` and the smallest is `-1 / Number.MAX_SAFE_INTEGER`, with `Number.MAX_SAFE_INTEGER=9007199254740991`. If this is not enough, there is `bigfraction.js` shipped experimentally, which relies on `BigInt` and should become the new Fraction.js eventually. 
+Fraction.js tries to circumvent floating point errors, by having an internal representation of numerator and denominator. As it relies on JavaScript, there is also a limit. The biggest number representable is `Number.MAX_SAFE_INTEGER / 1` and the smallest is `-1 / Number.MAX_SAFE_INTEGER`, with `Number.MAX_SAFE_INTEGER=9007199254740991`. If this is not enough, there is `bigfraction.js` shipped experimentally, which relies on `BigInt` and should become the new Fraction.js eventually.
 
 Testing
 ===
