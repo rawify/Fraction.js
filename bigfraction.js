@@ -151,7 +151,7 @@
     } else if (typeof p1 === "bigint") {
       n = p1;
       s = p1;
-      d = BigInt(1);
+      d = C_ONE;
     } else if (typeof p1 === "number") {
 
       if (isNaN(p1)) {
@@ -368,6 +368,10 @@
       if (!b)
         return a;
     }
+  }
+
+  function truncNumeric(x) {
+    return typeof x === 'bigint' ? x : Math.trunc(x);
   }
 
   /**
@@ -739,15 +743,18 @@
       let N = this["n"];
       let D = this["d"];
 
-      dec = dec || 15; // 15 = decimal places when no repitation
+      dec = dec || 15; // 15 = decimal places when no repetition
 
-      let cycLen = cycleLen(N, D); // Cycle length
-      let cycOff = cycleStart(N, D, cycLen); // Cycle start
+      let cycLen = cycleLen(N, D); // length = len
+      let cycOff = cycleStart(N, D, cycLen);
 
       let str = this['s'] < C_ZERO ? "-" : "";
 
-      // Append integer part
-      str+= N / D;
+      function intStr() {
+        return truncNumeric(N / D); // N & D could be Numbers
+      }
+
+      str+= intStr();
 
       N%= D;
       N*= C_TEN;
@@ -758,20 +765,20 @@
       if (cycLen) {
 
         for (let i = cycOff; i--;) {
-          str+= N / D;
+          str+= intStr();
           N%= D;
           N*= C_TEN;
         }
         str+= "(";
         for (let i = cycLen; i--;) {
-          str+= N / D;
+          str+= intStr();
           N%= D;
           N*= C_TEN;
         }
         str+= ")";
       } else {
         for (let i = dec; N && i--;) {
-          str+= N / D;
+          str+= intStr();
           N%= D;
           N*= C_TEN;
         }

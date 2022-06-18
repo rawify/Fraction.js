@@ -837,8 +837,8 @@
 
       dec = dec || 15; // 15 = decimal places when no repetation
 
-      var cycLen = cycleLen(N, D); // Cycle length
-      var cycOff = cycleStart(N, D, cycLen); // Cycle start
+      var cycLen = cycleLen(N, D); // length = len
+      var cycOff = cycleStart(N, D, cycLen);
 
       var str = this['s'] < 0 ? "-" : "";
 
