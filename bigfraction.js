@@ -875,7 +875,7 @@
           s = s['inverse']()['add'](cont[k]);
         }
 
-        if (s['sub'](thisABS)['abs']().valueOf() < eps) {
+        if (Math.abs(s['sub'](thisABS).valueOf()) < eps) {
           return s['mul'](this['s']);
         }
       }
