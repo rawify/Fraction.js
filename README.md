@@ -12,11 +12,17 @@ Tired of inprecise numbers represented by doubles, which have to store rational 
 1 / 98 * 98 // = 0.9999999999999999
 ```
 
-If you need more precision or just want a fraction as a result, have a look at *Fraction.js*:
+If you need more precision or just want a fraction as a result, just include *Fraction.js*:
 
 ```javascript
 var Fraction = require('fraction.js');
+// or
+import Fraction from 'fraction.js';
+```
 
+and give it a trial:
+
+```javascript
 Fraction(1).div(98).mul(98) // = 1
 ```
 
@@ -162,7 +168,7 @@ Get the exact fractional part of a number
 ---
 ```javascript
 var f = new Fraction("-6.(3416)");
-console.log("" + f.mod(1).abs()); // Will print 0.(3416)
+console.log("" + f.mod(1).abs()); // 0.(3416)
 ```
 
 Mathematical correct modulo
