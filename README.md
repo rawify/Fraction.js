@@ -17,7 +17,7 @@ If you need more precision or just want a fraction as a result, just include *Fr
 ```javascript
 var Fraction = require('fraction.js');
 // or
-import Fraction from 'fraction.js';
+import { Fraction } from 'fraction.js';
 ```
 
 and give it a trial:
