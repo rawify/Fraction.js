@@ -13,8 +13,8 @@
  * You can pass a fraction in different formats. Either as array, as double, as string or as an integer.
  *
  * Array/Object form
- * [ 0 => <nominator>, 1 => <denominator> ]
- * [ n => <nominator>, d => <denominator> ]
+ * [ 0 => <numerator>, 1 => <denominator> ]
+ * [ n => <numerator>, d => <denominator> ]
  *
  * Integer form
  * - Single integer value
