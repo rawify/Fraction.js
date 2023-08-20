@@ -494,5 +494,5 @@ npm test
 
 Copyright and licensing
 ===
-Copyright (c) 2014-2022, [Robert Eisele](https://www.xarg.org/)
+Copyright (c) 2023, [Robert Eisele](https://raw.org/)
 Dual licensed under the MIT or GPL Version 2 licenses.
