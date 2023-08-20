@@ -1,8 +1,8 @@
 /**
- * @license Fraction.js v4.2.0 05/03/2022
+ * @license Fraction.js v4.2.1 20/08/2023
  * https://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
- * Copyright (c) 2021, Robert Eisele (robert@xarg.org)
+ * Copyright (c) 2023, Robert Eisele (robert@raw.org)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  **/
 
@@ -56,7 +56,7 @@
   function assign(n, s) {
 
     if (isNaN(n = parseInt(n, 10))) {
-      throw Fraction['InvalidParameter'];
+      throw InvalidParameter();
     }
     return n * s;
   }
@@ -65,7 +65,7 @@
   function newFraction(n, d) {
 
     if (d === 0) {
-      throw Fraction['DivisionByZero'];
+      throw DivisionByZero();
     }
 
     var f = Object.create(Fraction.prototype);
@@ -125,7 +125,7 @@
       s = n * d;
 
       if (n % 1 !== 0 || d % 1 !== 0) {
-        throw Fraction['NonIntegerParameter'];
+        throw NonIntegerParameter();
       }
 
     } else
@@ -143,7 +143,7 @@
               if (1 in p1)
                 d = p1[1];
             } else {
-              throw Fraction['InvalidParameter'];
+              throw InvalidParameter();
             }
             s = n * d;
             break;
@@ -213,7 +213,7 @@
             B = p1.match(/\d+|./g);
 
             if (B === null)
-              throw Fraction['InvalidParameter'];
+              throw InvalidParameter();
 
             if (B[A] === '-') {// Check for minus sign at the beginning
               s = -1;
@@ -266,11 +266,11 @@
             /* Fall through on error */
           }
         default:
-          throw Fraction['InvalidParameter'];
+          throw InvalidParameter();
       }
 
     if (d === 0) {
-      throw Fraction['DivisionByZero'];
+      throw DivisionByZero();
     }
 
     P["s"] = s < 0 ? -1 : 1;
@@ -377,9 +377,9 @@
     }
   }
 
-  Fraction['DivisionByZero'] = new Error("Division by Zero");
-  Fraction['InvalidParameter'] = new Error("Invalid argument");
-  Fraction['NonIntegerParameter'] = new Error("Parameters must be integer");
+  var DivisionByZero = function() {return new Error("Division by Zero");};
+  var InvalidParameter = function() {return new Error("Invalid argument");};
+  var NonIntegerParameter = function() {return new Error("Parameters must be integer");};
 
   Fraction.prototype = {
 
@@ -489,7 +489,7 @@
 
       parse(a, b);
       if (0 === P["n"] && 0 === this["d"]) {
-        throw Fraction['DivisionByZero'];
+        throw DivisionByZero();
       }
 
       /*
