@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v4.2.1 20/08/2023
+ * @license Fraction.js v4.3.0 20/08/2023
  * https://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2023, Robert Eisele (robert@raw.org)
@@ -377,9 +377,9 @@
     }
   }
 
-  var DivisionByZero = function() {return new Error("Division by Zero");};
-  var InvalidParameter = function() {return new Error("Invalid argument");};
-  var NonIntegerParameter = function() {return new Error("Parameters must be integer");};
+  var DivisionByZero = function() { return new Error("Division by Zero"); };
+  var InvalidParameter = function() { return new Error("Invalid argument"); };
+  var NonIntegerParameter = function() { return new Error("Parameters must be integer"); };
 
   Fraction.prototype = {
 
@@ -875,14 +875,11 @@
     }
   };
 
-  if (typeof define === "function" && define["amd"]) {
-    define([], function() {
-      return Fraction;
+  if (typeof exports === "object") {
+    Object.defineProperty(exports, "__esModule", {
+      value: true
     });
-  } else if (typeof exports === "object") {
-    Object.defineProperty(Fraction, "__esModule", { 'value': true });
-    Fraction['default'] = Fraction;
-    Fraction['Fraction'] = Fraction;
+    exports["default"] = Fraction;
     module['exports'] = Fraction;
   } else {
     root['Fraction'] = Fraction;

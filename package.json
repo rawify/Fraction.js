@@ -1,43 +1,52 @@
 {
-    "name": "fraction.js",
-    "title": "fraction.js",
-    "version": "4.2.1",
-    "homepage": "https://www.xarg.org/2014/03/rational-numbers-in-javascript/",
-    "bugs": "https://github.com/infusion/Fraction.js/issues",
-    "description": "A rational number library",
-    "keywords": [
-        "math",
-        "fraction",
-        "rational",
-        "rationals",
-        "number",
-        "parser",
-        "rational numbers"
-    ],
-    "author": "Robert Eisele <robert@xarg.org> (http://www.xarg.org/)",
-    "main": "fraction",
-    "types": "./fraction.d.ts",
-    "private": false,
-    "readmeFilename": "README.md",
-    "directories": {
-        "example": "examples"
-    },
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/infusion/Fraction.js.git"
-    },
-    "funding": {
-        "type": "patreon",
-        "url": "https://www.patreon.com/infusion"
-    },
-    "engines": {
-        "node": "*"
-    },
-    "scripts": {
-        "test": "mocha tests/*.js"
-    },
-    "devDependencies": {
-        "mocha": "*"
-    }
+  "name": "fraction.js",
+  "title": "fraction.js",
+  "version": "4.3.0",
+  "homepage": "https://www.xarg.org/2014/03/rational-numbers-in-javascript/",
+  "bugs": "https://github.com/rawify/Fraction.js/issues",
+  "description": "A rational number library",
+  "keywords": [
+    "math",
+    "fraction",
+    "rational",
+    "rationals",
+    "number",
+    "parser",
+    "rational numbers"
+  ],
+  "author": {
+    "name": "Robert Eisele",
+    "email": "robert@raw.org",
+    "url": "https://raw.org/"
+  },
+  "type": "module",
+  "main": "fraction",
+  "exports": {
+    "import": "./fraction.cjs",
+    "require": "./fraction.cjs"
+  },
+  "types": "./fraction.d.ts",
+  "private": false,
+  "readmeFilename": "README.md",
+  "directories": {
+    "example": "examples"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rawify/Fraction.js.git"
+  },
+  "funding": {
+    "type": "patreon",
+    "url": "https://github.com/sponsors/rawify"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "mocha tests/*.js"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  }
 }
