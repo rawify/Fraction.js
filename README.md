@@ -433,12 +433,7 @@ If a really hard error occurs (parsing error, division by zero), *fraction.js* t
 
 Installation
 ===
-Installing fraction.js is as easy as cloning this repo or use one of the following commands:
-
-```
-bower install fraction.js
-```
-or
+Installing fraction.js is as easy as cloning this repo or use the following command:
 
 ```
 npm install fraction.js
@@ -450,18 +445,6 @@ Using Fraction.js with the browser
 <script src="fraction.js"></script>
 <script>
     console.log(Fraction("123/456"));
-</script>
-```
-
-Using Fraction.js with require.js
-===
-```html
-<script src="require.js"></script>
-<script>
-requirejs(['fraction.js'],
-function(Fraction) {
-    console.log(Fraction("123/456"));
-});
 </script>
 ```
 
@@ -493,4 +476,4 @@ npm test
 Copyright and licensing
 ===
 Copyright (c) 2023, [Robert Eisele](https://raw.org/)
-Dual licensed under the MIT or GPL Version 2 licenses.
+Licensed under the MIT license.
