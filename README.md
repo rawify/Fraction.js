@@ -469,7 +469,7 @@ function(Fraction) {
 
 Using Fraction.js with TypeScript
 ===
-```js
+```typescript
 import Fraction from "fraction.js";
 console.log(Fraction("123/456"));
 ```

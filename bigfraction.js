@@ -370,6 +370,10 @@
     }
   }
 
+  function trunc(x) {
+    return typeof x === 'bigint' ? x : x - x % 1;
+  }
+
   /**
    * Module constructor
    *
@@ -739,10 +743,6 @@
       let N = this["n"];
       let D = this["d"];
 
-      function trunc(x) {
-          return typeof x === 'bigint' ? x : Math.floor(x);
-      }
-
       dec = dec || 15; // 15 = decimal places when no repetition
 
       let cycLen = cycleLen(N, D); // Cycle length
@@ -797,7 +797,7 @@
       if (d === C_ONE) {
         str+= n;
       } else {
-        let whole = n / d;
+        let whole = trunc(n / d);
         if (excludeWhole && whole > C_ZERO) {
           str+= whole;
           str+= " ";
@@ -825,7 +825,7 @@
       if (d === C_ONE) {
         str+= n;
       } else {
-        let whole = n / d;
+        let whole = trunc(n / d);
         if (excludeWhole && whole > C_ZERO) {
           str+= whole;
           n%= d;
