@@ -20,7 +20,7 @@
     "url": "https://raw.org/"
   },
   "type": "module",
-  "main": "fraction",
+  "main": "fraction.cjs",
   "exports": {
     "import": "./fraction.cjs",
     "require": "./fraction.cjs"
