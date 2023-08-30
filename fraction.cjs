@@ -879,6 +879,7 @@
     Object.defineProperty(Fraction, "__esModule", { 'value': true });
     Fraction['default'] = Fraction;
     Fraction['Fraction'] = Fraction;
+  module['exports'] = Fraction; 
   } else {
     root['Fraction'] = Fraction;
   }
