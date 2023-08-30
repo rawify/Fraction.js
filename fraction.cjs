@@ -876,11 +876,9 @@
   };
 
   if (typeof exports === "object") {
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports["default"] = Fraction;
-    module['exports'] = Fraction;
+    Object.defineProperty(Fraction, "__esModule", { 'value': true });
+    Fraction['default'] = Fraction;
+    Fraction['Fraction'] = Fraction;
   } else {
     root['Fraction'] = Fraction;
   }
