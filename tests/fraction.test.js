@@ -1,5 +1,5 @@
-import assert from 'assert';
-import Fraction from 'fraction.js';
+var assert = require('assert');
+var Fraction = require('../fraction.cjs');
 
 var DivisionByZero = function() { return new Error("Division by Zero"); };
 var InvalidParameter = function() { return new Error("Invalid argument"); };
