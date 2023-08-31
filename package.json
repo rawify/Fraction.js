@@ -1,7 +1,7 @@
 {
   "name": "fraction.js",
   "title": "fraction.js",
-  "version": "4.3.3",
+  "version": "4.3.5",
   "homepage": "https://www.xarg.org/2014/03/rational-numbers-in-javascript/",
   "bugs": "https://github.com/rawify/Fraction.js/issues",
   "description": "A rational number library",
@@ -19,7 +19,15 @@
     "email": "robert@raw.org",
     "url": "https://raw.org/"
   },
-  "main": "fraction.cjs",
+  "type": "module",
+  "main": "fraction.js",
+  "exports": {
+    ".": {
+      "import": "./fraction.js",
+      "require": "./fraction.cjs",
+      "types": "./fraction.d.ts"
+    }
+  },
   "types": "./fraction.d.ts",
   "private": false,
   "readmeFilename": "README.md",

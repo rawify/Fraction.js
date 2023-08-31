@@ -1,5 +1,5 @@
-var assert = require('assert');
-var Fraction = require('../fraction.cjs');
+import assert from 'assert';
+import Fraction from 'fraction.js';
 
 var DivisionByZero = function() { return new Error("Division by Zero"); };
 var InvalidParameter = function() { return new Error("Invalid argument"); };
@@ -427,13 +427,13 @@ var tests = [{
   param: null,
   expect: "0.0(2)"
 }, {
-  label: "1.5 | 100.5",
+  label: "1.5 | 100.5",
   set: 100.5,
   fn: "divisible",
   param: '1.5',
   expect: "true"
 }, {
-  label: "1.5 | 100.6",
+  label: "1.5 | 100.6",
   set: 100.6,
   fn: "divisible",
   param: 1.6,

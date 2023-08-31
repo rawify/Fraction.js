@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v4.3.0 20/08/2023
+ * @license Fraction.js v4.3.5 31/08/2023
  * https://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2023, Robert Eisele (robert@raw.org)
@@ -876,9 +876,8 @@
   };
 
   if (typeof exports === "object") {
-    Object.defineProperty(Fraction, "__esModule", { 'value': true });
-    Fraction['default'] = Fraction;
-    Fraction['Fraction'] = Fraction;
+    Object.defineProperty(exports, "__esModule", { 'value': true });
+    exports['default'] = Fraction;
     module['exports'] = Fraction;
   } else {
     root['Fraction'] = Fraction;
