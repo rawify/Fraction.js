@@ -7,11 +7,8 @@
  **/
 function closestTapeMeasure(frac) {
 
-    /*
-    k/16 ≤ a/b < (k+1)/16
-    ⇔ k ≤ 16*a/b < (k+1)
-    ⇔ k = floor(16*a/b)
-    */
-    return new Fraction(Math.round(16 * Fraction(frac).valueOf()), 16);
+    // A tape measure is usually divided in parts of 1/16
+
+    return Fraction(frac).roundTo("1/16");
 }
 console.log(closestTapeMeasure("1/3")); // 5/16

@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v4.3.5 31/08/2023
+ * @license Fraction.js v4.3.7 31/08/2023
  * https://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2023, Robert Eisele (robert@raw.org)
@@ -586,6 +586,24 @@
         return new Fraction(NaN);
       }
       return newFraction(Math.round(places * this["s"] * this["n"] / this["d"]), places);
+    },
+
+    /**
+     * Rounds a rational number to a multiple of another rational number
+     *
+     * Ex: new Fraction('0.9').roundTo("1/8") => 7 / 8
+     **/
+    "roundTo": function(a, b) {
+
+      /*
+      k * x/y ≤ a/b < (k+1) * x/y
+      ⇔ k ≤ a/b / (x/y) < (k+1)
+      ⇔ k = floor(a/b * y/x)
+      */
+
+      parse(a, b);
+
+      return newFraction(this['s'] * Math.round(this['n'] * P['d'] / (this['d'] * P['n'])) * P['n'], P['d']);
     },
 
     /**

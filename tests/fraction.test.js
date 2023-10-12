@@ -1367,8 +1367,25 @@ var tests = [{
   fn: "toString",
   param: null,
   expectError: NonIntegerParameter()
-}
-];
+}, {
+  label: "0.9 round to multiple of 1/8",
+  set: .9,
+  fn: "roundTo",
+  param: "1/8",
+  expect: "0.875"
+}, {
+  label: "1/3 round to multiple of 1/16",
+  set: 1/3,
+  fn: "roundTo",
+  param: "1/16",
+  expect: "0.3125"
+}, {
+  label: "1/3 round to multiple of 1/16",
+  set: -1/3,
+  fn: "roundTo",
+  param: "1/16",
+  expect: "-0.3125"
+}];
 
 describe('Fraction', function() {
   for (var i = 0; i < tests.length; i++) {
