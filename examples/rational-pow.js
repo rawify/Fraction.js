@@ -7,35 +7,22 @@
  **/
  
 // Calculates (a/b)^(c/d) if result is rational
+// Derivation: https://raw.org/book/analysis/rational-numbers/
 function root(a, b, c, d) {
 
   // Initial estimate
-  var xn = Fraction(Math.floor(Math.pow(a / b, c / d)));
-  var abc = Fraction(a, b).pow(c);
+  let x = Fraction(100 * (Math.floor(Math.pow(a / b, c / d)) || 1), 100);
+  const abc = Fraction(a, b).pow(c);
 
-  for (var i = 0; i < 30; i++) {
-    var xp = xn.sub(xn.pow(d).sub(abc).div(xn.pow(d - 1).mul(d)));
+  for (let i = 0; i < 30; i++) {
+    const n = abc.mul(x.pow(1 - d)).sub(x).div(d).add(x)
 
-    if (xp.n === xn.n && xp.d === xn.d) {
-      return xp;
+    if (x.n === n.n && x.d === n.d) {
+      return n;
     }
-    xn = xp;
+    x = n;
   }
   return null;
 }
 
 root(18, 2, 1, 2); // 3/1
-
-/* derivation:
-
-Root: x = (a/b)^(c/d)
-  <=> x^d = (a/b)^c
-  <=> x^d - (a/b)^c = 0
-
-f(x) = x^d - (a/b)^c
-f'(x) = dx^(d-1)
-
-Newton method:
-xp = xn - f(xn) / f'(xn)
-
-*/
