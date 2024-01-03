@@ -42,6 +42,9 @@ var tests = [{
   set: 2.555,
   expect: "2.555"
 }, {
+  set: 1e12,
+  expect: "1000000000000"
+}, {
   set: " - ",
   expectError: InvalidParameter()
 }, {
