@@ -846,6 +846,10 @@ Fraction.prototype = {
     var N = this["n"];
     var D = this["d"];
 
+    function trunc(x) {
+      return Math.trunc(x);
+    }
+
     if (isNaN(N) || isNaN(D)) {
       return "NaN";
     }
@@ -857,7 +861,7 @@ Fraction.prototype = {
 
     var str = this['s'] < 0 ? "-" : "";
 
-    str+= Math.trunc(N / D);
+    str+= trunc(N / D);
 
     N%= D;
     N*= 10;
@@ -868,20 +872,20 @@ Fraction.prototype = {
     if (cycLen) {
 
       for (var i = cycOff; i--;) {
-        str+= Math.trunc(N / D);
+        str+= trunc(N / D);
         N%= D;
         N*= 10;
       }
       str+= "(";
       for (var i = cycLen; i--;) {
-        str+= Math.trunc(N / D);
+        str+= trunc(N / D);
         N%= D;
         N*= 10;
       }
       str+= ")";
     } else {
       for (var i = dec; N && i--;) {
-        str+= Math.trunc(N / D);
+        str+= trunc(N / D);
         N%= D;
         N*= 10;
       }
