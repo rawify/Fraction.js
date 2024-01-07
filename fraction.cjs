@@ -857,7 +857,7 @@
         return "NaN";
       }
 
-      dec = dec || 15; // 15 = decimal places when no repetation
+      dec = dec || 15; // 15 = decimal places when no repetition
 
       var cycLen = cycleLen(N, D); // Cycle length
       var cycOff = cycleStart(N, D, cycLen); // Cycle start
