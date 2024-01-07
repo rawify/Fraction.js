@@ -860,7 +860,7 @@
 
       var str = this['s'] < 0 ? "-" : "";
 
-      str+= N / D | 0;
+      str+= Math.trunc(N / D);
 
       N%= D;
       N*= 10;
@@ -871,20 +871,20 @@
       if (cycLen) {
 
         for (var i = cycOff; i--;) {
-          str+= N / D | 0;
+          str+= Math.trunc(N / D);
           N%= D;
           N*= 10;
         }
         str+= "(";
         for (var i = cycLen; i--;) {
-          str+= N / D | 0;
+          str+= Math.trunc(N / D);
           N%= D;
           N*= 10;
         }
         str+= ")";
       } else {
         for (var i = dec; N && i--;) {
-          str+= N / D | 0;
+          str+= Math.trunc(N / D);
           N%= D;
           N*= 10;
         }
