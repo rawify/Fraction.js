@@ -42,6 +42,7 @@ export default class Fraction {
   ceil(places?: number): Fraction;
   floor(places?: number): Fraction;
   round(places?: number): Fraction;
+  roundTo(multiple: string): Fraction;
 
   inverse(): Fraction;
   
