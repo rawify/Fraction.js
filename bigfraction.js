@@ -740,7 +740,7 @@
       let D = this["d"];
 
       function trunc(x) {
-          return typeof x === 'bigint' ? x : Math.trunc(x);
+          return typeof x === 'bigint' ? x : Math.floor(x);
       }
 
       dec = dec || 15; // 15 = decimal places when no repetition

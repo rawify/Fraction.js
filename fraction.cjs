@@ -849,8 +849,6 @@
       var N = this["n"];
       var D = this["d"];
 
-      var trunc = Math.trunc;
-
       if (isNaN(N) || isNaN(D)) {
         return "NaN";
       }
@@ -862,7 +860,7 @@
 
       var str = this['s'] < 0 ? "-" : "";
 
-      str+= trunc(N / D);
+      str+= Math.floor(N / D);
 
       N%= D;
       N*= 10;
@@ -873,20 +871,20 @@
       if (cycLen) {
 
         for (var i = cycOff; i--;) {
-          str+= trunc(N / D);
+          str+= Math.floor(N / D);
           N%= D;
           N*= 10;
         }
         str+= "(";
         for (var i = cycLen; i--;) {
-          str+= trunc(N / D);
+          str+= Math.floor(N / D);
           N%= D;
           N*= 10;
         }
         str+= ")";
       } else {
         for (var i = dec; N && i--;) {
-          str+= trunc(N / D);
+          str+= Math.floor(N / D);
           N%= D;
           N*= 10;
         }
