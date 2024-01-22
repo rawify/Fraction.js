@@ -849,9 +849,7 @@
       var N = this["n"];
       var D = this["d"];
 
-      function trunc(x) {
-        return Math.trunc(x);
-      }
+      var trunc = Math.trunc;
 
       if (isNaN(N) || isNaN(D)) {
         return "NaN";
