@@ -853,14 +853,14 @@
         return "NaN";
       }
 
-      dec = dec || 15; // 15 = decimal places when no repetation
+      dec = dec || 15; // 15 = decimal places when no repetition
 
       var cycLen = cycleLen(N, D); // Cycle length
       var cycOff = cycleStart(N, D, cycLen); // Cycle start
 
       var str = this['s'] < 0 ? "-" : "";
 
-      str+= N / D | 0;
+      str+= Math.floor(N / D);
 
       N%= D;
       N*= 10;
@@ -871,20 +871,20 @@
       if (cycLen) {
 
         for (var i = cycOff; i--;) {
-          str+= N / D | 0;
+          str+= Math.floor(N / D);
           N%= D;
           N*= 10;
         }
         str+= "(";
         for (var i = cycLen; i--;) {
-          str+= N / D | 0;
+          str+= Math.floor(N / D);
           N%= D;
           N*= 10;
         }
         str+= ")";
       } else {
         for (var i = dec; N && i--;) {
-          str+= N / D | 0;
+          str+= Math.floor(N / D);
           N%= D;
           N*= 10;
         }
