@@ -709,6 +709,33 @@
     },
 
     /**
+     * Rounds a rational number to a multiple of another rational number
+     *
+     * Ex: new Fraction('0.9').roundTo("1/8") => 7 / 8
+     **/
+    "roundTo": function(a, b) {
+
+      /*
+      k * x/y ≤ a/b < (k+1) * x/y
+      ⇔ k ≤ a/b / (x/y) < (k+1)
+      ⇔ k = floor(a/b * y/x)
+      */
+
+      parse(a, b);
+
+      const scaledN = this['n'] * P['d'];
+      const scaledD = this['d'] * P['n'];
+      let divResult = scaledN / scaledD;
+      const remainder = scaledN % scaledD;
+
+      if (remainder * 2n >= scaledD) {
+        divResult++;
+      }
+
+      return newFraction(this['s'] * divResult * P['n'], P['d']);
+    },
+
+    /**
      * Check if two rational numbers are divisible
      *
      * Ex: new Fraction(19.6).divisible(1.5);
