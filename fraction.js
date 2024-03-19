@@ -1,6 +1,6 @@
 /**
  * @license Fraction.js v4.3.7 31/08/2023
- * https://www.xarg.org/2014/03/rational-numbers-in-javascript/
+ * https://raw.org/article/rational-numbers-in-javascript/
  *
  * Copyright (c) 2023, Robert Eisele (robert@raw.org)
  * Dual licensed under the MIT or GPL Version 2 licenses.
