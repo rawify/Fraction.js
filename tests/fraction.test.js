@@ -1388,6 +1388,30 @@ var tests = [{
   fn: "roundTo",
   param: "1/16",
   expect: "-0.3125"
+}, {
+  label: "1/2 round to multiple of 1/4",
+  set: 1/2,
+  fn: "roundTo",
+  param: "1/4",
+  expect: "0.5"
+}, {
+  label: "1/4 round to multiple of 1/2",
+  set: 1/4,
+  fn: "roundTo",
+  param: "1/2",
+  expect: "0.5"
+}, {
+  label: "10/3 round to multiple of 1/2",
+  set: "10/3",
+  fn: "roundTo",
+  param: "1/2",
+  expect: "3.5"
+}, {
+  label: "-10/3 round to multiple of 1/2",
+  set: "-10/3",
+  fn: "roundTo",
+  param: "1/2",
+  expect: "-3.5"
 }];
 
 describe('Fraction', function() {
@@ -1426,10 +1450,11 @@ describe('JSON', function() {
 
   it("Should be possible to stringify the object", function() {
     // TODO: BigInt is not yet serializable!!!!
-    //assert.equal('{"s":1,"n":14623,"d":330}', JSON.stringify(new Fraction("44.3(12)")));
-
-    //assert.equal('{"s":-1,"n":2,"d":1}', JSON.stringify(new Fraction(-1 / 2).inverse()));
-
+    if (typeof Fraction(1).n !== 'number') {
+      return;
+    }
+    assert.equal('{"s":1,"n":14623,"d":330}', JSON.stringify(new Fraction("44.3(12)")));
+    assert.equal('{"s":-1,"n":2,"d":1}', JSON.stringify(new Fraction(-1 / 2).inverse()));
   });
 });
 
