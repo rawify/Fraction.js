@@ -725,8 +725,14 @@
      * Ex: new Fraction("100.'91823'").valueOf() => 100.91823918239183
      **/
     'valueOf': function() {
-      // Best we can do so far
-      return Number(this["s"] * this["n"]) / Number(this["d"]);
+      var res = Number(this["s"] * this["n"]) / Number(this["d"]);
+      if (Number.isNaN(res)) {
+        // Best we can do (?)
+        return Number(
+          this["toString"]().replaceAll("(", "").replaceAll(")", "")
+        );
+      }
+      return res;
     },
 
     /**
