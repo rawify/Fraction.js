@@ -2,7 +2,7 @@
   "name": "fraction.js",
   "title": "fraction.js",
   "version": "4.3.7",
-  "homepage": "https://www.xarg.org/2014/03/rational-numbers-in-javascript/",
+  "homepage": "https://raw.org/article/rational-numbers-in-javascript/",
   "bugs": "https://github.com/rawify/Fraction.js/issues",
   "description": "A rational number library",
   "keywords": [
