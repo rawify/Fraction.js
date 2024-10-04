@@ -56,7 +56,7 @@
     "test": "mocha tests/*.js"
   },
   "devDependencies": {
-    "@raw/crude-build": "file:../crude-build",
+    "crude-build": "^0.0.1",
     "mocha": "*"
   }
 }
