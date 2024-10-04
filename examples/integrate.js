@@ -1,15 +1,14 @@
-/**
- * @license Fraction.js v2.7.0 01/06/2015
- * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
- *
- * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- **/
+/*
+Fraction.js v5.0.0 10/1/2024
+https://raw.org/article/rational-numbers-in-javascript/
+
+Copyright (c) 2024, Robert Eisele (https://raw.org/)
+Licensed under the MIT license.
+*/
+const Fraction = require('fraction.js');
 
 // NOTE: This is a nice example, but a stable version of this is served with Polynomial.js: 
 // https://github.com/infusion/Polynomial.js
-
-var Fraction = require('../fraction.min.js');
 
 function integrate(poly) {
 
@@ -27,34 +26,34 @@ function integrate(poly) {
         var key = "" + exp;
 
         if (res[key] !== undefined) {
-            res[key] = {x: new Fraction(a).div(exp).add(res[key].x), e: exp};
+            res[key] = { x: new Fraction(a).div(exp).add(res[key].x), e: exp };
         } else {
-            res[key] = {x: new Fraction(a).div(exp), e: exp};
+            res[key] = { x: new Fraction(a).div(exp), e: exp };
         }
     }
 
     var str = "";
     var c = 0;
     for (var i in res) {
-        if (res[i].x.s !== -1 && c > 0) {
-            str += ("+");
-        } else if (res[i].x.s === -1) {
-            str += ("-");
+        if (res[i].x.s !== -1n && c > 0) {
+            str += "+";
+        } else if (res[i].x.s === -1n) {
+            str += "-";
         }
-        if (res[i].x.n / res[i].x.d !== 1) {
-            if (res[i].x.d !== 1) {
-                str += ("" + res[i].x.n + "/" + res[i].x.d + "");
+        if (res[i].x.n !== res[i].x.d) {
+            if (res[i].x.d !== 1n) {
+                str += res[i].x.n + "/" + res[i].x.d;
             } else {
-                str += ("" + res[i].x.n);
+                str += res[i].x.n;
             }
         }
-        str += ("x");
-        if (res[i].e.n / res[i].e.d !== 1) {
-            str += ("^");
-            if (res[i].e.d !== 1) {
-                str += ("(" + res[i].e.n + "/" + res[i].e.d + ")");
+        str += "x";
+        if (res[i].e.n !== res[i].e.d) {
+            str += "^";
+            if (res[i].e.d !== 1n) {
+                str += "(" + res[i].e.n + "/" + res[i].e.d + ")";
             } else {
-                str += ("" + res[i].e.n);
+                str += res[i].e.n;
             }
         }
         c++;

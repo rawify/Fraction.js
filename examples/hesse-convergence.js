@@ -1,12 +1,11 @@
-/**
- * @license Fraction.js v2.4.1 01/06/2015
- * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
- *
- * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- **/
+/*
+Fraction.js v5.0.0 10/1/2024
+https://raw.org/article/rational-numbers-in-javascript/
 
-var Fraction = require('../fraction.min.js');
+Copyright (c) 2024, Robert Eisele (https://raw.org/)
+Licensed under the MIT license.
+*/
+const Fraction = require('fraction.js');
 
 /*
 We have the polynom f(x) = 1/3x_1^2 + x_2^2 + x_1 * x_2 + 3
@@ -31,13 +30,13 @@ We now want to find lim ->oo x[n], with the starting element of (3 2)^T
 // Get the Hesse Matrix
 function H(x) {
 
-  var z = new Fraction(1).sub(new Fraction(4).mul(x[0]));
+  var z = Fraction(1).sub(Fraction(4).mul(x[0]));
 
   return [
-  new Fraction(-2).div(z),
-  new Fraction(1).div(z),
-  new Fraction(1).div(z),
-  new Fraction(-2).mul(x[0]).div(z),
+    Fraction(-2).div(z),
+    Fraction(1).div(z),
+    Fraction(1).div(z),
+    Fraction(-2).mul(x[0]).div(z),
   ];
 }
 
@@ -45,8 +44,8 @@ function H(x) {
 function grad(x) {
 
   return [
-  new Fraction(x[0]).mul(x[0]).add(x[1]),
-  new Fraction(2).mul(x[1]).add(x[0])
+    Fraction(x[0]).mul(x[0]).add(x[1]),
+    Fraction(2).mul(x[1]).add(x[0])
   ];
 }
 
@@ -54,8 +53,8 @@ function grad(x) {
 function matrMult(m, v) {
 
   return [
-  new Fraction(m[0]).mul(v[0]).add(new Fraction(m[1]).mul(v[1])),
-  new Fraction(m[2]).mul(v[0]).add(new Fraction(m[3]).mul(v[1]))
+    Fraction(m[0]).mul(v[0]).add(Fraction(m[1]).mul(v[1])),
+    Fraction(m[2]).mul(v[0]).add(Fraction(m[3]).mul(v[1]))
   ];
 }
 
@@ -63,8 +62,8 @@ function matrMult(m, v) {
 function vecSub(a, b) {
 
   return [
-  new Fraction(a[0]).sub(b[0]),
-  new Fraction(a[1]).sub(b[1])
+    Fraction(a[0]).sub(b[0]),
+    Fraction(a[1]).sub(b[1])
   ];
 }
 
@@ -94,9 +93,9 @@ function run(V, j) {
 
   var R = (vecSub(V, r));
 
-  console.log("X"+j);
-  console.log(R[0].toFraction(), "= "+R[0].valueOf());
-  console.log(R[1].toFraction(), "= "+R[1].valueOf());
+  console.log("X" + j);
+  console.log(R[0].toFraction(), "= " + R[0].valueOf());
+  console.log(R[1].toFraction(), "= " + R[1].valueOf());
   console.log("\n");
 
   return R;

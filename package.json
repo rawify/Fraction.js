@@ -1,10 +1,10 @@
 {
   "name": "fraction.js",
-  "title": "fraction.js",
-  "version": "4.3.7",
+  "title": "Fraction.js",
+  "version": "5.0.0",
   "homepage": "https://raw.org/article/rational-numbers-in-javascript/",
   "bugs": "https://github.com/rawify/Fraction.js/issues",
-  "description": "A rational number library",
+  "description": "A rational numbers library",
   "keywords": [
     "math",
     "fraction",
@@ -12,44 +12,51 @@
     "rationals",
     "number",
     "parser",
+    "bigint",
+    "arbitrary precision",
     "rational numbers"
   ],
+  "private": false,
+  "main": "./dist/fraction.js",
+  "module": "./dist/fraction.mjs",
+  "types": "./fraction.d.ts",
+  "browser": "./dist/fraction.min.js",
+  "unpkg": "./dist/fraction.min.js",
+  "readmeFilename": "README.md",
+  "exports": {
+    ".": {
+      "types": "./fraction.d.ts",
+      "require": "./dist/fraction.js",
+      "import": "./dist/fraction.mjs"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rawify/Fraction.js.git"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/rawify"
+  },
   "author": {
     "name": "Robert Eisele",
     "email": "robert@raw.org",
     "url": "https://raw.org/"
   },
-  "type": "module",
-  "main": "fraction.cjs",
-  "exports": {
-    ".": {
-      "import": "./fraction.js",
-      "require": "./fraction.cjs",
-      "types": "./fraction.d.ts"
-    }
-  },
-  "types": "./fraction.d.ts",
-  "private": false,
-  "readmeFilename": "README.md",
-  "directories": {
-    "example": "examples"
-  },
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/rawify/Fraction.js.git"
-  },
-  "funding": {
-    "type": "patreon",
-    "url": "https://github.com/sponsors/rawify"
-  },
   "engines": {
-    "node": "*"
+    "node": ">= 12"
+  },
+  "directories": {
+    "example": "examples",
+    "test": "tests"
   },
   "scripts": {
+    "build": "crude-build Fraction",
     "test": "mocha tests/*.js"
   },
   "devDependencies": {
+    "@raw/crude-build": "file:../crude-build",
     "mocha": "*"
   }
 }

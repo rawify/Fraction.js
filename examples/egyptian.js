@@ -1,10 +1,11 @@
-/**
- * @license Fraction.js v2.7.0 01/06/2015
- * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
- *
- * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- **/
+/*
+Fraction.js v5.0.0 10/1/2024
+https://raw.org/article/rational-numbers-in-javascript/
+
+Copyright (c) 2024, Robert Eisele (https://raw.org/)
+Licensed under the MIT license.
+*/
+const Fraction = require('fraction.js');
 
 // Based on http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fractions/egyptian.html
 function egyptian(a, b) {
@@ -15,9 +16,9 @@ function egyptian(a, b) {
     var t = Math.ceil(b / a);
     var x = new Fraction(a, b).sub(1, t);
     res.push(t);
-    a = x.n;
-    b = x.d;
-  } while (a !== 0);
+    a = Number(x.n);
+    b = Number(x.d);
+  } while (a !== 0n);
   return res;
 }
 console.log("1 / " + egyptian(521, 1050).join(" + 1 / "));

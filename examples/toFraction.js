@@ -1,10 +1,12 @@
-/**
- * @license Fraction.js v2.7.0 01/06/2015
- * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
- *
- * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- **/
+/*
+Fraction.js v5.0.0 10/1/2024
+https://raw.org/article/rational-numbers-in-javascript/
+
+Copyright (c) 2024, Robert Eisele (https://raw.org/)
+Licensed under the MIT license.
+*/
+
+const Fraction = require('fraction.js');
 
 function toFraction(frac) {
 
@@ -30,4 +32,4 @@ function toFraction(frac) {
   };
   return map[frac.n + ":" + frac.d] || frac.toFraction(false);
 }
-console.log(toFraction(new Fraction(0.25))); // ¼
+console.log(toFraction(Fraction(0.25))); // ¼

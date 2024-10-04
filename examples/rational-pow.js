@@ -1,10 +1,11 @@
-/**
- * @license Fraction.js v2.7.0 01/06/2015
- * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
- *
- * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- **/
+/*
+Fraction.js v5.0.0 10/1/2024
+https://raw.org/article/rational-numbers-in-javascript/
+
+Copyright (c) 2024, Robert Eisele (https://raw.org/)
+Licensed under the MIT license.
+*/
+const Fraction = require('fraction.js');
  
 // Calculates (a/b)^(c/d) if result is rational
 // Derivation: https://raw.org/book/analysis/rational-numbers/

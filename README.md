@@ -4,86 +4,108 @@
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
 
-Tired of inprecise numbers represented by doubles, which have to store rational and irrational numbers like PI or sqrt(2) the same way? Obviously the following problem is preventable:
+Are you frustrated by the imprecision of floating-point numbers like doubles, which store both rational and irrational numbers such as π or √2 in the same limited way? This often leads to preventable issues like:
 
 ```javascript
 1 / 98 * 98 // = 0.9999999999999999
 ```
 
-If you need more precision or just want a fraction as a result, just include *Fraction.js*:
+If you require greater precision or prefer to work with fractions instead of decimals, you can easily integrate *Fraction.js* into your project:
 
 ```javascript
-var Fraction = require('fraction.js');
-// or
 import Fraction from 'fraction.js';
+// or
+var Fraction = require('fraction.js');
 ```
 
-and give it a trial:
+Here’s an example of how it resolves the issue:
 
 ```javascript
 Fraction(1).div(98).mul(98) // = 1
 ```
 
-Internally, numbers are represented as *numerator / denominator*, which adds just a little overhead. However, the library is written with performance and accuracy in mind, which makes it the perfect basis for [Polynomial.js](https://github.com/infusion/Polynomial.js) and [Math.js](https://github.com/josdejong/mathjs).
+Internally, *Fraction.js* represents numbers as *numerator/denominator*, adding only minimal overhead. The library is optimized for both performance and precision, making it an excellent foundation for other libs like [Polynomial.js](https://github.com/infusion/Polynomial.js) and [Math.js](https://github.com/josdejong/mathjs).
 
-Convert decimal to fraction
-===
-The simplest job for fraction.js is to get a fraction out of a decimal:
+## Convert Decimal to Fraction
+
+One of the core functionalities of *Fraction.js* is its ability to convert decimals into fractions with ease:
+
 ```javascript
-var x = new Fraction(1.88);
-var res = x.toFraction(true); // String "1 22/25"
+let x = new Fraction(1.88);
+let res = x.toFraction(true); // Returns "1 22/25" as a string
 ```
 
-Examples / Motivation
-===
-A simple example might be
+This is particularly useful when you need precise fraction representations instead of dealing with the limitations of floating-point arithmetic. What if you allow some error tolerance?
+
+```javascript
+let x = new Fraction(0.33333);
+let res = x.simplify(0.001) // Error < 0.001
+       .toFraction(); // Returns "1/3" as a string
+```
+
+## Precision
+
+With the growing adoption of native `BigInt` support in JavaScript, libraries like *Fraction.js* have embraced it for handling arbitrary precision. This enables enhanced performance and accuracy in mathematical operations involving large integers, offering a more reliable solution for applications requiring precision beyond the typical constraints of floating-point `Number` types.
+
+## Examples / Motivation
+
+A simple example of using *Fraction.js* might look like this:
 
 ```javascript
 var f = new Fraction("9.4'31'"); // 9.4313131313131...
 f.mul([-4, 3]).mod("4.'8'"); // 4.88888888888888...
 ```
-The result is
+
+The result can then be displayed as:
 
 ```javascript
 console.log(f.toFraction()); // -4154 / 1485
 ```
-You could of course also access the sign (s), numerator (n) and denominator (d) on your own:
+
+Additionally, you can access the internal components of the fraction, such as the sign (s), numerator (n), and denominator (d). Keep in mind that these values are stored as `BigInt`:
+
 ```javascript
-f.s * f.n / f.d = -1 * 4154 / 1485 = -2.797306...
+Number(f.s) * Number(f.n) / Number(f.d) = -1 * 4154 / 1485 = -2.797306...
 ```
 
-If you would try to calculate it yourself, you would come up with something like:
+If you attempted to calculate this manually using floating-point arithmetic, you'd get something like:
 
 ```javascript
 (9.4313131 * (-4 / 3)) % 4.888888 = -2.797308133...
 ```
 
-Quite okay, but yea - not as accurate as it could be.
+While the result is reasonably close, it’s not as accurate as the fraction-based approach that *Fraction.js* provides, especially when dealing with repeating decimals or complex operations. This highlights the value of precision that the library brings.
 
+### Laplace Probability
 
-Laplace Probability
-===
-Simple example. What's the probability of throwing a 3, and 1 or 4, and 2 or 4 or 6 with a fair dice?
+A simple example of using *Fraction.js* to calculate probabilities. Let’s find the probability of throwing specific outcomes with a fair die:
 
-P({3}):
+- **P({3})**: The probability of rolling a 3.
+- **P({1, 4})**: The probability of rolling either 1 or 4.
+- **P({2, 4, 6})**: The probability of rolling 2, 4, or 6.
+
+#### P({3}):
+
 ```javascript
-var p = new Fraction([3].length, 6).toString(); // 0.1(6)
+var p = new Fraction([3].length, 6).toString(); // "0.1(6)"
 ```
 
-P({1, 4}):
+#### P({1, 4}):
+
 ```javascript
-var p = new Fraction([1, 4].length, 6).toString(); // 0.(3)
+var p = new Fraction([1, 4].length, 6).toString(); // "0.(3)"
 ```
 
-P({2, 4, 6}):
+#### P({2, 4, 6}):
+
 ```javascript
-var p = new Fraction([2, 4, 6].length, 6).toString(); // 0.5
+var p = new Fraction([2, 4, 6].length, 6).toString(); // "0.5"
 ```
 
-Convert degrees/minutes/seconds to precise rational representation:
-===
+###Convert degrees/minutes/seconds to precise rational representation:
 
 57+45/60+17/3600
+
 ```javascript
 var deg = 57; // 57°
 var min = 45; // 45 Minutes
@@ -93,8 +115,8 @@ new Fraction(deg).add(min, 60).add(sec, 3600).toString() // -> 57.7547(2)
 ```
 
 
-Rational approximation of irrational numbers
-===
+###Rational approximation of irrational numbers
+
 
 Now it's getting messy ;d To approximate a number like *sqrt(5) - 2* with a numerator and denominator, you can reformat the equation as follows: *pow(n / d + 2, 2) = 5*.
 
@@ -111,7 +133,7 @@ for (var n = 0; n <= 10; n++) {
 
   console.log(n + "\t" + a + "\t" + b + "\t" + c + "\t" + x);
 
-  if (c.add(2).pow(2) < 5) {
+  if (c.add(2).pow(2).valueOf() < 5) {
     a = c;
     x = "1";
   } else {
@@ -139,21 +161,21 @@ n   a[n]        b[n]        c[n]            x[n]
 9   15/64       121/512     241/1024        0
 10  241/1024    121/512     483/2048        1
 ```
+
 Thus the approximation after 11 iterations of the bisection method is *483 / 2048* and the binary representation is 0.00111100011 (see [WolframAlpha](http://www.wolframalpha.com/input/?i=sqrt%285%29-2+binary))
 
+I published another example on how to approximate PI with fraction.js on my [blog](https://raw.org/article/rational-numbers-in-javascript/) (Still not the best idea to approximate irrational numbers, but it illustrates the capabilities of Fraction.js perfectly).
 
-I published another example on how to approximate PI with fraction.js on my [blog](http://www.xarg.org/2014/03/precise-calculations-in-javascript/) (Still not the best idea to approximate irrational numbers, but it illustrates the capabilities of Fraction.js perfectly).
 
+###Get the exact fractional part of a number
 
-Get the exact fractional part of a number
----
 ```javascript
 var f = new Fraction("-6.(3416)");
-console.log("" + f.mod(1).abs()); // 0.(3416)
+console.log(f.mod(1).abs().toFraction()); // = 3416/9999
 ```
 
-Mathematical correct modulo
----
+###Mathematical correct modulo
+
 The behaviour on negative congruences is different to most modulo implementations in computer science. Even the *mod()* function of Fraction.js behaves in the typical way. To solve the problem of having the mathematical correct modulo with Fraction.js you could come up with this:
 
 ```javascript
@@ -174,29 +196,29 @@ It turns out that Fraction.js outperforms almost any fmod() implementation, incl
 The equation *fmod(4.55, 0.05)* gives *0.04999999999999957*, wolframalpha says *1/20*. The correct answer should be **zero**, as 0.05 divides 4.55 without any remainder.
 
 
-Parser
-===
+##Parser
+
 
 Any function (see below) as well as the constructor of the *Fraction* class parses its input and reduce it to the smallest term.
 
 You can pass either Arrays, Objects, Integers, Doubles or Strings.
 
-Arrays / Objects
----
+###Arrays / Objects
+
 ```javascript
 new Fraction(numerator, denominator);
 new Fraction([numerator, denominator]);
 new Fraction({n: numerator, d: denominator});
 ```
 
-Integers
----
+###Integers
+
 ```javascript
 new Fraction(123);
 ```
 
-Doubles
----
+###Doubles
+
 ```javascript
 new Fraction(55.4);
 ```
@@ -206,8 +228,8 @@ new Fraction(55.4);
 The method is really precise, but too large exact numbers, like 1234567.9991829 will result in a wrong approximation. If you want to keep the number as it is, convert it to a string, as the string parser will not perform any further observations. If you have problems with the approximation, in the file `examples/approx.js` is a different approximation algorithm, which might work better in some more specific use-cases.
 
 
-Strings
----
+###Strings
+
 ```javascript
 new Fraction("123.45");
 new Fraction("123/45"); // A rational number represented as two decimals, separated by a slash
@@ -219,14 +241,14 @@ new Fraction("123.45'6'"); // Note the quotes, see below!
 new Fraction("123.45(6)"); // Note the brackets, see below!
 ```
 
-Two arguments
----
+###Two arguments
+
 ```javascript
 new Fraction(3, 2); // 3/2 = 1.5
 ```
 
-Repeating decimal places
----
+### Repeating decimal places
+
 *Fraction.js* can easily handle repeating decimal places. For example *1/3* is *0.3333...*. There is only one repeating digit. As you can see in the examples above, you can pass a number like *1/3* as "0.'3'" or "0.(3)", which are synonym. There are no tests to parse something like 0.166666666 to 1/6! If you really want to handle this number, wrap around brackets on your own with the function below for example: 0.1(66666666)
 
 Assume you want to divide 123.32 / 33.6(567). [WolframAlpha](http://www.wolframalpha.com/input/?i=123.32+%2F+%2812453%2F370%29) states that you'll get a period of 1776 digits. *Fraction.js* comes to the same result. Give it a try:
@@ -275,8 +297,8 @@ if (x !== null) {
 }
 ```
 
-Attributes
-===
+##Attributes
+
 
 The Fraction object allows direct access to the numerator, denominator and sign attributes. It is ensured that only the sign-attribute holds sign information so that a sign comparison is only necessary against this attribute.
 
@@ -288,8 +310,8 @@ console.log(f.s); // Sign: -1
 ```
 
 
-Functions
-===
+##Functions
+
 
 Fraction abs()
 ---
@@ -386,17 +408,17 @@ Generates an exact string representation of the actual object. For repeated deci
 
 **Note:** As `valueOf()` and `toString()` are provided, `toString()` is only called implicitly in a real string context. Using the plus-operator like `"123" + new Fraction` will call valueOf(), because JavaScript tries to combine two primitives first and concatenates them later, as string will be the more dominant type. `alert(new Fraction)` or `String(new Fraction)` on the other hand will do what you expect. If you really want to have control, you should call `toString()` or `valueOf()` explicitly!
 
-String toLatex(excludeWhole=false)
+String toLatex(showMixed=false)
 ---
-Generates an exact LaTeX representation of the actual object. You can see a [live demo](http://www.xarg.org/2014/03/precise-calculations-in-javascript/) on my blog.
+Generates an exact LaTeX representation of the actual object. You can see a [live demo](https://raw.org/article/rational-numbers-in-javascript/) on my blog.
 
-The optional boolean parameter indicates if you want to exclude the whole part. "1 1/3" instead of "4/3"
+The optional boolean parameter indicates if you want to show the a mixed fraction. "1 1/3" instead of "4/3"
 
-String toFraction(excludeWhole=false)
+String toFraction(showMixed=false)
 ---
 Gets a string representation of the fraction
 
-The optional boolean parameter indicates if you want to exclude the whole part. "1 1/3" instead of "4/3"
+The optional boolean parameter indicates if you want to showa mixed fraction. "1 1/3" instead of "4/3"
 
 Array toContinued()
 ---
@@ -412,55 +434,58 @@ Fraction clone()
 Creates a copy of the actual Fraction object
 
 
-Exceptions
-===
-If a really hard error occurs (parsing error, division by zero), *fraction.js* throws exceptions! Please make sure you handle them correctly.
+##Exceptions
+
+If a really hard error occurs (parsing error, division by zero), *Fraction.js* throws exceptions! Please make sure you handle them correctly.
 
 
+##Installation
 
-Installation
-===
 Installing fraction.js is as easy as cloning this repo or use the following command:
 
-```
+```bash
 npm install fraction.js
 ```
 
-Using Fraction.js with the browser
-===
+##Using Fraction.js with the browser
+
 ```html
-<script src="fraction.js"></script>
+<script src="fraction.min.js"></script>
 <script>
     console.log(Fraction("123/456"));
 </script>
 ```
 
-Using Fraction.js with TypeScript
-===
+##Using Fraction.js with TypeScript
+
 ```js
 import Fraction from "fraction.js";
 console.log(Fraction("123/456"));
 ```
 
-Coding Style
-===
-As every library I publish, fraction.js is also built to be as small as possible after compressing it with Google Closure Compiler in advanced mode. Thus the coding style orientates a little on maxing-out the compression rate. Please make sure you keep this style if you plan to extend the library.
 
+##Coding Style
 
-Precision
-===
-Fraction.js tries to circumvent floating point errors, by having an internal representation of numerator and denominator. As it relies on JavaScript, there is also a limit. The biggest number representable is `Number.MAX_SAFE_INTEGER / 1` and the smallest is `-1 / Number.MAX_SAFE_INTEGER`, with `Number.MAX_SAFE_INTEGER=9007199254740991`. If this is not enough, there is `bigfraction.js` shipped experimentally, which relies on `BigInt` and should become the new Fraction.js eventually. 
+As every library I publish, Fraction.js is also built to be as small as possible after compressing it with Google Closure Compiler in advanced mode. Thus the coding style orientates a little on maxing-out the compression rate. Please make sure you keep this style if you plan to extend the library.
 
-Testing
-===
-If you plan to enhance the library, make sure you add test cases and all the previous tests are passing. You can test the library with
+##Building the library
 
-```
-npm test
+After cloning the Git repository run:
+
+```bash
+npm install
+npm run build
 ```
 
+##Run a test
 
-Copyright and licensing
-===
-Copyright (c) 2023, [Robert Eisele](https://raw.org/)
+Testing the source against the shipped test suite is as easy as
+
+```bash
+npm run test
+```
+
+## Copyright and licensing
+
+Copyright (c) 2025, [Robert Eisele](https://raw.org/)
 Licensed under the MIT license.
