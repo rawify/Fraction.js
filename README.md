@@ -102,7 +102,7 @@ var p = new Fraction([1, 4].length, 6).toString(); // "0.(3)"
 var p = new Fraction([2, 4, 6].length, 6).toString(); // "0.5"
 ```
 
-###Convert degrees/minutes/seconds to precise rational representation:
+### Convert degrees/minutes/seconds to precise rational representation:
 
 57+45/60+17/3600
 
@@ -115,7 +115,7 @@ new Fraction(deg).add(min, 60).add(sec, 3600).toString() // -> 57.7547(2)
 ```
 
 
-###Rational approximation of irrational numbers
+### Rational approximation of irrational numbers
 
 
 Now it's getting messy ;d To approximate a number like *sqrt(5) - 2* with a numerator and denominator, you can reformat the equation as follows: *pow(n / d + 2, 2) = 5*.
@@ -167,14 +167,14 @@ Thus the approximation after 11 iterations of the bisection method is *483 / 204
 I published another example on how to approximate PI with fraction.js on my [blog](https://raw.org/article/rational-numbers-in-javascript/) (Still not the best idea to approximate irrational numbers, but it illustrates the capabilities of Fraction.js perfectly).
 
 
-###Get the exact fractional part of a number
+### Get the exact fractional part of a number
 
 ```javascript
 var f = new Fraction("-6.(3416)");
 console.log(f.mod(1).abs().toFraction()); // = 3416/9999
 ```
 
-###Mathematical correct modulo
+### Mathematical correct modulo
 
 The behaviour on negative congruences is different to most modulo implementations in computer science. Even the *mod()* function of Fraction.js behaves in the typical way. To solve the problem of having the mathematical correct modulo with Fraction.js you could come up with this:
 
@@ -196,14 +196,14 @@ It turns out that Fraction.js outperforms almost any fmod() implementation, incl
 The equation *fmod(4.55, 0.05)* gives *0.04999999999999957*, wolframalpha says *1/20*. The correct answer should be **zero**, as 0.05 divides 4.55 without any remainder.
 
 
-##Parser
+## Parser
 
 
 Any function (see below) as well as the constructor of the *Fraction* class parses its input and reduce it to the smallest term.
 
 You can pass either Arrays, Objects, Integers, Doubles or Strings.
 
-###Arrays / Objects
+### Arrays / Objects
 
 ```javascript
 new Fraction(numerator, denominator);
@@ -211,13 +211,13 @@ new Fraction([numerator, denominator]);
 new Fraction({n: numerator, d: denominator});
 ```
 
-###Integers
+### Integers
 
 ```javascript
 new Fraction(123);
 ```
 
-###Doubles
+### Doubles
 
 ```javascript
 new Fraction(55.4);
@@ -228,7 +228,7 @@ new Fraction(55.4);
 The method is really precise, but too large exact numbers, like 1234567.9991829 will result in a wrong approximation. If you want to keep the number as it is, convert it to a string, as the string parser will not perform any further observations. If you have problems with the approximation, in the file `examples/approx.js` is a different approximation algorithm, which might work better in some more specific use-cases.
 
 
-###Strings
+### Strings
 
 ```javascript
 new Fraction("123.45");
@@ -241,7 +241,7 @@ new Fraction("123.45'6'"); // Note the quotes, see below!
 new Fraction("123.45(6)"); // Note the brackets, see below!
 ```
 
-###Two arguments
+### Two arguments
 
 ```javascript
 new Fraction(3, 2); // 3/2 = 1.5
@@ -297,7 +297,7 @@ if (x !== null) {
 }
 ```
 
-##Attributes
+## Attributes
 
 
 The Fraction object allows direct access to the numerator, denominator and sign attributes. It is ensured that only the sign-attribute holds sign information so that a sign comparison is only necessary against this attribute.
@@ -310,7 +310,7 @@ console.log(f.s); // Sign: -1
 ```
 
 
-##Functions
+## Functions
 
 
 Fraction abs()
@@ -434,12 +434,12 @@ Fraction clone()
 Creates a copy of the actual Fraction object
 
 
-##Exceptions
+## Exceptions
 
 If a really hard error occurs (parsing error, division by zero), *Fraction.js* throws exceptions! Please make sure you handle them correctly.
 
 
-##Installation
+## Installation
 
 Installing fraction.js is as easy as cloning this repo or use the following command:
 
@@ -447,7 +447,7 @@ Installing fraction.js is as easy as cloning this repo or use the following comm
 npm install fraction.js
 ```
 
-##Using Fraction.js with the browser
+## Using Fraction.js with the browser
 
 ```html
 <script src="fraction.min.js"></script>
@@ -456,7 +456,7 @@ npm install fraction.js
 </script>
 ```
 
-##Using Fraction.js with TypeScript
+## Using Fraction.js with TypeScript
 
 ```js
 import Fraction from "fraction.js";
@@ -464,11 +464,11 @@ console.log(Fraction("123/456"));
 ```
 
 
-##Coding Style
+## Coding Style
 
 As every library I publish, Fraction.js is also built to be as small as possible after compressing it with Google Closure Compiler in advanced mode. Thus the coding style orientates a little on maxing-out the compression rate. Please make sure you keep this style if you plan to extend the library.
 
-##Building the library
+## Building the library
 
 After cloning the Git repository run:
 
@@ -477,7 +477,7 @@ npm install
 npm run build
 ```
 
-##Run a test
+## Run a test
 
 Testing the source against the shipped test suite is as easy as
 
