@@ -908,8 +908,7 @@ Fraction.prototype = {
   }
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = Fraction;
-module.exports = Fraction; 
+Object.defineProperty(Fraction, "__esModule", { 'value': true });
+Complex['default'] = Fraction;
+Complex['Fraction'] = Fraction;
+module['exports'] = Fraction;
