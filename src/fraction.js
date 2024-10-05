@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v5.0.0 10/5/2024
+ * @license Fraction.js v5.0.1 10/5/2024
  * https://raw.org/article/rational-numbers-in-javascript/
  *
  * Copyright (c) 2024, Robert Eisele (https://raw.org/)
