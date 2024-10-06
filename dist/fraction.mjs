@@ -908,5 +908,5 @@ Fraction.prototype = {
   }
 };
 export {
-  Fraction as default
+  Fraction as default, Fraction
 };
