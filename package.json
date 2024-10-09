@@ -1,7 +1,7 @@
 {
   "name": "fraction.js",
   "title": "Fraction.js",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "homepage": "https://raw.org/article/rational-numbers-in-javascript/",
   "bugs": "https://github.com/rawify/Fraction.js/issues",
   "description": "A rational numbers library",
@@ -56,7 +56,7 @@
     "test": "mocha tests/*.js"
   },
   "devDependencies": {
-    "crude-build": "^0.0.4",
+    "crude-build": "^0.1.0",
     "mocha": "*"
   }
 }

@@ -726,7 +726,7 @@ Fraction.prototype = {
     let divResult = scaledN / scaledD;
     const remainder = scaledN % scaledD;
 
-    if (remainder * 2n >= scaledD) {
+    if (remainder + remainder >= scaledD) {
       divResult++;
     }
 

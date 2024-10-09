@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v5.0.2 10/6/2024
+ * @license Fraction.js v5.0.3 10/9/2024
  * https://raw.org/article/rational-numbers-in-javascript/
  *
  * Copyright (c) 2024, Robert Eisele (https://raw.org/)
@@ -732,7 +732,7 @@ Fraction.prototype = {
     let divResult = scaledN / scaledD;
     const remainder = scaledN % scaledD;
 
-    if (remainder * 2n >= scaledD) {
+    if (remainder + remainder >= scaledD) {
       divResult++;
     }
 
