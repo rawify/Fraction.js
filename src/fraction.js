@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v5.0.5 10/10/2024
+ * @license Fraction.js v5.0.6 10/10/2024
  * https://raw.org/article/rational-numbers-in-javascript/
  *
  * Copyright (c) 2024, Robert Eisele (https://raw.org/)
@@ -170,7 +170,7 @@ const parse = function (p1, p2) {
     }
 
     if (p1 % 1 === 0) {
-      s = n = BigInt(p1);
+      n = BigInt(p1);
     } else if (p1 > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
 
       let z = 1;

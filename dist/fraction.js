@@ -164,7 +164,7 @@ const parse = function (p1, p2) {
     }
 
     if (p1 % 1 === 0) {
-      s = n = BigInt(p1);
+      n = BigInt(p1);
     } else if (p1 > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
 
       let z = 1;
