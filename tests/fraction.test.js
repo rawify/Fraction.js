@@ -145,6 +145,22 @@ var tests = [{
   set: [36, -36],
   expect: "-1"
 }, {
+  set: [1n, 3n],
+  expect: "0.(3)"
+}, {
+  set: 1n,
+  set2: 3n,
+  expect: "0.(3)"
+}, {
+  set: { n: 1n, d: 3n },
+  expect: "0.(3)"
+}, {
+  set: { n: 1n, d: 3n },
+  expect: "0.(3)"
+}, {
+  set: [1n, 3n],
+  expect: "0.(3)"
+}, {
   set: "9/12",
   expect: "0.75"
 }, {

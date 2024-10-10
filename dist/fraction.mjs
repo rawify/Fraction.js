@@ -110,12 +110,14 @@ const parse = function (p1, p2) {
 
   let n = C_ZERO, d = C_ONE, s = C_ONE;
 
-  if (p1 === undefined || p1 === null) {
+  if (p1 === undefined || p1 === null) { // No argument
     /* void */
-  } else if (p2 !== undefined) {
+  } else if (p2 !== undefined) { // Two arguments
 
-    if ((typeof p1 === "bigint") && (typeof p1 === "bigint")) {
-      /* void */
+    if (typeof p1 === "bigint" && typeof p2 === "bigint") {
+      n = p1;
+      d = p2;
+      s = n * d;
     } else if (!isNaN(p2) && !isNaN(p1)) {
 
       if (p1 % 1 !== 0 || p2 % 1 !== 0) {
@@ -146,10 +148,6 @@ const parse = function (p1, p2) {
       throw InvalidParameter();
     }
     s = n * d;
-  } else if (typeof p1 === "bigint") {
-    n = p1;
-    s = p1;
-    d = C_ONE;
   } else if (typeof p1 === "number") {
 
     if (isNaN(p1)) {
@@ -216,7 +214,6 @@ const parse = function (p1, p2) {
       }
       n = BigInt(n) * BigInt(z);
       d = BigInt(d);
-
     }
 
   } else if (typeof p1 === "string") {
@@ -279,6 +276,10 @@ const parse = function (p1, p2) {
       throw InvalidParameter();
     }
 
+  } else if (typeof p1 === "bigint") {
+    n = p1;
+    s = p1;
+    d = C_ONE;
   } else {
     throw InvalidParameter();
   }
@@ -582,9 +583,9 @@ Fraction.prototype = {
 
     // Negative roots become complex
     //     (-a/b)^(c/d) = x
-    // <=> (-1)^(c/d) * (a/b)^(c/d) = x
-    // <=> (cos(pi) + i*sin(pi))^(c/d) * (a/b)^(c/d) = x
-    // <=> (cos(c*pi/d) + i*sin(c*pi/d)) * (a/b)^(c/d) = x       # DeMoivre's formula
+    // ⇔ (-1)^(c/d) * (a/b)^(c/d) = x
+    // ⇔ (cos(pi) + i*sin(pi))^(c/d) * (a/b)^(c/d) = x
+    // ⇔ (cos(c*pi/d) + i*sin(c*pi/d)) * (a/b)^(c/d) = x       # DeMoivre's formula
     // From which follows that only for c=0 the root is non-complex
     if (this['s'] < C_ZERO) return null;
 
@@ -717,20 +718,23 @@ Fraction.prototype = {
     k * x/y ≤ a/b < (k+1) * x/y
     ⇔ k ≤ a/b / (x/y) < (k+1)
     ⇔ k = floor(a/b * y/x)
+    ⇔ k = floor((a * y) / (b * x))
     */
 
     parse(a, b);
 
-    const scaledN = this['n'] * P['d'];
-    const scaledD = this['d'] * P['n'];
-    let divResult = scaledN / scaledD;
-    const remainder = scaledN % scaledD;
+    const numerator = this['n'] * P['d'];
+    const denominator = this['d'] * P['n'];
+    let k = numerator / denominator;
+    const remainder = numerator % denominator;
 
-    if (remainder + remainder >= scaledD) {
-      divResult++;
+    /*
+      round(n / d) = trunc(n / d) + 2(n % d) >= d ? 1 : 0
+    */
+    if (remainder + remainder >= denominator) {
+      k++;
     }
-
-    return newFraction(this['s'] * divResult * P['n'], P['d']);
+    return newFraction(this['s'] * k * P['n'], P['d']);
   },
 
   /**
