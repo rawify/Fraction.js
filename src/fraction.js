@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v5.0.4 10/10/2024
+ * @license Fraction.js v5.0.5 10/10/2024
  * https://raw.org/article/rational-numbers-in-javascript/
  *
  * Copyright (c) 2024, Robert Eisele (https://raw.org/)
@@ -39,11 +39,11 @@
 // Set Identity function to downgrade BigInt to Number if needed
 if (typeof BigInt === 'undefined') BigInt = function (n) { if (isNaN(n)) throw new Error(""); return n; };
 
-const C_ONE = BigInt(1);
 const C_ZERO = BigInt(0);
-const C_TEN = BigInt(10);
+const C_ONE = BigInt(1);
 const C_TWO = BigInt(2);
 const C_FIVE = BigInt(5);
+const C_TEN = BigInt(10);
 
 // Maximum search depth for cyclic rational numbers. 2000 should be more than enough.
 // Example: 1/7 = 0.(142857) has 6 repeating decimal places.
@@ -120,23 +120,27 @@ const parse = function (p1, p2) {
     /* void */
   } else if (p2 !== undefined) { // Two arguments
 
-    if (typeof p1 === "bigint" && typeof p2 === "bigint") {
+    if (typeof p1 === "bigint") {
       n = p1;
-      d = p2;
-      s = n * d;
-    } else if (!isNaN(p2) && !isNaN(p1)) {
-
-      if (p1 % 1 !== 0 || p2 % 1 !== 0) {
-        throw NonIntegerParameter();
-      }
-
-      n = BigInt(p1);
-      d = BigInt(p2);
-      s = n * d;
-
-    } else {
+    } else if (isNaN(p1)) {
       throw InvalidParameter();
+    } else if (p1 % 1 !== 0) {
+      throw NonIntegerParameter();
+    } else {
+      n = BigInt(p1);
     }
+
+    if (typeof p2 === "bigint") {
+      d = p2;
+    } else if (isNaN(p2)) {
+      throw InvalidParameter();
+    } else if (p2 % 1 !== 0) {
+      throw NonIntegerParameter();
+    } else {
+      d = BigInt(p2);
+    }
+
+    s = n * d;
 
   } else if (typeof p1 === "object") {
     if ("d" in p1 && "n" in p1) {
@@ -148,8 +152,8 @@ const parse = function (p1, p2) {
       n = BigInt(p1[0]);
       if (1 in p1)
         d = BigInt(p1[1]);
-    } else if (p1 instanceof BigInt) {
-      n = BigInt(p1);
+    } else if (typeof p1 === "bigint") {
+      n = p1;
     } else {
       throw InvalidParameter();
     }
@@ -166,7 +170,7 @@ const parse = function (p1, p2) {
     }
 
     if (p1 % 1 === 0) {
-      n = BigInt(p1);
+      s = n = BigInt(p1);
     } else if (p1 > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
 
       let z = 1;
@@ -228,7 +232,7 @@ const parse = function (p1, p2) {
 
     let v = C_ZERO, w = C_ZERO, x = C_ZERO, y = C_ONE, z = C_ONE;
 
-    let match = p1.match(/\d+|./g);
+    let match = p1.replace(/_/g, '').match(/\d+|./g);
 
     if (match === null)
       throw InvalidParameter();
@@ -495,6 +499,7 @@ Fraction.prototype = {
    * Calculates the modulo of two rational numbers - a more precise fmod
    *
    * Ex: new Fraction('4.(3)').mod([7, 8]) => (13/3) % (7/8) = (5/6)
+   * Ex: new Fraction(20, 10).mod().equals(0) ? "is Integer"
    **/
   "mod": function (a, b) {
 
@@ -503,7 +508,7 @@ Fraction.prototype = {
     }
 
     parse(a, b);
-    if (0 === P["n"] && 0 === this["d"]) {
+    if (C_ZERO === P["n"] * this["d"]) {
       throw DivisionByZero();
     }
 
@@ -729,15 +734,13 @@ Fraction.prototype = {
 
     parse(a, b);
 
-    const numerator = this['n'] * P['d'];
-    const denominator = this['d'] * P['n'];
-    let k = numerator / denominator;
-    const remainder = numerator % denominator;
+    const n = this['n'] * P['d'];
+    const d = this['d'] * P['n'];
+    const r = n % d;
 
-    /*
-      round(n / d) = trunc(n / d) + 2(n % d) >= d ? 1 : 0
-    */
-    if (remainder + remainder >= denominator) {
+    // round(n / d) = trunc(n / d) + 2(n % d) >= d ? 1 : 0
+    let k = n / d;
+    if (r + r >= d) {
       k++;
     }
     return newFraction(this['s'] * k * P['n'], P['d']);

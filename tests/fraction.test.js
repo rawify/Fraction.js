@@ -51,6 +51,9 @@ var tests = [{
   set: ".5",
   expect: "0.5"
 }, {
+  set: "2_000_000",
+  expect: "2000000"
+}, {
   set: "-.5",
   expect: "-0.5"
 }, {
