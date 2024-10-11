@@ -3,28 +3,27 @@
 [![NPM Package](https://img.shields.io/npm/v/fraction.js.svg?style=flat)](https://npmjs.org/package/fraction.js "View this project on npm")
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
-
-Are you frustrated by the imprecision of floating-point numbers like doubles, which store both rational and irrational numbers such as π or √2 in the same limited way? This often leads to preventable issues like:
+Do you find the limitations of floating-point arithmetic frustrating, especially when rational and irrational numbers like π or √2 are stored within the same finite precision? This can lead to avoidable inaccuracies such as:
 
 ```javascript
-1 / 98 * 98 // = 0.9999999999999999
+1 / 98 * 98 // Results in 0.9999999999999999
 ```
 
-If you require greater precision or prefer to work with fractions instead of decimals, you can easily integrate *Fraction.js* into your project:
+For applications requiring higher precision or where working with fractions is preferable, consider incorporating *Fraction.js* into your project. Integration is straightforward:
 
 ```javascript
 import Fraction from 'fraction.js';
-// or
+// Alternatively
 var Fraction = require('fraction.js');
 ```
 
-Here’s an example of how it resolves the issue:
+The library effectively addresses precision issues, as demonstrated below:
 
 ```javascript
-Fraction(1).div(98).mul(98) // = 1
+Fraction(1).div(98).mul(98) // Returns 1
 ```
 
-Internally, *Fraction.js* represents numbers as *numerator/denominator*, adding only minimal overhead. The library is optimized for both performance and precision, making it an excellent foundation for other libs like [Polynomial.js](https://github.com/infusion/Polynomial.js) and [Math.js](https://github.com/josdejong/mathjs).
+*Fraction.js* uses a `BigInt` representation for both the numerator and denominator, ensuring minimal performance overhead while maximizing accuracy. Its design is optimized for precision, making it an ideal choice as a foundational library for other math tools, such as [Polynomial.js](https://github.com/infusion/Polynomial.js) and [Math.js](https://github.com/josdejong/mathjs).
 
 ## Convert Decimal to Fraction
 
@@ -45,7 +44,7 @@ let res = x.simplify(0.001) // Error < 0.001
 
 ## Precision
 
-With the growing adoption of native `BigInt` support in JavaScript, libraries like *Fraction.js* have embraced it for handling arbitrary precision. This enables enhanced performance and accuracy in mathematical operations involving large integers, offering a more reliable solution for applications requiring precision beyond the typical constraints of floating-point `Number` types.
+As native `BigInt` support in JavaScript becomes more common, libraries like *Fraction.js* use it to handle calculations with higher precision. This improves the speed and accuracy of math operations with large numbers, providing a better solution for tasks that need more precision than floating-point numbers can offer.
 
 ## Examples / Motivation
 
@@ -62,7 +61,7 @@ The result can then be displayed as:
 console.log(f.toFraction()); // -4154 / 1485
 ```
 
-Additionally, you can access the internal components of the fraction, such as the sign (s), numerator (n), and denominator (d). Keep in mind that these values are stored as `BigInt`:
+Additionally, you can access the internal attributes of the fraction, such as the sign (s), numerator (n), and denominator (d). Keep in mind that these values are stored as `BigInt`:
 
 ```javascript
 Number(f.s) * Number(f.n) / Number(f.d) = -1 * 4154 / 1485 = -2.797306...
@@ -198,7 +197,6 @@ The equation *fmod(4.55, 0.05)* gives *0.04999999999999957*, wolframalpha says *
 
 ## Parser
 
-
 Any function (see below) as well as the constructor of the *Fraction* class parses its input and reduce it to the smallest term.
 
 You can pass either Arrays, Objects, Integers, Doubles or Strings.
@@ -312,81 +310,80 @@ console.log(f.s); // Sign: -1
 
 ## Functions
 
+### Fraction abs()
 
-Fraction abs()
----
 Returns the actual number without any sign information
 
-Fraction neg()
----
+### Fraction neg()
+
 Returns the actual number with flipped sign in order to get the additive inverse
 
-Fraction add(n)
----
+### Fraction add(n)
+
 Returns the sum of the actual number and the parameter n
 
-Fraction sub(n)
----
+### Fraction sub(n)
+
 Returns the difference of the actual number and the parameter n
 
-Fraction mul(n)
----
+### Fraction mul(n)
+
 Returns the product of the actual number and the parameter n
 
-Fraction div(n)
----
+### Fraction div(n)
+
 Returns the quotient of the actual number and the parameter n
 
-Fraction pow(exp)
----
+### Fraction pow(exp)
+
 Returns the power of the actual number, raised to an possible rational exponent. If the result becomes non-rational the function returns `null`.
 
-Fraction mod(n)
----
+### Fraction mod(n)
+
 Returns the modulus (rest of the division) of the actual object and n (this % n). It's a much more precise [fmod()](#fmod-impreciseness-circumvented) if you like. Please note that *mod()* is just like the modulo operator of most programming languages. If you want a mathematical correct modulo, see [here](#mathematical-correct-modulo).
 
-Fraction mod()
----
+### Fraction mod()
+
 Returns the modulus (rest of the division) of the actual object (numerator mod denominator)
 
-Fraction gcd(n)
----
+### Fraction gcd(n)
+
 Returns the fractional greatest common divisor
 
-Fraction lcm(n)
----
+### Fraction lcm(n)
+
 Returns the fractional least common multiple
 
-Fraction ceil([places=0-16])
----
+### Fraction ceil([places=0-16])
+
 Returns the ceiling of a rational number with Math.ceil
 
-Fraction floor([places=0-16])
----
+### Fraction floor([places=0-16])
+
 Returns the floor of a rational number with Math.floor
 
-Fraction round([places=0-16])
----
+### Fraction round([places=0-16])
+
 Returns the rational number rounded with Math.round
 
-Fraction roundTo(multiple)
----
+### Fraction roundTo(multiple)
+
 Rounds a fraction to the closest multiple of another fraction. 
 
-Fraction inverse()
----
+### Fraction inverse()
+
 Returns the multiplicative inverse of the actual number (n / d becomes d / n) in order to get the reciprocal
 
-Fraction simplify([eps=0.001])
----
+### Fraction simplify([eps=0.001])
+
 Simplifies the rational number under a certain error threshold. Ex. `0.333` will be `1/3` with `eps=0.001`
 
-boolean equals(n)
----
+### boolean equals(n)
+
 Check if two numbers are equal
 
-int compare(n)
----
+### int compare(n)
+
 Compare two numbers.
 ```
 result < 0: n is greater than actual number
@@ -394,34 +391,34 @@ result > 0: n is smaller than actual number
 result = 0: n is equal to the actual number
 ```
 
-boolean divisible(n)
----
+### boolean divisible(n)
+
 Check if two numbers are divisible (n divides this)
 
-double valueOf()
----
+### double valueOf()
+
 Returns a decimal representation of the fraction
 
-String toString([decimalPlaces=15])
----
+### String toString([decimalPlaces=15])
+
 Generates an exact string representation of the actual object. For repeated decimal places all digits are collected within brackets, like `1/3 = "0.(3)"`. For all other numbers, up to `decimalPlaces` significant digits are collected - which includes trailing zeros if the number is getting truncated. However, `1/2 = "0.5"` without trailing zeros of course.
 
 **Note:** As `valueOf()` and `toString()` are provided, `toString()` is only called implicitly in a real string context. Using the plus-operator like `"123" + new Fraction` will call valueOf(), because JavaScript tries to combine two primitives first and concatenates them later, as string will be the more dominant type. `alert(new Fraction)` or `String(new Fraction)` on the other hand will do what you expect. If you really want to have control, you should call `toString()` or `valueOf()` explicitly!
 
-String toLatex(showMixed=false)
----
+### String toLatex(showMixed=false)
+
 Generates an exact LaTeX representation of the actual object. You can see a [live demo](https://raw.org/article/rational-numbers-in-javascript/) on my blog.
 
 The optional boolean parameter indicates if you want to show the a mixed fraction. "1 1/3" instead of "4/3"
 
-String toFraction(showMixed=false)
----
+### String toFraction(showMixed=false)
+
 Gets a string representation of the fraction
 
 The optional boolean parameter indicates if you want to showa mixed fraction. "1 1/3" instead of "4/3"
 
-Array toContinued()
----
+### Array toContinued()
+
 Gets an array of the fraction represented as a continued fraction. The first element always contains the whole part.
 
 ```javascript
@@ -429,8 +426,8 @@ var f = new Fraction('88/33');
 var c = f.toContinued(); // [2, 1, 2]
 ```
 
-Fraction clone()
----
+### Fraction clone()
+
 Creates a copy of the actual Fraction object
 
 
