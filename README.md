@@ -27,7 +27,7 @@ Fraction(1).div(98).mul(98) // Returns 1
 
 ## Convert Decimal to Fraction
 
-One of the core functionalities of *Fraction.js* is its ability to convert decimals into fractions with ease:
+One of the core features of *Fraction.js* is its ability to seamlessly convert decimal numbers into fractions.
 
 ```javascript
 let x = new Fraction(1.88);
@@ -77,7 +77,7 @@ While the result is reasonably close, it’s not as accurate as the fraction-bas
 
 ### Laplace Probability
 
-A simple example of using *Fraction.js* to calculate probabilities. Let’s find the probability of throwing specific outcomes with a fair die:
+Here's a straightforward example of using *Fraction.js* to calculate probabilities. Let's determine the probability of rolling a specific outcome on a fair die:
 
 - **P({3})**: The probability of rolling a 3.
 - **P({1, 4})**: The probability of rolling either 1 or 4.
@@ -115,7 +115,6 @@ new Fraction(deg).add(min, 60).add(sec, 3600).toString() // -> 57.7547(2)
 
 
 ### Rational approximation of irrational numbers
-
 
 Now it's getting messy ;d To approximate a number like *sqrt(5) - 2* with a numerator and denominator, you can reformat the equation as follows: *pow(n / d + 2, 2) = 5*.
 
