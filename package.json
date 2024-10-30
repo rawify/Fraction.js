@@ -1,20 +1,27 @@
 {
   "name": "fraction.js",
   "title": "Fraction.js",
-  "version": "5.0.6",
+  "version": "5.1.0",
   "homepage": "https://raw.org/article/rational-numbers-in-javascript/",
   "bugs": "https://github.com/rawify/Fraction.js/issues",
   "description": "A rational numbers library",
   "keywords": [
     "math",
+    "numbers",
+    "parser",
+    "ratio",
     "fraction",
+    "fractions",
     "rational",
     "rationals",
-    "number",
-    "parser",
+    "rational numbers",
     "bigint",
     "arbitrary precision",
-    "rational numbers"
+    "mixed numbers",
+    "decimal",
+    "numerator",
+    "denominator",
+    "simplification"
   ],
   "private": false,
   "main": "./dist/fraction.js",
@@ -56,7 +63,7 @@
     "test": "mocha tests/*.js"
   },
   "devDependencies": {
-    "crude-build": "^0.1.0",
+    "crude-build": "^0.1.2",
     "mocha": "*"
   }
 }

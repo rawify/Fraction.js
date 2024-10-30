@@ -108,6 +108,18 @@ export default class Fraction {
   /** Checks if two fractions or numbers are equal */
   equals(n: number | BigInt | string | Fraction): boolean;
 
+  /** Check if this rational number is less than another */
+  lt(n: number | BigInt | string | Fraction): boolean;
+
+  /** Check if this rational number is less than or equal another */
+  lte(n: number | BigInt | string | Fraction): boolean;
+
+  /** Check if this rational number is greater than another */
+  gt(n: number | BigInt | string | Fraction): boolean;
+
+  /** Check if this rational number is greater than or equal another */
+  gte(n: number | BigInt | string | Fraction): boolean;
+
   /** Compares two fractions or numbers. Returns -1, 0, or 1 based on the comparison. */
   compare(n: number | BigInt | string | Fraction): number;
 

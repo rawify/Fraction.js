@@ -383,7 +383,23 @@ Simplifies the rational number under a certain error threshold. Ex. `0.333` will
 
 boolean equals(n)
 ---
-Check if two numbers are equal
+Check if two rational numbers are equal
+
+boolean lt(n)
+---
+Check if this rational number is less than another
+
+boolean lte(n)
+---
+Check if this rational number is less than or equal another
+
+boolean gt(n)
+---
+Check if this rational number is greater than another
+
+boolean gte(n)
+---
+Check if this rational number is greater than or equal another
 
 int compare(n)
 ---

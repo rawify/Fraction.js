@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v5.0.6 10/10/2024
+ * @license Fraction.js v5.1.0 10/30/2024
  * https://raw.org/article/rational-numbers-in-javascript/
  *
  * Copyright (c) 2024, Robert Eisele (https://raw.org/)
@@ -13,13 +13,13 @@
  *
  * Array/Object form
  * [ 0 => <numerator>, 1 => <denominator> ]
- * [ n => <numerator>, d => <denominator> ]
+ * { n => <numerator>, d => <denominator> }
  *
  * Integer form
- * - Single integer value
+ * - Single integer value as BigInt or Number
  *
  * Double form
- * - Single double value
+ * - Single double value as Number
  *
  * String form
  * 123.456 - a simple double
@@ -30,7 +30,6 @@
  * 123.45(6) - synonym
  *
  * Example:
- *
  * let f = new Fraction("9.4'31'");
  * f.mul([-4, 3]).div(4.9);
  *
@@ -65,6 +64,10 @@ function assign(n, s) {
     throw InvalidParameter();
   }
   return n * s;
+}
+
+function trunc(x) {
+  return typeof x === 'bigint' ? x : Math.floor(x);
 }
 
 // Creates a new Fraction internally without the need of the bulky constructor
@@ -645,18 +648,65 @@ Fraction.prototype = {
   "equals": function (a, b) {
 
     parse(a, b);
-    return this["s"] * this["n"] * P["d"] === P["s"] * P["n"] * this["d"]; // Same as compare() === 0
+    return this["s"] * this["n"] * P["d"] === P["s"] * P["n"] * this["d"];
   },
 
   /**
-   * Check if two rational numbers are the same
+   * Check if this rational number is less than another
    *
-   * Ex: new Fraction(19.6).equals([98, 5]);
+   * Ex: new Fraction(19.6).lt([98, 5]);
+   **/
+  "lt": function (a, b) {
+
+    parse(a, b);
+    return this["s"] * this["n"] * P["d"] < P["s"] * P["n"] * this["d"];
+  },
+
+  /**
+   * Check if this rational number is less than or equal another
+   *
+   * Ex: new Fraction(19.6).lt([98, 5]);
+   **/
+  "lte": function (a, b) {
+
+    parse(a, b);
+    return this["s"] * this["n"] * P["d"] <= P["s"] * P["n"] * this["d"];
+  },
+
+  /**
+   * Check if this rational number is greater than another
+   *
+   * Ex: new Fraction(19.6).lt([98, 5]);
+   **/
+  "gt": function (a, b) {
+
+    parse(a, b);
+    return this["s"] * this["n"] * P["d"] > P["s"] * P["n"] * this["d"];
+  },
+
+  /**
+   * Check if this rational number is greater than or equal another
+   *
+   * Ex: new Fraction(19.6).lt([98, 5]);
+   **/
+  "gte": function (a, b) {
+
+    parse(a, b);
+    return this["s"] * this["n"] * P["d"] >= P["s"] * P["n"] * this["d"];
+  },
+
+  /**
+   * Compare two rational numbers
+   * < 0 iff this < that
+   * > 0 iff this > that
+   * = 0 iff this = that
+   *
+   * Ex: new Fraction(19.6).compare([98, 5]);
    **/
   "compare": function (a, b) {
 
     parse(a, b);
-    let t = (this["s"] * this["n"] * P["d"] - P["s"] * P["n"] * this["d"]);
+    let t = this["s"] * this["n"] * P["d"] - P["s"] * P["n"] * this["d"];
 
     return (C_ZERO < t) - (t < C_ZERO);
   },
@@ -670,7 +720,7 @@ Fraction.prototype = {
 
     places = C_TEN ** BigInt(places || 0);
 
-    return newFraction(this["s"] * places * this["n"] / this["d"] +
+    return newFraction(trunc(this["s"] * places * this["n"] / this["d"]) +
       (places * this["n"] % this["d"] > C_ZERO && this["s"] >= C_ZERO ? C_ONE : C_ZERO),
       places);
   },
@@ -684,7 +734,7 @@ Fraction.prototype = {
 
     places = C_TEN ** BigInt(places || 0);
 
-    return newFraction(this["s"] * places * this["n"] / this["d"] -
+    return newFraction(trunc(this["s"] * places * this["n"] / this["d"]) -
       (places * this["n"] % this["d"] > C_ZERO && this["s"] < C_ZERO ? C_ONE : C_ZERO),
       places);
   },
@@ -713,7 +763,7 @@ Fraction.prototype = {
         where C = s >= 0 ? 1 : 0, to fix the >= for the positve case.
     */
 
-    return newFraction(this["s"] * places * this["n"] / this["d"] +
+    return newFraction(trunc(this["s"] * places * this["n"] / this["d"]) +
       this["s"] * ((this["s"] >= C_ZERO ? C_ONE : C_ZERO) + C_TWO * (places * this["n"] % this["d"]) > this["d"] ? C_ONE : C_ZERO),
       places);
   },
@@ -739,7 +789,7 @@ Fraction.prototype = {
     const r = n % d;
 
     // round(n / d) = trunc(n / d) + 2(n % d) >= d ? 1 : 0
-    let k = n / d;
+    let k = trunc(n / d);
     if (r + r >= d) {
       k++;
     }
@@ -776,10 +826,6 @@ Fraction.prototype = {
 
     let N = this["n"];
     let D = this["d"];
-
-    function trunc(x) {
-      return typeof x === 'bigint' ? x : Math.floor(x);
-    }
 
     dec = dec || 15; // 15 = decimal places when no repetition
 
@@ -835,7 +881,7 @@ Fraction.prototype = {
     if (d === C_ONE) {
       str += n;
     } else {
-      let whole = n / d;
+      let whole = trunc(n / d);
       if (showMixed && whole > C_ZERO) {
         str += whole;
         str += " ";
@@ -863,7 +909,7 @@ Fraction.prototype = {
     if (d === C_ONE) {
       str += n;
     } else {
-      let whole = n / d;
+      let whole = trunc(n / d);
       if (showMixed && whole > C_ZERO) {
         str += whole;
         n %= d;
@@ -890,7 +936,7 @@ Fraction.prototype = {
     let res = [];
 
     do {
-      res.push(a / b);
+      res.push(trunc(a / b));
       let t = a % b;
       a = b;
       b = t;

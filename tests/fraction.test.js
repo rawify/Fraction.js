@@ -520,6 +520,63 @@ var tests = [{
   fn: "ceil",
   param: null,
   expect: "1"
+},
+
+
+{
+  label: "1 < 2",
+  set: 1,
+  fn: "lt",
+  param: 2,
+  expect: "true"
+}, {
+  label: "2 < 2",
+  set: 2,
+  fn: "lt",
+  param: 2,
+  expect: "false"
+}, {
+  label: "3 > 2",
+  set: 3,
+  fn: "gt",
+  param: 2,
+  expect: "true"
+}, {
+  label: "2 > 2",
+  set: 2,
+  fn: "gt",
+  param: 2,
+  expect: "false"
+}, {
+  label: "1 <= 2",
+  set: 1,
+  fn: "lte",
+  param: 2,
+  expect: "true"
+}, {
+  label: "2 <= 2",
+  set: 2,
+  fn: "lte",
+  param: 2,
+  expect: "true"
+}, {
+  label: "3 <= 2",
+  set: 3,
+  fn: "lte",
+  param: 2,
+  expect: "false"
+}, {
+  label: "3 >= 2",
+  set: 3,
+  fn: "gte",
+  param: 2,
+  expect: "true"
+}, {
+  label: "2 >= 2",
+  set: 2,
+  fn: "gte",
+  param: 2,
+  expect: "true"
 }, {
   label: "ceil(0.5)",
   set: 0.5,
