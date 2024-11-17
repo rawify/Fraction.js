@@ -643,6 +643,8 @@ Fraction.prototype = {
 
     parse(a, b);
 
+    if (this['s'] <= C_ZERO || P['s'] <= C_ZERO) return null;
+
     const allPrimes = {};
 
     const baseFactors = factorize(P['n']);

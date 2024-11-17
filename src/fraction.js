@@ -1,5 +1,5 @@
 /**
- * @license Fraction.js v5.2.0 11/17/2024
+ * @license Fraction.js v5.2.1 11/17/2024
  * https://raw.org/article/rational-numbers-in-javascript/
  *
  * Copyright (c) 2024, Robert Eisele (https://raw.org/)
@@ -648,6 +648,8 @@ Fraction.prototype = {
   "log": function (a, b) {
 
     parse(a, b);
+
+    if (this['s'] <= C_ZERO || P['s'] <= C_ZERO) return null;
 
     const allPrimes = {};
 
