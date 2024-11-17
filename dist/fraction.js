@@ -635,6 +635,78 @@ Fraction.prototype = {
   },
 
   /**
+   * Calculates the logarithm of a fraction to a given rational base
+   *
+   * Ex: new Fraction(27, 8).log(9, 4) => 3/2
+   */
+  "log": function (a, b) {
+
+    parse(a, b);
+
+    const allPrimes = {};
+
+    const baseFactors = factorize(P['n']);
+    const T1 = factorize(P['d']);
+
+    const numberFactors = factorize(this['n']);
+    const T2 = factorize(this['d']);
+
+    for (const prime in T1) {
+      baseFactors[prime] = (baseFactors[prime] || C_ZERO) - T1[prime];
+    }
+    for (const prime in T2) {
+      numberFactors[prime] = (numberFactors[prime] || C_ZERO) - T2[prime];
+    }
+
+    for (const prime in baseFactors) {
+      if (prime === '1') continue;
+      allPrimes[prime] = true;
+    }
+    for (const prime in numberFactors) {
+      if (prime === '1') continue;
+      allPrimes[prime] = true;
+    }
+
+    let retN = null;
+    let retD = null;
+
+    // Iterate over all unique primes to determine if a consistent ratio exists
+    for (const prime in allPrimes) {
+
+      const baseExponent = baseFactors[prime] || C_ZERO;
+      const numberExponent = numberFactors[prime] || C_ZERO;
+
+      if (baseExponent === C_ZERO) {
+        if (numberExponent !== C_ZERO) {
+          return null; // Logarithm cannot be expressed as a rational number
+        }
+        continue; // Skip this prime since both exponents are zero
+      }
+
+      // Calculate the ratio of exponents for this prime
+      let curN = numberExponent;
+      let curD = baseExponent;
+
+      // Simplify the current ratio
+      const gcdValue = gcd(curN, curD);
+      curN /= gcdValue;
+      curD /= gcdValue;
+
+      // Check if this is the first ratio; otherwise, ensure ratios are consistent
+      if (retN === null && retD === null) {
+        retN = curN;
+        retD = curD;
+      } else if (curN * retD !== retN * curD) {
+        return null; // Ratios do not match, logarithm cannot be rational
+      }
+    }
+
+    return retN !== null && retD !== null
+      ? newFraction(retN, retD)
+      : null;
+  },
+
+  /**
    * Check if two rational numbers are the same
    *
    * Ex: new Fraction(19.6).equals([98, 5]);
@@ -941,7 +1013,7 @@ Fraction.prototype = {
 
   "simplify": function (eps) {
 
-    eps = eps || 0.001;
+    const ieps = BigInt(1 / (eps || 0.001) | 0);
 
     const thisABS = this['abs']();
     const cont = thisABS['toContinued']();
@@ -953,7 +1025,8 @@ Fraction.prototype = {
         s = s['inverse']()['add'](cont[k]);
       }
 
-      if (Math.abs(s['sub'](thisABS).valueOf()) < eps) {
+      let t = s['sub'](thisABS);
+      if (t['n'] * ieps < t['d']) { // More robust than Math.abs(t.valueOf()) < eps
         return s['mul'](this['s']);
       }
     }

@@ -245,6 +245,18 @@ var tests = [{
   param: "-1",
   expect: "-99"
 }, {
+  label: "0.5050000000000000000000000",
+  set: "0.5050000000000000000000000",
+  expect: "101/200",
+  fn: "toFraction",
+  param: true
+}, {
+  label: "0.505000000(0000000000)",
+  set: "0.505000000(0000000000)",
+  expect: "101/200",
+  fn: "toFraction",
+  param: true
+}, {
   set: [20, -5],
   expect: "-4",
   fn: "toFraction",
@@ -1488,6 +1500,42 @@ var tests = [{
   fn: "roundTo",
   param: "1/2",
   expect: "-3.5"
+}, {
+  label: "log_2(8)",
+  set: "8",
+  fn: "log",
+  param: "2",
+  expect: "3" // because 2^3 = 8
+}, {
+  label: "log_2(3)",
+  set: "3",
+  fn: "log",
+  param: "2",
+  expect: 'null' // because 2^(p/q) != 3
+}, {
+  label: "log_10(1000)",
+  set: "1000",
+  fn: "log",
+  param: "10",
+  expect: "3" // because 10^3 = 1000
+}, {
+  label: "log_27(81)",
+  set: "81",
+  fn: "log",
+  param: "27",
+  expect: "1.(3)" // because 27^(4/3) = 81
+}, {
+  label: "log_27(9)",
+  set: "9",
+  fn: "log",
+  param: "27",
+  expect: "0.(6)" // because 27^(2/3) = 9
+}, {
+  label: "log_9/4(27/8)",
+  set: "27/8",
+  fn: "log",
+  param: "9/4",
+  expect: "1.5" // because (9/4)^(3/2) = 27/8
 }];
 
 describe('Fraction', function () {

@@ -72,6 +72,9 @@ export class Fraction {
   /** Raises the fraction to a given power */
   pow: FractionParam;
 
+  /** Calculates the logarithm of a fraction to a given rational base */
+  log: FractionParam;
+
   /** Finds the greatest common divisor (gcd) with another fraction or number */
   gcd: FractionParam;
 

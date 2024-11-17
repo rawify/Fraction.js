@@ -337,6 +337,10 @@ Returns the quotient of the actual number and the parameter n
 
 Returns the power of the actual number, raised to an possible rational exponent. If the result becomes non-rational the function returns `null`.
 
+### Fraction log(base)
+
+Returns the logarithm of the actual number to a given rational base. If the result becomes non-rational the function returns `null`.
+
 ### Fraction mod(n)
 
 Returns the modulus (rest of the division) of the actual object and n (this % n). It's a much more precise [fmod()](#fmod-impreciseness-circumvented) if you like. Please note that *mod()* is just like the modulo operator of most programming languages. If you want a mathematical correct modulo, see [here](#mathematical-correct-modulo).
