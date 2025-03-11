@@ -366,20 +366,7 @@ function cycleStart(n, d, len) {
 }
 
 function gcd(a, b) {
-
-  if (!a)
-    return b;
-  if (!b)
-    return a;
-
-  while (1) {
-    a %= b;
-    if (!a)
-      return b;
-    b %= a;
-    if (!b)
-      return a;
-  }
+    return b === C_ZERO ? (a < C_ZERO ? -a : a) : gcd(b, a % b);
 }
 
 /**
