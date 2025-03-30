@@ -116,7 +116,7 @@ new Fraction(deg).add(min, 60).add(sec, 3600).toString() // -> 57.7547(2)
 
 ### Rational approximation of irrational numbers
 
-Now it's getting messy ;d To approximate a number like *sqrt(5) - 2* with a numerator and denominator, you can reformat the equation as follows: *pow(n / d + 2, 2) = 5*.
+To approximate a number like *sqrt(5) - 2* with a numerator and denominator, you can reformat the equation as follows: *pow(n / d + 2, 2) = 5*.
 
 Then the following algorithm will generate the rational number besides the binary representation.
 
@@ -187,7 +187,7 @@ console.log(new Fraction(a)
   .mod(b).add(b).mod(b)); // Correct! Mathematical Modulo
 ```
 
-fmod() impreciseness circumvented
+fmod() imprecision circumvented
 ---
 It turns out that Fraction.js outperforms almost any fmod() implementation, including JavaScript itself, [php.js](http://phpjs.org/functions/fmod/), C++, Python, Java and even Wolframalpha due to the fact that numbers like 0.05, 0.1, ... are infinite decimal in base 2.
 
@@ -503,5 +503,5 @@ npm run test
 
 ## Copyright and Licensing
 
-Copyright (c) 2024, [Robert Eisele](https://raw.org/)
+Copyright (c) 2025, [Robert Eisele](https://raw.org/)
 Licensed under the MIT license.

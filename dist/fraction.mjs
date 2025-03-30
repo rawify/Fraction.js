@@ -168,7 +168,7 @@ const parse = function (p1, p2) {
 
     if (p1 % 1 === 0) {
       n = BigInt(p1);
-    } else if (p1 > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
+    } else {
 
       let z = 1;
 
@@ -509,24 +509,20 @@ Fraction.prototype = {
       throw DivisionByZero();
     }
 
-    /*
-     * First silly attempt, kinda slow
+    /**
+     * I derived the rational modulo similar to the modulo for integers
      *
-     return that["sub"]({
-     "n": num["n"] * Math.floor((this.n / this.d) / (num.n / num.d)),
-     "d": num["d"],
-     "s": this["s"]
-     });*/
-
-    /*
-     * New attempt: a1 / b1 = a2 / b2 * q + r
-     * => b2 * a1 = a2 * b1 * q + b1 * b2 * r
-     * => (b2 * a1 % a2 * b1) / (b1 * b2)
+     * https://raw.org/book/analysis/rational-numbers/
+     *
+     *    n1/d1 = (n2/d2) * q + r, where 0 ≤ r < n2/d2
+     * => d2 * n1 = n2 * d1 * q + d1 * d2 * r
+     * => r = (d2 * n1 - n2 * d1 * q) / (d1 * d2)
+     *      = (d2 * n1 - n2 * d1 * floor((d2 * n1) / (n2 * d1))) / (d1 * d2)
+     *      = ((d2 * n1) % (n2 * d1)) / (d1 * d2)
      */
     return newFraction(
       this["s"] * (P["d"] * this["n"]) % (P["n"] * this["d"]),
-      P["d"] * this["d"]
-    );
+      P["d"] * this["d"]);
   },
 
   /**
@@ -538,6 +534,7 @@ Fraction.prototype = {
 
     parse(a, b);
 
+    // https://raw.org/book/analysis/rational-numbers/
     // gcd(a / b, c / d) = gcd(a, c) / lcm(b, d)
 
     return newFraction(gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]), P["d"] * this["d"]);
@@ -552,6 +549,7 @@ Fraction.prototype = {
 
     parse(a, b);
 
+    // https://raw.org/book/analysis/rational-numbers/
     // lcm(a / b, c / d) = lcm(a, c) / gcd(b, d)
 
     if (P["n"] === C_ZERO && this["n"] === C_ZERO) {
