@@ -9,13 +9,7 @@ Do you find the limitations of floating-point arithmetic frustrating, especially
 1 / 98 * 98 // Results in 0.9999999999999999
 ```
 
-For applications requiring higher precision or where working with fractions is preferable, consider incorporating *Fraction.js* into your project. Integration is straightforward:
-
-```javascript
-import Fraction from 'fraction.js';
-// Alternatively
-var Fraction = require('fraction.js');
-```
+For applications requiring higher precision or where working with fractions is preferable, consider incorporating *Fraction.js* into your project.
 
 The library effectively addresses precision issues, as demonstrated below:
 
@@ -23,7 +17,7 @@ The library effectively addresses precision issues, as demonstrated below:
 Fraction(1).div(98).mul(98) // Returns 1
 ```
 
-*Fraction.js* uses a `BigInt` representation for both the numerator and denominator, ensuring minimal performance overhead while maximizing accuracy. Its design is optimized for precision, making it an ideal choice as a foundational library for other math tools, such as [Polynomial.js](https://github.com/infusion/Polynomial.js) and [Math.js](https://github.com/josdejong/mathjs).
+*Fraction.js* uses a `BigInt` representation for both the numerator and denominator, ensuring minimal performance overhead while maximizing accuracy. Its design is optimized for precision, making it an ideal choice as a foundational library for other math tools, such as [Polynomial.js](https://github.com/rawify/Polynomial.js) and [Math.js](https://github.com/josdejong/mathjs).
 
 ## Convert Decimal to Fraction
 
@@ -457,26 +451,45 @@ If a really hard error occurs (parsing error, division by zero), *Fraction.js* t
 
 ## Installation
 
-Installing fraction.js is as easy as cloning this repo or use the following command:
+You can install `Fraction.js` via npm:
 
 ```bash
 npm install fraction.js
 ```
 
-## Using Fraction.js with the browser
+Or with yarn:
+
+```bash
+yarn add fraction.js
+```
+
+Alternatively, download or clone the repository:
+
+```bash
+git clone https://github.com/rawify/Fraction.js
+```
+
+## Usage
+
+Include the `fraction.min.js` file in your project:
 
 ```html
-<script src="fraction.min.js"></script>
+<script src="path/to/fraction.min.js"></script>
 <script>
-    console.log(Fraction("123/456"));
+  var x = new Fraction("13/4");
 </script>
 ```
 
-## Using Fraction.js with TypeScript
+Or in a Node.js project:
 
-```js
-import Fraction from "fraction.js";
-console.log(Fraction("123/456"));
+```javascript
+const Fraction = require('fraction.js');
+```
+
+or 
+
+```javascript
+import Fraction from 'fraction.js';
 ```
 
 

@@ -4,7 +4,7 @@
   "version": "5.2.2",
   "homepage": "https://raw.org/article/rational-numbers-in-javascript/",
   "bugs": "https://github.com/rawify/Fraction.js/issues",
-  "description": "A rational numbers library",
+  "description": "The RAW rational numbers library",
   "keywords": [
     "math",
     "numbers",

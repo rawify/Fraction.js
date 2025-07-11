@@ -8,7 +8,7 @@ Licensed under the MIT license.
 const Fraction = require('fraction.js');
 
 // NOTE: This is a nice example, but a stable version of this is served with Polynomial.js: 
-// https://github.com/infusion/Polynomial.js
+// https://github.com/rawify/Polynomial.js
 
 function integrate(poly) {
 
