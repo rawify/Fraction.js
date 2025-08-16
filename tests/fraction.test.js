@@ -1133,6 +1133,24 @@ var tests = [{
   param: 0.5,
   expect: "null"
 }, {
+  label: "(-8/27)^(1/3)",
+  set: [-8, 27],
+  fn: "pow",
+  param: [1, 3],
+  expect: "null"
+}, {
+  label: "(-8/27)^(2/3)",
+  set: [-8, 27],
+  fn: "pow",
+  param: [2, 3],
+  expect: "null"
+}, {
+  label: "(-32/243)^(5/3)",
+  set: [-32, 243],
+  fn: "pow",
+  param: [5, 3],
+  expect: "null"
+}, {
   label: "sqrt(0)",
   set: 0,
   fn: "pow",

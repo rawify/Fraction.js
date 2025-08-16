@@ -1,10 +1,10 @@
 {
   "name": "fraction.js",
   "title": "Fraction.js",
-  "version": "5.2.2",
+  "version": "5.3.0",
+  "description": "The RAW rational numbers library",
   "homepage": "https://raw.org/article/rational-numbers-in-javascript/",
   "bugs": "https://github.com/rawify/Fraction.js/issues",
-  "description": "The RAW rational numbers library",
   "keywords": [
     "math",
     "numbers",
@@ -26,20 +26,41 @@
   "private": false,
   "main": "./dist/fraction.js",
   "module": "./dist/fraction.mjs",
-  "types": "./fraction.d.ts",
   "browser": "./dist/fraction.min.js",
   "unpkg": "./dist/fraction.min.js",
-  "readmeFilename": "README.md",
+  "types": "./fraction.d.ts",
   "exports": {
     ".": {
-      "types": "./fraction.d.ts",
-      "require": "./dist/fraction.js",
-      "import": "./dist/fraction.mjs"
+      "import": {
+        "types": "./fraction.d.mts",
+        "default": "./dist/fraction.mjs"
+      },
+      "require": {
+        "types": "./fraction.d.ts",
+        "default": "./dist/fraction.js"
+      },
+      "browser": {
+        "types": "./fraction.d.ts",
+        "default": "./dist/fraction.min.js"
+      },
+      "default": {
+        "types": "./fraction.d.ts",
+        "default": "./dist/fraction.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "<4.7": {
+      "*": [
+        "fraction.d.ts"
+      ]
     }
   },
+  "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git@github.com:rawify/Fraction.js.git"
+    "url": "git+ssh://git@github.com/rawify/Fraction.js.git"
   },
   "funding": {
     "type": "github",
@@ -52,7 +73,7 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">= 12"
+    "node": "*"
   },
   "directories": {
     "example": "examples",

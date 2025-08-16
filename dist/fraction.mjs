@@ -35,8 +35,10 @@ if (typeof BigInt === 'undefined') BigInt = function (n) { if (isNaN(n)) throw n
 const C_ZERO = BigInt(0);
 const C_ONE = BigInt(1);
 const C_TWO = BigInt(2);
+const C_THREE = BigInt(3);
 const C_FIVE = BigInt(5);
 const C_TEN = BigInt(10);
+const MAX_INTEGER = BigInt(Number.MAX_SAFE_INTEGER);
 
 // Maximum search depth for cyclic rational numbers. 2000 should be more than enough.
 // Example: 1/7 = 0.(142857) has 6 repeating decimal places.
@@ -60,7 +62,7 @@ function assign(n, s) {
   return n * s;
 }
 
-function trunc(x) {
+function ifloor(x) {
   return typeof x === 'bigint' ? x : Math.floor(x);
 }
 
@@ -83,29 +85,29 @@ function newFraction(n, d) {
   return f;
 }
 
-function factorize(num) {
+const FACTORSTEPS = [C_TWO * C_TWO, C_TWO, C_TWO * C_TWO, C_TWO, C_TWO * C_TWO, C_TWO * C_THREE, C_TWO, C_TWO * C_THREE]; // repeats
+function factorize(n) {
 
-  const factors = {};
-
-  let n = num;
-  let i = C_TWO;
-  let s = C_FIVE - C_ONE;
-
-  while (s <= n) {
-
-    while (n % i === C_ZERO) {
-      n /= i;
-      factors[i] = (factors[i] || C_ZERO) + C_ONE;
-    }
-    s += C_ONE + C_TWO * i++;
+  const factors = Object.create(null);
+  if (n <= C_ONE) {
+    factors[n] = C_ONE;
+    return factors;
   }
 
-  if (n !== num) {
-    if (n > 1)
-      factors[n] = (factors[n] || C_ZERO) + C_ONE;
-  } else {
-    factors[num] = (factors[num] || C_ZERO) + C_ONE;
+  const add = (p) => { factors[p] = (factors[p] || C_ZERO) + C_ONE; };
+
+  while (n % C_TWO === C_ZERO) { add(C_TWO); n /= C_TWO; }
+  while (n % C_THREE === C_ZERO) { add(C_THREE); n /= C_THREE; }
+  while (n % C_FIVE === C_ZERO) { add(C_FIVE); n /= C_FIVE; }
+
+  // 30-wheel trial division: test only residues coprime to 2*3*5
+  // Residue step pattern after 5: 7,11,13,17,19,23,29,31, ...
+  for (let si = 0, p = C_TWO + C_FIVE; p * p <= n;) {
+    while (n % p === C_ZERO) { add(p); n /= p; }
+    p += FACTORSTEPS[si];
+    si = (si + 1) & 7; // fast modulo 8
   }
+  if (n > C_ONE) add(n);
   return factors;
 }
 
@@ -397,9 +399,9 @@ function Fraction(a, b) {
   }
 }
 
-var DivisionByZero = function () { return new Error("Division by Zero"); };
-var InvalidParameter = function () { return new Error("Invalid argument"); };
-var NonIntegerParameter = function () { return new Error("Parameters must be integer"); };
+const DivisionByZero = function () { return new Error("Division by Zero"); };
+const InvalidParameter = function () { return new Error("Invalid argument"); };
+const NonIntegerParameter = function () { return new Error("Parameters must be integer"); };
 
 Fraction.prototype = {
 
@@ -643,7 +645,7 @@ Fraction.prototype = {
 
     if (this['s'] <= C_ZERO || P['s'] <= C_ZERO) return null;
 
-    const allPrimes = {};
+    const allPrimes = Object.create(null);
 
     const baseFactors = factorize(P['n']);
     const T1 = factorize(P['d']);
@@ -786,7 +788,7 @@ Fraction.prototype = {
 
     places = C_TEN ** BigInt(places || 0);
 
-    return newFraction(trunc(this["s"] * places * this["n"] / this["d"]) +
+    return newFraction(ifloor(this["s"] * places * this["n"] / this["d"]) +
       (places * this["n"] % this["d"] > C_ZERO && this["s"] >= C_ZERO ? C_ONE : C_ZERO),
       places);
   },
@@ -800,7 +802,7 @@ Fraction.prototype = {
 
     places = C_TEN ** BigInt(places || 0);
 
-    return newFraction(trunc(this["s"] * places * this["n"] / this["d"]) -
+    return newFraction(ifloor(this["s"] * places * this["n"] / this["d"]) -
       (places * this["n"] % this["d"] > C_ZERO && this["s"] < C_ZERO ? C_ONE : C_ZERO),
       places);
   },
@@ -817,19 +819,19 @@ Fraction.prototype = {
     /* Derivation:
 
     s >= 0:
-      round(n / d) = trunc(n / d) + (n % d) / d >= 0.5 ? 1 : 0
-                   = trunc(n / d) + 2(n % d) >= d ? 1 : 0
+      round(n / d) = ifloor(n / d) + (n % d) / d >= 0.5 ? 1 : 0
+                   = ifloor(n / d) + 2(n % d) >= d ? 1 : 0
     s < 0:
-      round(n / d) =-trunc(n / d) - (n % d) / d > 0.5 ? 1 : 0
-                   =-trunc(n / d) - 2(n % d) > d ? 1 : 0
+      round(n / d) =-ifloor(n / d) - (n % d) / d > 0.5 ? 1 : 0
+                   =-ifloor(n / d) - 2(n % d) > d ? 1 : 0
 
     =>:
 
-    round(s * n / d) = s * trunc(n / d) + s * (C + 2(n % d) > d ? 1 : 0)
+    round(s * n / d) = s * ifloor(n / d) + s * (C + 2(n % d) > d ? 1 : 0)
         where C = s >= 0 ? 1 : 0, to fix the >= for the positve case.
     */
 
-    return newFraction(trunc(this["s"] * places * this["n"] / this["d"]) +
+    return newFraction(ifloor(this["s"] * places * this["n"] / this["d"]) +
       this["s"] * ((this["s"] >= C_ZERO ? C_ONE : C_ZERO) + C_TWO * (places * this["n"] % this["d"]) > this["d"] ? C_ONE : C_ZERO),
       places);
   },
@@ -854,8 +856,8 @@ Fraction.prototype = {
     const d = this['d'] * P['n'];
     const r = n % d;
 
-    // round(n / d) = trunc(n / d) + 2(n % d) >= d ? 1 : 0
-    let k = trunc(n / d);
+    // round(n / d) = ifloor(n / d) + 2(n % d) >= d ? 1 : 0
+    let k = ifloor(n / d);
     if (r + r >= d) {
       k++;
     }
@@ -870,7 +872,8 @@ Fraction.prototype = {
   "divisible": function (a, b) {
 
     parse(a, b);
-    return !(!(P["n"] * this["d"]) || ((this["n"] * P["d"]) % (P["n"] * this["d"])));
+    if (P['n'] === C_ZERO) return false;
+    return (this['n'] * P['d']) % (P['n'] * this['d']) === C_ZERO;
   },
 
   /**
@@ -879,8 +882,9 @@ Fraction.prototype = {
    * Ex: new Fraction("100.'91823'").valueOf() => 100.91823918239183
    **/
   'valueOf': function () {
-    // Best we can do so far
-    return Number(this["s"] * this["n"]) / Number(this["d"]);
+    //if (this['n'] <= MAX_INTEGER && this['d'] <= MAX_INTEGER) {
+    return Number(this['s'] * this['n']) / Number(this['d']);
+    //}
   },
 
   /**
@@ -888,12 +892,10 @@ Fraction.prototype = {
    *
    * Ex: new Fraction("100.'91823'").toString() => "100.(91823)"
    **/
-  'toString': function (dec) {
+  'toString': function (dec = 15) {
 
     let N = this["n"];
     let D = this["d"];
-
-    dec = dec || 15; // 15 = decimal places when no repetition
 
     let cycLen = cycleLen(N, D); // Cycle length
     let cycOff = cycleStart(N, D, cycLen); // Cycle start
@@ -901,7 +903,7 @@ Fraction.prototype = {
     let str = this['s'] < C_ZERO ? "-" : "";
 
     // Append integer part
-    str += trunc(N / D);
+    str += ifloor(N / D);
 
     N %= D;
     N *= C_TEN;
@@ -912,20 +914,20 @@ Fraction.prototype = {
     if (cycLen) {
 
       for (let i = cycOff; i--;) {
-        str += trunc(N / D);
+        str += ifloor(N / D);
         N %= D;
         N *= C_TEN;
       }
       str += "(";
       for (let i = cycLen; i--;) {
-        str += trunc(N / D);
+        str += ifloor(N / D);
         N %= D;
         N *= C_TEN;
       }
       str += ")";
     } else {
       for (let i = dec; N && i--;) {
-        str += trunc(N / D);
+        str += ifloor(N / D);
         N %= D;
         N *= C_TEN;
       }
@@ -938,7 +940,7 @@ Fraction.prototype = {
    *
    * Ex: new Fraction("1.'3'").toFraction() => "4 1/3"
    **/
-  'toFraction': function (showMixed) {
+  'toFraction': function (showMixed = false) {
 
     let n = this["n"];
     let d = this["d"];
@@ -947,7 +949,7 @@ Fraction.prototype = {
     if (d === C_ONE) {
       str += n;
     } else {
-      let whole = trunc(n / d);
+      const whole = ifloor(n / d);
       if (showMixed && whole > C_ZERO) {
         str += whole;
         str += " ";
@@ -966,7 +968,7 @@ Fraction.prototype = {
    *
    * Ex: new Fraction("1.'3'").toLatex() => "\frac{4}{3}"
    **/
-  'toLatex': function (showMixed) {
+  'toLatex': function (showMixed = false) {
 
     let n = this["n"];
     let d = this["d"];
@@ -975,7 +977,7 @@ Fraction.prototype = {
     if (d === C_ONE) {
       str += n;
     } else {
-      let whole = trunc(n / d);
+      const whole = ifloor(n / d);
       if (showMixed && whole > C_ZERO) {
         str += whole;
         n %= d;
@@ -999,21 +1001,24 @@ Fraction.prototype = {
 
     let a = this['n'];
     let b = this['d'];
-    let res = [];
+    const res = [];
 
-    do {
-      res.push(trunc(a / b));
-      let t = a % b;
+    while (b) {
+      res.push(ifloor(a / b));
+      const t = a % b;
       a = b;
       b = t;
-    } while (a !== C_ONE);
-
+    }
     return res;
   },
 
-  "simplify": function (eps) {
+  "simplify": function (eps = 1e-3) {
 
-    const ieps = BigInt(1 / (eps || 0.001) | 0);
+    // Continued fractions give best approximations for a max denominator,
+    // generally outperforming mediants in denominator–accuracy trade-offs.
+    // Semiconvergents can further reduce the denominator within tolerance.
+
+    const ieps = BigInt(Math.ceil(1 / eps));
 
     const thisABS = this['abs']();
     const cont = thisABS['toContinued']();
