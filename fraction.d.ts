@@ -1,11 +1,29 @@
+/**
+ * CommonJS type definitions for Fraction.
+ */
+
+export interface NumeratorDenominator {
+  n: number | bigint;
+  d: number | bigint;
+}
+
+export type FractionInput =
+  | Fraction
+  | number
+  | bigint
+  | string
+  | [number | bigint | string, number | bigint | string]
+  | NumeratorDenominator;
+
+export type FractionParam = {
+  (numerator: number | bigint, denominator: number | bigint): Fraction;
+  (num: FractionInput): Fraction;
+};
 
 declare class Fraction {
-  constructor(fraction: Fraction);
-  constructor(num: number | bigint | string);
+  constructor();
+  constructor(num: FractionInput);
   constructor(numerator: number | bigint, denominator: number | bigint);
-  constructor(numbers: [number | bigint | string, number | bigint | string]);
-  constructor(fraction: Fraction.NumeratorDenominator);
-  constructor(firstValue: Fraction.FractionInput, secondValue?: number);
 
   s: bigint;
   n: bigint;
@@ -14,32 +32,33 @@ declare class Fraction {
   abs(): Fraction;
   neg(): Fraction;
 
-  add: Fraction.FractionParam;
-  sub: Fraction.FractionParam;
-  mul: Fraction.FractionParam;
-  div: Fraction.FractionParam;
-  pow: Fraction.FractionParam;
-  log: Fraction.FractionParam;
-  gcd: Fraction.FractionParam;
-  lcm: Fraction.FractionParam;
+  add: FractionParam;
+  sub: FractionParam;
+  mul: FractionParam;
+  div: FractionParam;
+  pow: FractionParam;
+  log: FractionParam;
+  gcd: FractionParam;
+  lcm: FractionParam;
 
-  mod(n?: number | bigint | string | Fraction): Fraction;
+  mod(): Fraction;
+  mod(num: FractionInput): Fraction;
 
   ceil(places?: number): Fraction;
   floor(places?: number): Fraction;
   round(places?: number): Fraction;
-  roundTo: Fraction.FractionParam;
+  roundTo: FractionParam;
 
   inverse(): Fraction;
   simplify(eps?: number): Fraction;
 
-  equals(n: number | bigint | string | Fraction): boolean;
-  lt(n: number | bigint | string | Fraction): boolean;
-  lte(n: number | bigint | string | Fraction): boolean;
-  gt(n: number | bigint | string | Fraction): boolean;
-  gte(n: number | bigint | string | Fraction): boolean;
-  compare(n: number | bigint | string | Fraction): number;
-  divisible(n: number | bigint | string | Fraction): boolean;
+  equals(num: FractionInput): boolean;
+  lt(num: FractionInput): boolean;
+  lte(num: FractionInput): boolean;
+  gt(num: FractionInput): boolean;
+  gte(num: FractionInput): boolean;
+  compare(num: FractionInput): number;
+  divisible(num: FractionInput): boolean;
 
   valueOf(): number;
   toString(decimalPlaces?: number): string;
@@ -47,38 +66,6 @@ declare class Fraction {
   toFraction(showMixed?: boolean): string;
   toContinued(): bigint[];
   clone(): Fraction;
-}
-
-declare namespace Fraction {
-  /**
-   * Interface representing a fraction with numerator and denominator.
-   */
-  interface NumeratorDenominator {
-    n: number | bigint;
-    d: number | bigint;
-  }
-
-  /**
-   * Type for handling multiple types of input for Fraction operations.
-   */
-  type FractionInput =
-    | Fraction
-    | number
-    | string
-    | [number | string, number | string]
-    | NumeratorDenominator;
-
-  /**
-   * Function signature for Fraction operations like add, sub, mul, etc.
-   */
-  type FractionParam = {
-    (fraction: Fraction): Fraction;
-    (num: number | bigint | string): Fraction;
-    (numerator: number | bigint, denominator: number | bigint): Fraction;
-    (numbers: [number | bigint | string, number | bigint | string]): Fraction;
-    (fraction: NumeratorDenominator): Fraction;
-    (firstValue: FractionInput): Fraction;
-  };
 }
 
 export = Fraction;
