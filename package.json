@@ -1,7 +1,7 @@
 {
   "name": "fraction.js",
   "title": "Fraction.js",
-  "version": "5.3.3",
+  "version": "5.3.4",
   "description": "The RAW rational numbers library",
   "homepage": "https://raw.org/article/rational-numbers-in-javascript/",
   "bugs": "https://github.com/rawify/Fraction.js/issues",
@@ -31,7 +31,10 @@
   "types": "./fraction.d.mts",
   "exports": {
     ".": {
-      "types": "./fraction.d.mts",
+      "types": {
+        "import": "./fraction.d.mts",
+        "require": "./fraction.d.ts"
+      },
       "import": "./dist/fraction.mjs",
       "require": "./dist/fraction.js",
       "browser": "./dist/fraction.min.js"

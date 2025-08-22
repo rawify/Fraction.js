@@ -1,7 +1,3 @@
-/**
- * CommonJS type definitions for Fraction.
- */
-
 declare class Fraction {
   constructor();
   constructor(num: Fraction.FractionInput);
@@ -49,22 +45,12 @@ declare class Fraction {
   toContinued(): bigint[];
   clone(): Fraction;
 
-  static Fraction: typeof Fraction;
   static default: typeof Fraction;
+  static Fraction: typeof Fraction;
 }
 
 declare namespace Fraction {
-  /**
-   * Interface representing a fraction with numerator and denominator.
-   */
-  interface NumeratorDenominator {
-    n: number | bigint;
-    d: number | bigint;
-  }
-
-  /**
-   * Type for handling multiple types of input for Fraction operations.
-   */
+  interface NumeratorDenominator { n: number | bigint; d: number | bigint; }
   type FractionInput =
     | Fraction
     | number
@@ -73,13 +59,21 @@ declare namespace Fraction {
     | [number | bigint | string, number | bigint | string]
     | NumeratorDenominator;
 
-  /**
-   * Function signature for Fraction operations like add, sub, mul, etc.
-   */
   type FractionParam = {
     (numerator: number | bigint, denominator: number | bigint): Fraction;
     (num: FractionInput): Fraction;
   };
 }
 
-export = Fraction;
+/**
+ * Export matches CJS runtime:
+ *   module.exports = Fraction;
+ *   module.exports.default  = Fraction;
+ *   module.exports.Fraction = Fraction;
+ */
+declare const FractionExport: typeof Fraction & {
+  default: typeof Fraction;
+  Fraction: typeof Fraction;
+};
+
+export = FractionExport;
