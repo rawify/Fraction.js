@@ -1519,6 +1519,25 @@ var tests = [{
   param: "1/2",
   expect: "-3.5"
 }, {
+  // a tie must round the same way as round() (half towards +Infinity)
+  label: "-1/2 round to multiple of 1",
+  set: "-1/2",
+  fn: "roundTo",
+  param: "1",
+  expect: "0"
+}, {
+  label: "-3/2 round to multiple of 1",
+  set: "-3/2",
+  fn: "roundTo",
+  param: "1",
+  expect: "-1"
+}, {
+  label: "-1/4 round to multiple of 1/2",
+  set: "-1/4",
+  fn: "roundTo",
+  param: "1/2",
+  expect: "0"
+}, {
   label: "log_2(8)",
   set: "8",
   fn: "log",
