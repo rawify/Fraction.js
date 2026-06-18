@@ -862,9 +862,10 @@ Fraction.prototype = {
     const d = this['d'] * P['n'];
     const r = n % d;
 
-    // round(n / d) = ifloor(n / d) + 2(n % d) >= d ? 1 : 0
+    // Break ties towards +Infinity, like round(): round up on an exact half
+    // only when the value is non-negative, so roundTo(1) matches round().
     let k = ifloor(n / d);
-    if (r + r >= d) {
+    if ((this['s'] >= C_ZERO ? C_ONE : C_ZERO) + r + r > d) {
       k++;
     }
     return newFraction(this['s'] * k * P['n'], P['d']);
