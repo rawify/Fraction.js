@@ -46,9 +46,10 @@ A simple example of using *Fraction.js* might look like this:
 
 ```javascript
 var f = new Fraction("9.4'31'"); // 9.4313131313131...
-f.mul([-4, 3]).mod("4.'8'"); // 4.88888888888888...
+f = f.mul([-4, 3]).mod("4.'8'");
 ```
 
+Arithmetic methods return new fractions, so assign the result to keep it.
 The result can then be displayed as:
 
 ```javascript
