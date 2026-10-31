@@ -703,6 +703,11 @@ Fraction.prototype = {
       }
     }
 
+    if (retD !== null && retD < C_ZERO) {
+      retN = -retN;
+      retD = -retD;
+    }
+
     return retN !== null && retD !== null
       ? newFraction(retN, retD)
       : null;

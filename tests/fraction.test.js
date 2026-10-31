@@ -1554,6 +1554,48 @@ var tests = [{
   fn: "log",
   param: "9/4",
   expect: "1.5" // because (9/4)^(3/2) = 27/8
+}, {
+  label: "log_1/4(2)",
+  set: "2",
+  fn: "log",
+  param: "1/4",
+  expect: "-0.5"
+}, {
+  label: "log_4(1/2)",
+  set: "1/2",
+  fn: "log",
+  param: "4",
+  expect: "-0.5"
+}, {
+  label: "log_1/4(1/2)",
+  set: "1/2",
+  fn: "log",
+  param: "1/4",
+  expect: "0.5"
+}, {
+  label: "log_4(2)",
+  set: "2",
+  fn: "log",
+  param: "4",
+  expect: "0.5"
+}, {
+  label: "log_1/4(1)",
+  set: "1",
+  fn: "log",
+  param: "1/4",
+  expect: "0"
+}, {
+  label: "log_1(1)",
+  set: "1",
+  fn: "log",
+  param: "1",
+  expect: "null"
+}, {
+  label: "log_1(2)",
+  set: "2",
+  fn: "log",
+  param: "1",
+  expect: "null"
 }];
 
 describe('Fraction', function () {
@@ -1585,6 +1627,25 @@ describe('Fraction', function () {
       });
 
     })(i);
+  }
+});
+
+describe('log normalization', function () {
+  for (const [value, base] of [[2, [1, 4]], ['1/2', [4]], ['3/2', ['4/9']], ['2/3', ['9/4']]]) {
+    it('normalizes the negative logarithm of ' + value + ' to base ' + base.join('/'), function () {
+      const result = new Fraction(value).log(...base);
+      const expected = new Fraction(-1, 2);
+
+      assert.deepStrictEqual([result.s, result.n, result.d], [expected.s, expected.n, expected.d]);
+      assert.strictEqual(result.toFraction(), expected.toFraction());
+      assert.strictEqual(result.toString(), expected.toString());
+      assert.strictEqual(result.lt(0), true);
+      assert.strictEqual(result.compare(0), expected.compare(0));
+      for (const method of ['floor', 'ceil', 'round', 'abs']) {
+        assert.strictEqual(result[method]().toFraction(), expected[method]().toFraction());
+      }
+      assert.strictEqual(result.add(1).toFraction(), expected.add(1).toFraction());
+    });
   }
 });
 
