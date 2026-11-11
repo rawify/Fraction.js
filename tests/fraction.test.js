@@ -1588,6 +1588,38 @@ describe('Fraction', function () {
   }
 });
 
+describe('gcd/lcm representation equivalence', function () {
+
+  function assertThird(actual) {
+    assert.strictEqual(actual.s, BigInt(1));
+    assert.strictEqual(actual.n, BigInt(1));
+    assert.strictEqual(actual.d, BigInt(3));
+  }
+
+  ['gcd', 'lcm'].forEach(function (method) {
+
+    it(method + ' accepts an unreduced pair', function () {
+      assertThird(new Fraction(1, 3)[method](2, 6));
+    });
+
+    it(method + ' accepts an unreduced array', function () {
+      assertThird(new Fraction(1, 3)[method]([2, 6]));
+    });
+
+    it(method + ' accepts an unreduced object', function () {
+      assertThird(new Fraction(1, 3)[method]({ n: 2, d: 6 }));
+    });
+
+    it(method + ' accepts a constructed equivalent', function () {
+      assertThird(new Fraction(1, 3)[method](new Fraction(2, 6)));
+    });
+
+    it(method + ' accepts a reduced pair', function () {
+      assertThird(new Fraction(1, 3)[method](1, 3));
+    });
+  });
+});
+
 describe('JSON', function () {
 
   it("Should be possible to stringify the object", function () {

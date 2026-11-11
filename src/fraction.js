@@ -543,9 +543,9 @@ Fraction.prototype = {
     parse(a, b);
 
     // https://raw.org/book/analysis/rational-numbers/
-    // gcd(a / b, c / d) = gcd(a, c) / lcm(b, d)
+    // gcd(a / b, c / d) = gcd(a * d, c * b) / (b * d)
 
-    return newFraction(gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]), P["d"] * this["d"]);
+    return newFraction(gcd(P["n"] * this["d"], this["n"] * P["d"]), P["d"] * this["d"]);
   },
 
   /**
@@ -558,12 +558,12 @@ Fraction.prototype = {
     parse(a, b);
 
     // https://raw.org/book/analysis/rational-numbers/
-    // lcm(a / b, c / d) = lcm(a, c) / gcd(b, d)
+    // lcm(a / b, c / d) = (a * c) / gcd(a * d, c * b)
 
     if (P["n"] === C_ZERO && this["n"] === C_ZERO) {
       return newFraction(C_ZERO, C_ONE);
     }
-    return newFraction(P["n"] * this["n"], gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]));
+    return newFraction(P["n"] * this["n"], gcd(P["n"] * this["d"], this["n"] * P["d"]));
   },
 
   /**
