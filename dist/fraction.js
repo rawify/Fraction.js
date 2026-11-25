@@ -643,7 +643,7 @@ Fraction.prototype = {
 
     parse(a, b);
 
-    if (this['s'] <= C_ZERO || P['s'] <= C_ZERO) return null;
+    if (this['s'] <= C_ZERO || this['n'] === C_ZERO || P['s'] <= C_ZERO || P['n'] === C_ZERO) return null;
 
     const allPrimes = Object.create(null);
 
