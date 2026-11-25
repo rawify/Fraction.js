@@ -1804,3 +1804,29 @@ describe('Fraction simplify', function () {
   });
 
 });
+
+describe('Long nonrepeating decimal prefixes', function () {
+
+  it("Should round-trip repeating cycles starting at prefix lengths 299, 300, and 301", function () {
+    for (const exp of [299n, 300n, 301n]) {
+      const f = new Fraction(1n, 3n * (2n ** exp));
+      const str = f.toString();
+      assert.equal(str.endsWith('(6)') || str.endsWith('(3)'), true);
+      assert.equal(new Fraction(str).equals(f), true);
+
+      const f5 = new Fraction(1n, 3n * (5n ** exp));
+      assert.equal(new Fraction(f5.toString()).equals(f5), true);
+    }
+
+    const neg = new Fraction(-1n, 7n * (2n ** 305n) * (5n ** 120n));
+    assert.equal(new Fraction(neg.toString()).equals(neg), true);
+  });
+
+  it("Should fall back to non-cyclic output when prefix exceeds MAX_CYCLE_LEN", function () {
+    const huge = new Fraction(1n, 3n * (2n ** 2001n));
+    const str = huge.toString();
+    assert.equal(str.includes('('), false);
+    assert.equal(str, '0.000000000000000');
+  });
+
+});

@@ -308,18 +308,6 @@ const parse = function (p1, p2) {
   P["d"] = d < C_ZERO ? -d : d;
 };
 
-function modpow(b, e, m) {
-
-  let r = C_ONE;
-  for (; e > C_ZERO; b = (b * b) % m, e >>= C_ONE) {
-
-    if (e & C_ONE) {
-      r = (r * b) % m;
-    }
-  }
-  return r;
-}
-
 function cycleLen(n, d) {
 
   for (; d % C_TWO === C_ZERO;
@@ -352,19 +340,19 @@ function cycleLen(n, d) {
 
 function cycleStart(n, d, len) {
 
-  let rem1 = C_ONE;
-  let rem2 = modpow(C_TEN, len, d);
-
-  for (let t = 0; t < 300; t++) { // s < ~log10(Number.MAX_VALUE)
-    // Solve 10^s == 10^(s+t) (mod d)
-
-    if (rem1 === rem2)
-      return BigInt(t);
-
-    rem1 = rem1 * C_TEN % d;
-    rem2 = rem2 * C_TEN % d;
+  let t2 = 0;
+  for (; d % C_TWO === C_ZERO; d /= C_TWO) {
+    if (++t2 > MAX_CYCLE_LEN)
+      return null;
   }
-  return 0;
+
+  let t5 = 0;
+  for (; d % C_FIVE === C_ZERO; d /= C_FIVE) {
+    if (++t5 > MAX_CYCLE_LEN)
+      return null;
+  }
+
+  return BigInt(t2 > t5 ? t2 : t5);
 }
 
 function gcd(a, b) {
@@ -904,7 +892,7 @@ Fraction.prototype = {
     let D = this["d"];
 
     let cycLen = cycleLen(N, D); // Cycle length
-    let cycOff = cycleStart(N, D, cycLen); // Cycle start
+    let cycOff = cycLen ? cycleStart(N, D, cycLen) : null; // Cycle start
 
     let str = this['s'] < C_ZERO ? "-" : "";
 
@@ -917,7 +905,7 @@ Fraction.prototype = {
     if (N)
       str += ".";
 
-    if (cycLen) {
+    if (cycLen && cycOff !== null) {
 
       for (let i = cycOff; i--;) {
         str += ifloor(N / D);
