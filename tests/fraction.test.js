@@ -1,5 +1,7 @@
 const Fraction = require('fraction.js');
 const assert = require('assert');
+const fs = require('fs');
+const vm = require('vm');
 
 var DivisionByZero = function () { return new Error("Division by Zero"); };
 var InvalidParameter = function () { return new Error("Invalid argument"); };
@@ -1747,6 +1749,43 @@ describe('Fraction Output', function () {
 });
 
 describe('Fraction toContinued', function () {
+
+  [
+    ['-2', '-2'],
+    ['-1/7', '-1,1,6'],
+    ['-7/8', '-1,8'],
+    ['-3/2', '-2,2'],
+    ['-415/93', '-5,1,1,6,7'],
+    ['-18446744073709551617/2', '-9223372036854775809,2']
+  ].forEach(function (test) {
+    it('Should represent ' + test[0] + ' exactly', function () {
+      var tmp = new Fraction(test[0]);
+      var continued = tmp.toContinued();
+      assert.equal(continued.toString(), test[1]);
+
+      var restored = new Fraction(continued[continued.length - 1]);
+      for (var i = continued.length - 2; i >= 0; i--) {
+        restored = restored.inverse().add(continued[i]);
+      }
+      assert(restored.equals(tmp));
+      assert.equal(tmp.toFraction(), test[0]);
+    });
+  });
+
+  [
+    ['-9007199254740991/3002399751580333', '-3,375299968947541,1,1,1,2'],
+    ['-9007199254740989/3002399751580333', '-3,300239975158033,3,3']
+  ].forEach(function (test) {
+    it('Should preserve safe integers without BigInt for ' + test[0], function () {
+      var context = { BigInt: undefined, module: { exports: {} } };
+      vm.runInNewContext(fs.readFileSync(require.resolve('fraction.js'), 'utf8'), context);
+      var tmp = new context.module.exports(test[0]);
+
+      assert(Number.isSafeInteger(tmp.n));
+      assert(Number.isSafeInteger(tmp.d));
+      assert.equal(tmp.toContinued().toString(), test[1]);
+    });
+  });
 
   it("Should pass 415/93", function () {
 
