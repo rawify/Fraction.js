@@ -1554,6 +1554,54 @@ var tests = [{
   fn: "log",
   param: "9/4",
   expect: "1.5" // because (9/4)^(3/2) = 27/8
+}, {
+  label: "log_0(0)",
+  set: 0,
+  fn: "log",
+  param: 0,
+  expect: "null"
+}, {
+  label: "log_0(1)",
+  set: 1,
+  fn: "log",
+  param: 0,
+  expect: "null"
+}, {
+  label: "log_2(0)",
+  set: 0,
+  fn: "log",
+  param: 2,
+  expect: "null"
+}, {
+  label: "log_1(0)",
+  set: 0,
+  fn: "log",
+  param: 1,
+  expect: "null"
+}, {
+  label: "log_1(1)",
+  set: 1,
+  fn: "log",
+  param: 1,
+  expect: "null"
+}, {
+  label: "log_0/5(2)",
+  set: 2,
+  fn: "log",
+  param: [0, 5],
+  expect: "null"
+}, {
+  label: "log_2(0/5)",
+  set: [0, 5],
+  fn: "log",
+  param: 2,
+  expect: "null"
+}, {
+  label: "log_2(1)",
+  set: 1,
+  fn: "log",
+  param: 2,
+  expect: "0"
 }];
 
 describe('Fraction', function () {
