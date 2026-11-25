@@ -1804,3 +1804,32 @@ describe('Fraction simplify', function () {
   });
 
 });
+
+describe('Unreduced exponents in pow()', function () {
+
+  it("Should evaluate negative bases with unreduced integer exponents across input forms", function () {
+    const cases = [
+      [2, 2, '-2'],
+      [4, 2, '4'],
+      [-2, 2, '-1/2'],
+      [0, 2, '1'],
+      [-2, -2, '-2']
+    ];
+    for (const [num, den, expected] of cases) {
+      const base = new Fraction(-2);
+      assert.equal(base.pow(num, den).toFraction(), expected);
+      assert.equal(base.pow([num, den]).toFraction(), expected);
+      assert.equal(base.pow({ n: num, d: den }).toFraction(), expected);
+      if (den > 0) {
+        assert.equal(base.pow(num + '/' + den).toFraction(), expected);
+      }
+      assert.equal(base.pow(new Fraction(num, den)).toFraction(), expected);
+    }
+
+    assert.equal(new Fraction(-2).pow(2, 4), null);
+    assert.equal(new Fraction(4).pow(2, 4).toFraction(), '2');
+    assert.equal(new Fraction(4).pow(-2, 4).toFraction(), '1/2');
+    assert.throws(() => new Fraction(0).pow(-2, 2), DivisionByZero());
+  });
+
+});
