@@ -999,13 +999,19 @@ Fraction.prototype = {
    */
   'toContinued': function () {
 
-    let a = this['n'];
+    let a = this['s'] * this['n'];
     let b = this['d'];
     const res = [];
 
     while (b) {
-      res.push(ifloor(a / b));
-      const t = a % b;
+      let t = a % b;
+      // Subtract the signed remainder first to stay within the numerator's range.
+      let q = ifloor((a - t) / b);
+      if (t < C_ZERO) {
+        q -= C_ONE;
+        t += b;
+      }
+      res.push(q);
       a = b;
       b = t;
     }

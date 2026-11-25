@@ -432,11 +432,13 @@ The optional boolean parameter indicates if you want to showa mixed fraction. "1
 
 ### Array toContinued()
 
-Gets an array of the fraction represented as a continued fraction. The first element always contains the whole part.
+Gets an array of the fraction represented as a continued fraction. The first element is the floor of the fraction; any remaining elements are positive integers.
 
 ```javascript
 var f = new Fraction('88/33');
 var c = f.toContinued(); // [2, 1, 2]
+
+new Fraction('-7/8').toContinued(); // [-1n, 8n]
 ```
 
 ### Fraction clone()
