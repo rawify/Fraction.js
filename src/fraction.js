@@ -584,6 +584,10 @@ Fraction.prototype = {
 
     parse(a, b);
 
+    const g = gcd(P['n'], P['d']);
+    P['n'] /= g;
+    P['d'] /= g;
+
     // Trivial case when exp is an integer
 
     if (P['d'] === C_ONE) {
