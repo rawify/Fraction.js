@@ -38,7 +38,6 @@ const C_TWO = BigInt(2);
 const C_THREE = BigInt(3);
 const C_FIVE = BigInt(5);
 const C_TEN = BigInt(10);
-const MAX_INTEGER = BigInt(Number.MAX_SAFE_INTEGER);
 
 // Maximum search depth for cyclic rational numbers. 2000 should be more than enough.
 // Example: 1/7 = 0.(142857) has 6 repeating decimal places.
@@ -64,6 +63,32 @@ function assign(n, s) {
 
 function ifloor(x) {
   return typeof x === 'bigint' ? x : Math.floor(x);
+}
+
+/**
+ * Converts a positive ratio when either operand would overflow a Number.
+ * @param {bigint} n
+ * @param {bigint} d
+ * @return {number}
+ */
+function largeRatioToNumber(n, d) {
+  // Bit lengths give the binary exponent to within one.
+  let exponent = n.toString(2).length - d.toString(2).length;
+  if (exponent > 1024) return Infinity;
+  if (exponent < -1075) return 0;
+  if ((n >> BigInt(exponent)) < d) exponent--;
+
+  // Round to a 53-bit significand, or to a multiple of 2^-1074 for subnormals.
+  const scale = Math.max(exponent - 52, -1074);
+  if (scale > 0) d <<= BigInt(scale);
+  else n <<= BigInt(-scale);
+  let significand = n / d;
+  const two = BigInt(2);
+  const twiceRemainder = (n % d) * two;
+  if (twiceRemainder > d || (twiceRemainder === d && significand % two !== C_ZERO)) {
+    significand++;
+  }
+  return Number(significand) * 2 ** scale;
 }
 
 // Creates a new Fraction internally without the need of the bulky constructor
@@ -882,9 +907,13 @@ Fraction.prototype = {
    * Ex: new Fraction("100.'91823'").valueOf() => 100.91823918239183
    **/
   'valueOf': function () {
-    //if (this['n'] <= MAX_INTEGER && this['d'] <= MAX_INTEGER) {
-    return Number(this['s'] * this['n']) / Number(this['d']);
-    //}
+    const n = this['n'], d = this['d'];
+    const num = Number(n), den = Number(d);
+    if (typeof n === 'bigint' && (!Number.isFinite(num) || !Number.isFinite(den))) {
+      const sign = Number(this['s']) * Math.sign(num) * Math.sign(den);
+      return sign * largeRatioToNumber(num < 0 ? -n : n, den < 0 ? -d : d);
+    }
+    return Number(this['s']) * num / den;
   },
 
   /**

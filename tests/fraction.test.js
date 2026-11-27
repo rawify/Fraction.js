@@ -1746,6 +1746,38 @@ describe('Fraction Output', function () {
   });
 });
 
+describe('Fraction valueOf', function () {
+
+  before(function () {
+    if (typeof Fraction(1).n !== 'bigint') this.skip();
+  });
+
+  it('converts fractions with operands beyond the Number range', function () {
+    const ten = BigInt(10);
+    const large = ten ** BigInt(310);
+    assert.strictEqual(Fraction(ten * large + BigInt(1), large + BigInt(1)).valueOf(), 10);
+    assert.strictEqual(Fraction(large + BigInt(1), 1000).valueOf(), 1e307);
+    assert.strictEqual(Fraction(-1, large).valueOf(), -1e-310);
+    const half = Fraction(2).log(1, 4);
+    assert.strictEqual(half.mul(large + BigInt(1)).div(large + BigInt(3)).valueOf(), -0.5);
+  });
+
+  it('rounds subnormal results and preserves signed underflow', function () {
+    const denominator = BigInt(2) ** BigInt(1075);
+    assert.strictEqual(Fraction(3, denominator).valueOf(), 2 * Number.MIN_VALUE);
+    assert.strictEqual(Fraction(-1, denominator).valueOf(), -0);
+    assert.strictEqual(Fraction(-denominator, 1).valueOf(), -Infinity);
+  });
+
+  it('distinguishes ratios on either side of a rounding midpoint', function () {
+    const unit = BigInt(2) ** BigInt(1100);
+    const denominator = unit * BigInt(2) ** BigInt(53);
+    const midpoint = denominator + unit;
+    assert.strictEqual(Fraction(midpoint - BigInt(1), denominator).valueOf(), 1);
+    assert.strictEqual(Fraction(midpoint + BigInt(1), denominator).valueOf(), 1 + Number.EPSILON);
+  });
+});
+
 describe('Fraction toContinued', function () {
 
   it("Should pass 415/93", function () {
